@@ -765,41 +765,7 @@ table.rtbl tr:nth-child(even) td{background:rgba(240,237,230,.5)}
 .footer-pplx a{color:rgba(201,169,110,.35);text-decoration:none;transition:color .2s}
 .footer-pplx a:hover{color:rgba(201,169,110,.6)}
 
-/* ── FLOATING UTILITY MENU ──────────────────────── */
-#float-menu{
-  position:fixed;
-  bottom:calc(var(--sp24) + env(safe-area-inset-bottom,0px));
-  right:20px;
-  z-index:180;
-  display:flex;flex-direction:column;gap:var(--sp8);
-  align-items:flex-end;
-  opacity:0;pointer-events:none;
-  transform:translateY(8px);
-  transition:opacity .3s,transform .3s;
-}
-#float-menu.visible{opacity:1;pointer-events:all;transform:none}
-.float-btn{
-  width:44px;height:44px;border-radius:50%;
-  background:var(--navy);color:var(--gold);
-  border:1px solid rgba(201,169,110,.25);
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;
-  box-shadow:0 2px 12px rgba(0,0,0,.3);
-  transition:all .2s;
-  text-decoration:none;
-  cursor:pointer;
-}
-.float-btn:hover{background:var(--navy3);border-color:var(--gold);transform:scale(1.05)}
-.float-btn-label{
-  font-family:'DM Mono',monospace;font-size:9px;
-  letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(255,255,255,.35);
-  text-align:right;margin-right:var(--sp4);
-  transition:color .2s;
-  pointer-events:none;
-}
-.float-row{display:flex;align-items:center;gap:var(--sp8)}
-.float-row:hover .float-btn-label{color:rgba(255,255,255,.65)}
+
 
 /* ── PROGRESS BAR ───────────────────────────────── */
 #progress-bar{
@@ -831,12 +797,11 @@ table.rtbl tr:nth-child(even) td{background:rgba(240,237,230,.5)}
   .day-header{grid-template-columns:1fr;gap:var(--sp16)}
   .ess-grid{grid-template-columns:1fr}
   .hdr-section-label{display:block}
-  #float-menu .float-row.fab-extra .float-btn-label{display:none}
-  #float-menu{bottom:calc(var(--sp16) + env(safe-area-inset-bottom,0px));right:14px}
+
 }
 @media(min-width:601px){
   #page-wrap{padding-left:var(--sp24);padding-right:var(--sp24)}
-  #float-menu .float-row.fab-trigger{display:none}
+
 }
 
 /* ── NAV SCROLL FADE INDICATOR ─────────────────── */
@@ -1836,20 +1801,7 @@ section[id]{
   <p class="footer-pplx"><a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a></p>
 </footer>
 
-<!-- ── FLOATING UTILITY MENU ──────────────────────── -->
-<div id="float-menu" aria-label="Quick navigation">
-  <div class="float-row fab-extra">
-    <span class="float-btn-label">Top</span>
-    <button class="float-btn" id="fab-top-btn" aria-label="Back to top">↑</button>
-  </div>
-  <div class="float-row fab-extra">
-    <span class="float-btn-label">Fogo</span>
-    <a class="float-btn" id="fab-fogo-btn" aria-label="Jump to Fogo Island" style="cursor:pointer">⭐</a>
-  </div>
-  <div class="float-row fab-trigger">
-    <button class="float-btn" aria-label="Toggle quick menu" id="fab-trigger-btn">⋯</button>
-  </div>
-</div>
+
 
 <!-- ── OFFLINE INDICATOR ───────────────────────────── -->
 <div id="offline-bar" role="status" aria-live="polite">📡 You're offline — cached version loaded</div>
@@ -1950,7 +1902,7 @@ function dismissFerryBar() {
 // ── SCROLL BEHAVIORS ───────────────────────────────────
 const header = document.getElementById('site-header');
 const ferryBar = document.getElementById('ferry-bar');
-const floatMenu = document.getElementById('float-menu');
+
 const progressBar = document.getElementById('progress-bar');
 const hdrLabel = document.getElementById('hdr-section-label');
 
@@ -1991,9 +1943,7 @@ function onScroll() {
     }
   }
 
-  // Float menu
-  if (scroll > 300) floatMenu.classList.add('visible');
-  else floatMenu.classList.remove('visible');
+
 
   // Progress bar
   const pct = docH > 0 ? Math.min(100, (scroll / docH) * 100) : 0;
@@ -2098,33 +2048,8 @@ document.querySelectorAll('.accordion-hdr').forEach(btn => {
 
 // Back to top buttons
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-const fabTopBtn = document.getElementById('fab-top-btn');
 const footerTopBtn = document.getElementById('footer-top-btn');
-if (fabTopBtn) fabTopBtn.addEventListener('click', scrollToTop);
 if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
-
-// FAB Fogo jump
-const fabFogoBtn = document.getElementById('fab-fogo-btn');
-if (fabFogoBtn) fabFogoBtn.addEventListener('click', function() { navTo('section-fogo', null); });
-
-// FAB toggle
-let fabOpen = false;
-const fabTriggerBtn = document.getElementById('fab-trigger-btn');
-function toggleFab() {
-  const fm = document.getElementById('float-menu');
-  fabOpen = !fabOpen;
-  fm.classList.toggle('fab-expanded', fabOpen);
-  fabTriggerBtn.textContent = fabOpen ? '✕' : '⋯';
-}
-if (fabTriggerBtn) fabTriggerBtn.addEventListener('click', toggleFab);
-
-document.addEventListener('click', function(e) {
-  if (fabOpen && !e.target.closest('#float-menu')) {
-    fabOpen = false;
-    document.getElementById('float-menu').classList.remove('fab-expanded');
-    fabTriggerBtn.textContent = '⋯';
-  }
-});
 </script>
 
 <script>
