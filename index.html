@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#111D2B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -10,7 +13,6 @@
 <meta name="description" content="Newfoundland & Nova Scotia · June 27 – July 8, 2026 · Eric & Jill road trip">
 <meta property="og:title" content="Newfoundland & Nova Scotia · Summer 2026">
 <meta property="og:description" content="A 12-day road trip — Portland to Fogo Island and back.">
-<link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 <title>Maritimes · Summer 2026</title>
@@ -2122,6 +2124,22 @@ document.addEventListener('click', function(e) {
     fabTriggerBtn.textContent = '⋯';
   }
 });
+</script>
+
+<script>
+// ── SERVICE WORKER CLEANUP ─────────────────────────────
+// Unregister any old service workers and clear caches
+// so users always get the latest version
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    registrations.forEach(function(reg) { reg.unregister(); });
+  });
+  if ('caches' in window) {
+    caches.keys().then(function(names) {
+      names.forEach(function(name) { caches.delete(name); });
+    });
+  }
+}
 </script>
 
 </body>
