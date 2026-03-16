@@ -404,6 +404,9 @@ img{display:block;max-width:100%}
   display:flex;flex-wrap:wrap;gap:var(--sp8);
   margin-bottom:var(--sp12);
 }
+.meta-link{text-decoration:none;color:inherit;cursor:pointer}
+.meta-link:hover{background:rgba(201,169,110,.18);border-color:var(--gold)}
+.meta-link:active{transform:scale(.96);transition-duration:.05s}
 .meta-chip{
   display:inline-flex;align-items:center;gap:var(--sp4);
   font-family:'DM Mono',monospace;font-size:8px;
@@ -825,7 +828,8 @@ table.rtbl tr:nth-child(even) td{background:rgba(240,237,230,.5)}
   .day-header{grid-template-columns:1fr;gap:var(--sp16)}
   .ess-grid{grid-template-columns:1fr}
   .hdr-section-label{display:block}
-  #float-menu{display:none!important}
+  #float-menu .float-row.fab-extra .float-btn-label{display:none}
+  #float-menu{bottom:calc(var(--sp16) + env(safe-area-inset-bottom,0px));right:14px}
 }
 @media(min-width:601px){
   #page-wrap{padding-left:var(--sp24);padding-right:var(--sp24)}
@@ -969,7 +973,7 @@ section[id]{
         <p class="stop-body">Arrive in Portland and connect with Molly and Bonie. Take a relaxed stroll through the Old Port — cobblestone streets, galleries, and waterfront views.</p>
         <div class="stop-meta">
           <span class="meta-chip">🚶 Old Port District</span>
-          <span class="meta-chip">📍 Portland, ME</span>
+          <a class="meta-chip meta-link" href="https://maps.google.com/maps?q=Portland+ME" target="_blank" rel="noopener">📍 Portland, ME</a>
         </div>
         <div class="stop-actions">
           <a class="btn-primary" href="https://maps.google.com/maps?q=Old+Port+Portland+ME" target="_blank" rel="noopener">🗺 Old Port Map</a>
@@ -1032,9 +1036,9 @@ section[id]{
         <h3 class="stop-title ferry-title">MV Fundy Rose · Saint John → Digby</h3>
         <p class="stop-body">Board the Fundy Rose for the 2.5-hour crossing of the Bay of Fundy. Arrive Digby at approximately 4:45 PM Atlantic Time. Beautiful views of the bay and coast.</p>
         <div class="stop-meta">
-          <span class="meta-chip">⛴ Bay Ferries</span>
+          <a class="meta-chip meta-link" href="https://www.fundyrose.ca/" target="_blank" rel="noopener">⛴ Bay Ferries</a>
           <span class="meta-chip">⏱ 2.5 hours</span>
-          <span class="meta-chip">📞 1-877-762-7245</span>
+          <a class="meta-chip meta-link" href="tel:+18777627245">📞 1-877-762-7245</a>
         </div>
         <p class="stop-note">Departs 2:15 PM AT · Arrives ~4:45 PM AT · Check-in at least 1 hour before departure</p>
         <div class="stop-actions">
@@ -1048,7 +1052,7 @@ section[id]{
         <p class="stop-body">Digby is famous for its scallops — the world's largest scallop fleet operates from here. Walk the waterfront, take in the harbour.</p>
         <div class="stop-meta">
           <span class="meta-chip">🦪 Scallop Capital</span>
-          <span class="meta-chip">📍 Digby, NS</span>
+          <a class="meta-chip meta-link" href="https://maps.google.com/maps?q=Digby+NS" target="_blank" rel="noopener">📍 Digby, NS</a>
         </div>
       </article>
     </div>
@@ -1101,7 +1105,7 @@ section[id]{
         <div class="stop-meta">
           <span class="meta-chip">🏛 UNESCO Heritage</span>
           <span class="meta-chip">🚣 Bluenose II</span>
-          <span class="meta-chip">📍 Lunenburg, NS</span>
+          <a class="meta-chip meta-link" href="https://maps.google.com/maps?q=Lunenburg+NS" target="_blank" rel="noopener">📍 Lunenburg, NS</a>
         </div>
         <div class="stop-actions">
           <a class="btn-primary" href="https://maps.google.com/maps?q=Lunenburg+NS+Waterfront" target="_blank" rel="noopener">🗺 Lunenburg Map</a>
@@ -1154,9 +1158,9 @@ section[id]{
         <h3 class="stop-title ferry-title">Marine Atlantic · North Sydney → Port aux Basques</h3>
         <p class="stop-body">Board the Marine Atlantic ferry for the overnight crossing to Newfoundland. The crossing takes approximately 6–8 hours. Your cabin is booked — sleep through it and wake up in Newfoundland.</p>
         <div class="stop-meta">
-          <span class="meta-chip">⛴ Marine Atlantic</span>
+          <a class="meta-chip meta-link" href="https://www.marineatlantic.ca/" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
           <span class="meta-chip">⏱ 6–8 hours overnight</span>
-          <span class="meta-chip">📞 1-800-341-7981</span>
+          <a class="meta-chip meta-link" href="tel:+18003417981">📞 1-800-341-7981</a>
         </div>
         <p class="stop-note">Check-in at least 2 hours before departure · Vehicle required</p>
         <div class="stop-actions">
@@ -1205,7 +1209,7 @@ section[id]{
         <h3 class="stop-title">Visit Lisa Yates · Lewisporte</h3>
         <p class="stop-body">Stop in Lewisporte to visit Lisa Yates. A chance to stretch, catch up, and get local tips for the coast ahead.</p>
         <div class="stop-meta">
-          <span class="meta-chip">📍 Lewisporte, NL</span>
+          <a class="meta-chip meta-link" href="https://maps.google.com/maps?q=Lewisporte+NL" target="_blank" rel="noopener">📍 Lewisporte, NL</a>
           <span class="meta-chip">👋 Lisa Yates</span>
         </div>
         <div class="stop-actions">
@@ -1219,7 +1223,7 @@ section[id]{
         <div class="stop-meta">
           <span class="meta-chip">🧊 Iceberg Alley</span>
           <span class="meta-chip">🐋 Whale Season</span>
-          <span class="meta-chip">📍 Twillingate, NL</span>
+          <a class="meta-chip meta-link" href="https://maps.google.com/maps?q=Twillingate+NL" target="_blank" rel="noopener">📍 Twillingate, NL</a>
         </div>
         <div class="stop-actions">
           <a class="btn-primary" href="https://maps.google.com/maps?q=Twillingate+NL" target="_blank" rel="noopener">🗺 Twillingate Map</a>
@@ -1265,9 +1269,9 @@ section[id]{
         <h3 class="stop-title ferry-title">Fogo Island Ferry · Farewell → Fogo</h3>
         <p class="stop-body">Drive from Twillingate to Farewell and take the ferry to Fogo Island. The crossing is approximately 45 minutes through iceberg-studded waters.</p>
         <div class="stop-meta">
-          <span class="meta-chip">⛴ Provincial Ferry</span>
+          <a class="meta-chip meta-link" href="https://www.ferries.nl.ca/" target="_blank" rel="noopener">⛴ Provincial Ferry</a>
           <span class="meta-chip">⏱ ~45 min</span>
-          <span class="meta-chip">📞 1-800-563-6353</span>
+          <a class="meta-chip meta-link" href="tel:+18005636353">📞 1-800-563-6353</a>
         </div>
         <div class="stop-actions">
           <a class="btn-primary" href="https://www.ferries.nl.ca" target="_blank" rel="noopener">🌐 NL Ferries</a>
@@ -1280,7 +1284,7 @@ section[id]{
         <p class="stop-body">Arrive at one of the world's most architecturally stunning hotels. Built on stilts at the edge of the North Atlantic, designed by Todd Saunders. Every room faces the sea. The inn is a social enterprise — all profits go back to the community.</p>
         <div class="stop-meta">
           <span class="meta-chip">⭐ World-class</span>
-          <span class="meta-chip">📍 Joe Batt's Arm</span>
+          <a class="meta-chip meta-link" href="https://maps.google.com/maps?q=Joe+Batts+Arm+Fogo+Island+NL" target="_blank" rel="noopener">📍 Joe Batt's Arm</a>
           <span class="meta-chip">🏗 Todd Saunders architecture</span>
         </div>
         <div class="stop-actions">
@@ -1345,7 +1349,7 @@ section[id]{
         <h3 class="stop-title ferry-title">Fogo Island Ferry → Farewell</h3>
         <p class="stop-body">Take the morning ferry back to the mainland. ~45 minutes crossing.</p>
         <div class="stop-meta">
-          <span class="meta-chip">⛴ Provincial Ferry</span>
+          <a class="meta-chip meta-link" href="https://www.ferries.nl.ca/" target="_blank" rel="noopener">⛴ Provincial Ferry</a>
           <span class="meta-chip">⏱ ~45 min</span>
         </div>
       </article>
@@ -1366,7 +1370,7 @@ section[id]{
         <h3 class="stop-title ferry-title">Marine Atlantic · Port aux Basques → North Sydney</h3>
         <p class="stop-body">Board the overnight ferry back to Nova Scotia. Another night sleeping on the water.</p>
         <div class="stop-meta">
-          <span class="meta-chip">⛴ Marine Atlantic</span>
+          <a class="meta-chip meta-link" href="https://www.marineatlantic.ca/" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
           <span class="meta-chip">⏱ 6–8 hours overnight</span>
         </div>
         <div class="stop-actions">
@@ -1420,7 +1424,7 @@ section[id]{
         <div class="stop-meta">
           <span class="meta-chip">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scottish Heritage</span>
           <span class="meta-chip">⛵ Ship Hector</span>
-          <span class="meta-chip">📍 Pictou, NS</span>
+          <a class="meta-chip meta-link" href="https://maps.google.com/maps?q=Pictou+NS" target="_blank" rel="noopener">📍 Pictou, NS</a>
         </div>
         <div class="stop-actions">
           <a class="btn-primary" href="https://maps.google.com/maps?q=Pictou+NS+Waterfront" target="_blank" rel="noopener">🗺 Pictou Map</a>
@@ -1476,7 +1480,7 @@ section[id]{
         <div class="stop-meta">
           <span class="meta-chip">🏛 Provincial Capital</span>
           <span class="meta-chip">🚶 River Trail</span>
-          <span class="meta-chip">📍 Fredericton, NB</span>
+          <a class="meta-chip meta-link" href="https://maps.google.com/maps?q=Fredericton+NB" target="_blank" rel="noopener">📍 Fredericton, NB</a>
         </div>
         <div class="stop-actions">
           <a class="btn-primary" href="https://maps.google.com/maps?q=Fredericton+NB+Riverfront" target="_blank" rel="noopener">🗺 Fredericton Map</a>
@@ -1531,7 +1535,7 @@ section[id]{
         <p class="stop-body">Welcome home. 12 days, ~4,000 km, three ferry crossings, and a lifetime of memories. Celebrate with dinner at your favourite Portland spot.</p>
         <div class="stop-meta">
           <span class="meta-chip">🏁 Trip Complete</span>
-          <span class="meta-chip">📍 Portland, ME</span>
+          <a class="meta-chip meta-link" href="https://maps.google.com/maps?q=Portland+ME" target="_blank" rel="noopener">📍 Portland, ME</a>
         </div>
       </article>
     </div>
