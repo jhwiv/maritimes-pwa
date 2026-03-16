@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111D2B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Maritimes">
+<meta name="description" content="Newfoundland & Nova Scotia · June 27 – July 8, 2026 · Eric & Jill road trip">
+<meta property="og:title" content="Newfoundland & Nova Scotia · Summer 2026">
+<meta property="og:description" content="A 12-day road trip — Portland to Fogo Island and back.">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<title>Maritimes · Summer 2026</title>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & TOKENS ─────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* ── Classy Maritime Palette ─── */
+  --navy:  #1B2838;  /* Deep slate */
+  --navy2: #111D2B;  /* Midnight hull */
+  --navy3: #243344;  /* Charcoal sea */
+  --gold:  #C9A96E;  /* Antique brass — primary accent */
+  --gold2: #DDBF8A;  /* Warm sand */
+  --gold3: rgba(201,169,110,.12);
+  --cream: #FAF7F2;  /* Aged ivory */
+  --cream2:#F0EBE1;  /* Parchment */
+  --steel: #6B7B8D;  /* Pewter */
+  --body:  #2C3340;  /* Ink */
+  --muted: #8E99A4;  /* Weathered wood */
+  --divider:#D5CFC5; /* Hemp rope */
+  --divider2:rgba(213,207,197,.4);
+  --green: #4A7C6F;  /* Sea moss */
+  --green2:#E2F0EB;
+  --green3:#2E5E50;
+  --blue:  #3D6B8E;  /* Captain's blue */
+  --blue2: #EAF0F5;
+  --blue3: #1B2838;
+  --red:   #A0522D;  /* Sienna — warm muted */
+  --red2:  #F5E6DC;
+  --red3:  #7A3E22;
+  --amber: #8B6914;
+  --amber2:#FDF5E1;
+  --teal:  #527872;  /* Weathered sage */
+  --teal2: #E2EDEA;
+  --teal3: #3E5C57;
+  --sp4:4px;--sp8:8px;--sp12:12px;--sp16:16px;--sp24:24px;--sp32:32px;--sp48:48px;
+  --r6:6px;--r9:9px;--r12:12px;
+  --hdr:56px;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Crimson Pro',Georgia,serif;
+  background:var(--navy2);
+  color:var(--body);
+  line-height:1.65;
+  min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none}
+img{display:block;max-width:100%}
+
+/* ── STICKY HEADER ──────────────────────────────── */
+#site-header{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(17,29,43,.94);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,169,110,.18);
+  transition:box-shadow .25s ease;
+  padding:0 var(--sp16);
+  height:var(--hdr);
+  display:flex;align-items:center;
+  gap:0;
+}
+#site-header.scrolled{
+  box-shadow:0 2px 20px rgba(0,0,0,.35);
+}
+.hdr-brand{
+  font-family:'Playfair Display',serif;
+  font-size:14px;font-weight:700;
+  color:var(--gold2);
+  white-space:nowrap;
+  flex-shrink:0;
+  padding-right:var(--sp16);
+  border-right:1px solid rgba(201,169,110,.15);
+  margin-right:var(--sp12);
+}
+.hdr-brand span{
+  font-family:'DM Mono',monospace;
+  font-size:8px;letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(201,169,110,.5);
+  display:block;margin-top:1px;
+}
+.hdr-nav{
+  display:flex;align-items:center;
+  gap:var(--sp8);
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  flex:1;
+  padding:0 var(--sp4);
+}
+.hdr-nav::-webkit-scrollbar{display:none}
+.nav-chip{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:8px 14px;
+  min-height:36px;
+  border-radius:20px;
+  white-space:nowrap;
+  color:rgba(255,255,255,.5);
+  border:1px solid transparent;
+  background:transparent;
+  transition:color .18s,background .18s,border-color .18s;
+  flex-shrink:0;
+  cursor:pointer;
+  display:inline-flex;align-items:center;
+}
+.nav-chip:hover{
+  color:rgba(255,255,255,.82);
+  background:rgba(255,255,255,.07);
+}
+.nav-chip.active{
+  color:var(--navy2);
+  background:var(--gold);
+  border-color:var(--gold);
+  font-weight:700;
+}
+.nav-chip.active:hover{
+  background:var(--gold2);
+}
+.nav-chip:active{transform:scale(.95);transition-duration:.05s}
+.hdr-section-label{display:none!important}
+
+/* ── FERRY ALERT BAR ───────────────────────────── */
+#ferry-bar{
+  position:fixed;
+  top:var(--hdr);
+  left:0;right:0;
+  z-index:190;
+  background:linear-gradient(135deg,var(--navy3),var(--navy));
+  padding:7px var(--sp16);
+  text-align:center;
+  border-bottom:1px solid rgba(201,169,110,.15);
+  transform:translateY(0);
+  transition:transform .3s ease;
+}
+#ferry-bar.hidden{transform:translateY(-100%)}
+.fbar-text{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.12em;
+  color:rgba(255,255,255,.88);
+  text-transform:uppercase;
+}
+.fbar-text strong{color:#DDBF8A}
+.fbar-full{}
+.fbar-compact{display:none}
+@media(max-width:600px){
+  .fbar-full{display:none}
+  .fbar-compact{display:inline}
+}
+.fbar-dismiss{
+  background:none;border:none;color:rgba(255,255,255,.5);
+  font-size:14px;cursor:pointer;padding:2px 6px;
+  margin-left:8px;vertical-align:middle;
+  transition:color .2s;
+}
+.fbar-dismiss:hover{color:#fff}
+
+/* ── MAIN LAYOUT ────────────────────────────────── */
+#page-wrap{
+  max-width:680px;
+  margin:0 auto;
+  padding-top:calc(var(--hdr) + 32px);
+}
+
+/* ── HERO ───────────────────────────────────────── */
+#hero{
+  min-height:auto;
+  background:var(--navy2);
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:var(--sp24) var(--sp24) var(--sp32);
+  position:relative;
+  overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(201,169,110,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,169,110,.04) 1px,transparent 1px);
+  background-size:80px 80px;
+  pointer-events:none;
+  opacity:.6;
+}
+.hero-vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 100% 80% at 50% 60%,transparent 20%,var(--navy2) 100%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2}
+.hero-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:var(--sp16);
+  opacity:0;animation:fadeUp .6s ease .2s forwards;
+}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:clamp(38px,9vw,76px);
+  line-height:.95;letter-spacing:-.02em;
+  color:var(--gold2);
+  text-shadow:0 2px 40px rgba(201,169,110,.2);
+  margin-bottom:var(--sp16);
+  opacity:0;animation:fadeUp .7s ease .35s forwards;
+}
+.hero-dates{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(17px,3vw,24px);
+  color:rgba(220,215,200,.85);
+  letter-spacing:.04em;
+  margin-bottom:var(--sp24);
+  opacity:0;animation:fadeUp .6s ease .55s forwards;
+}
+.hero-rule{
+  width:48px;height:2px;
+  background:var(--gold);
+  margin-bottom:var(--sp24);
+  opacity:0;animation:fadeUp .5s ease .7s forwards;
+}
+.hero-desc{
+  font-family:'Crimson Pro',serif;
+  font-style:italic;
+  font-size:17px;color:rgba(230,222,210,.8);
+  max-width:440px;line-height:1.7;
+  margin-bottom:var(--sp32);
+  opacity:0;animation:fadeUp .6s ease .8s forwards;
+}
+.hero-actions{
+  display:flex;gap:var(--sp12);flex-wrap:wrap;
+  opacity:0;animation:fadeUp .6s ease .95s forwards;
+}
+.hero-btn{
+  display:inline-flex;align-items:center;gap:var(--sp8);
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:10px 20px;border-radius:var(--r6);
+  font-weight:500;transition:all .2s;
+  min-height:40px;
+}
+.hero-btn-primary{
+  background:var(--gold);color:var(--navy2);
+}
+.hero-btn-primary:hover{background:var(--gold2);transform:translateY(-1px)}
+.hero-btn-primary:active{transform:scale(.97);transition-duration:.05s}
+.hero-btn-secondary{
+  background:rgba(255,255,255,.08);
+  color:rgba(255,255,255,.85);
+  border:1px solid rgba(255,255,255,.2);
+}
+.hero-btn-secondary:hover{
+  background:rgba(255,255,255,.1);
+  color:#fff;
+  border-color:rgba(255,255,255,.25);
+}
+.hero-btn-secondary:active{transform:scale(.97);transition-duration:.05s}
+.hero-countdown{
+  display:inline-flex;align-items:center;gap:var(--sp8);
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold);
+  background:rgba(201,169,110,.08);
+  border:1px solid rgba(201,169,110,.2);
+  padding:6px 16px;
+  border-radius:20px;
+  margin-top:var(--sp12);
+  opacity:0;animation:fadeUp .5s ease 1.25s forwards;
+}
+.hero-countdown .cd-num{
+  font-size:14px;font-weight:700;
+  color:var(--gold2);
+}
+
+/* ── SECTION ANCHORS ────────────────────────────── */
+.section-anchor{
+  display:block;
+  height:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+/* ── CONTENT SECTIONS ───────────────────────────── */
+.content-section{
+  background:var(--cream);
+}
+.content-section:first-of-type{
+  border-top:none;
+}
+/* Visual break between day sections */
+.day-break .content-section{
+  border-top:4px solid var(--navy2);
+  position:relative;
+}
+.day-break .content-section::before{
+  content:'';
+  display:block;
+  height:6px;
+  background:linear-gradient(to bottom,rgba(17,29,43,.06),transparent);
+}
+
+/* ── DAY HEADER ─────────────────────────────────── */
+.day-header{
+  padding:var(--sp32) var(--sp24) var(--sp24);
+  background:linear-gradient(to bottom,rgba(201,169,110,.05),transparent);
+  border-bottom:2px solid var(--gold);
+  display:grid;
+  grid-template-columns:1fr;
+  gap:var(--sp16);
+  align-items:start;
+}
+.day-label{
+  font-family:'DM Mono',monospace;
+  font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:700;margin-bottom:var(--sp8);
+}
+.day-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(24px,5vw,36px);font-weight:700;
+  color:var(--navy);line-height:1.1;margin-bottom:var(--sp12);
+}
+.day-intro{
+  font-family:'Crimson Pro',serif;
+  font-style:italic;font-size:15px;
+  color:var(--steel);line-height:1.65;
+  max-width:420px;
+}
+
+/* ── STOP CARDS ─────────────────────────────────── */
+.stops{padding:var(--sp8) 0 var(--sp4);}
+.stop{
+  padding:var(--sp16) var(--sp24);
+  border-bottom:1px solid var(--divider2);
+  position:relative;
+}
+.stop:last-child{border-bottom:none}
+.stop-time{
+  font-family:'DM Mono',monospace;
+  font-size:9px;letter-spacing:.1em;color:var(--gold);
+  font-weight:500;margin-bottom:var(--sp8);
+  display:flex;align-items:center;gap:var(--sp8);
+}
+.stop-time-badge{
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:2px 8px;border-radius:3px;font-weight:500;
+}
+.badge-conf{background:var(--green2);color:var(--green3)}
+.badge-opt{background:var(--amber2);color:var(--amber)}
+.badge-dep{background:var(--red2);color:var(--red3)}
+.badge-ferry{background:var(--teal2);color:var(--teal3)}
+.badge-lodging{background:var(--blue2);color:var(--blue3)}
+.stop-title{
+  font-family:'Playfair Display',serif;
+  font-size:18px;font-weight:700;
+  color:var(--navy);line-height:1.2;
+  margin-bottom:var(--sp8);
+  display:flex;align-items:baseline;gap:var(--sp8);
+}
+.stop-title.depart{color:var(--red)}
+.stop-title.ferry-title{color:var(--teal)}
+.stop-title.optional{color:var(--steel)}
+.stop-ext{
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:var(--gold);opacity:0;
+  transition:opacity .15s;
+  flex-shrink:0;
+}
+.stop:hover .stop-ext{opacity:1}
+.stop-body{
+  font-family:'Crimson Pro',serif;
+  font-size:15px;color:var(--body);
+  line-height:1.65;margin-bottom:var(--sp8);
+}
+.stop-note{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:12.5px;color:var(--steel);
+  line-height:1.5;margin-bottom:var(--sp12);
+  padding-top:var(--sp8);
+  border-top:1px solid var(--divider2);
+}
+/* meta row */
+.stop-meta{
+  display:flex;flex-wrap:wrap;gap:var(--sp8);
+  margin-bottom:var(--sp12);
+}
+.meta-chip{
+  display:inline-flex;align-items:center;gap:var(--sp4);
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--steel);
+  background:var(--cream2);
+  border:1px solid var(--divider);
+  padding:3px 9px;border-radius:20px;
+}
+/* action row */
+.stop-actions{
+  display:flex;flex-wrap:wrap;gap:var(--sp8);
+  align-items:center;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:var(--sp4);
+  background:var(--navy);color:#fff;
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:8px 16px;border-radius:var(--r6);
+  font-weight:500;
+  transition:background .2s,transform .15s;
+  min-height:36px;
+  text-decoration:none;
+}
+.btn-primary:hover{background:var(--navy3);transform:translateY(-1px)}
+.btn-primary:active{transform:scale(.97);transition-duration:.05s}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:var(--sp4);
+  background:transparent;
+  color:var(--blue);
+  border:1px solid rgba(61,107,142,.3);
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:7px 14px;border-radius:var(--r6);
+  min-height:36px;font-weight:500;
+  transition:all .2s;
+  text-decoration:none;
+}
+.btn-secondary:hover{
+  background:rgba(61,107,142,.07);
+  border-color:rgba(61,107,142,.5);
+}
+.btn-secondary:active{transform:scale(.97);transition-duration:.05s}
+.btn-call{
+  display:inline-flex;align-items:center;gap:var(--sp4);
+  background:var(--green);color:#fff;
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:8px 16px;border-radius:var(--r6);
+  font-weight:500;
+  transition:background .2s,transform .15s;
+  min-height:36px;
+  text-decoration:none;
+}
+.btn-call:hover{background:var(--green3);transform:translateY(-1px)}
+.btn-call:active{transform:scale(.97);transition-duration:.05s}
+
+/* ── FERRY STOP ────────────────────────────────── */
+.stop.is-ferry{
+  background:rgba(82,120,114,.06);
+  border-left:3px solid var(--teal);
+  margin:0 -3px;
+}
+
+/* ── LODGING CARD ──────────────────────────────── */
+.lodging-card{
+  margin:0 var(--sp24) var(--sp16);
+  background:var(--navy);
+  border-radius:var(--r9);
+  padding:var(--sp16);
+  display:flex;gap:var(--sp12);align-items:flex-start;
+}
+.lodging-icon{color:var(--gold);font-size:18px;flex-shrink:0;margin-top:2px}
+.lodging-info{flex:1}
+.lodging-label{
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(201,169,110,.6);margin-bottom:var(--sp4);
+}
+.lodging-name{
+  font-family:'Playfair Display',serif;
+  font-size:15px;font-weight:700;
+  color:rgba(255,255,255,.9);line-height:1.3;
+  margin-bottom:var(--sp4);
+}
+.lodging-addr{
+  font-family:'Crimson Pro',serif;font-size:13px;
+  color:rgba(255,255,255,.5);line-height:1.5;
+}
+.lodging-actions{
+  display:flex;gap:var(--sp8);flex-wrap:wrap;
+  margin-top:var(--sp8);
+}
+.lodging-btn{
+  display:inline-flex;align-items:center;gap:var(--sp4);
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 12px;border-radius:var(--r6);
+  color:rgba(201,169,110,.8);
+  border:1px solid rgba(201,169,110,.2);
+  transition:all .2s;
+  text-decoration:none;
+}
+.lodging-btn:hover{color:var(--gold2);border-color:rgba(201,169,110,.4);background:rgba(201,169,110,.08)}
+
+/* ── TIP BLOCK ─────────────────────────────────── */
+.tip-block{
+  margin:0 var(--sp24) var(--sp24);
+  background:var(--navy);
+  border-radius:var(--r9);
+  padding:var(--sp16) 20px;
+  display:flex;gap:var(--sp12);align-items:flex-start;
+}
+.tip-orn{color:var(--gold);font-size:16px;flex-shrink:0;margin-top:2px}
+.tip-txt{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:13.5px;color:rgba(255,255,255,.65);line-height:1.6;
+}
+.tip-block.alert{
+  background:rgba(160,82,45,.08);
+  border:1px solid rgba(160,82,45,.2);
+}
+.tip-block.alert .tip-orn{color:var(--red)}
+.tip-block.alert .tip-txt{color:var(--body)}
+.tip-block.alert strong{color:var(--red)}
+
+/* ── EXTRAS STRIP ───────────────────────────────── */
+.extras-strip{
+  margin:0 var(--sp24) var(--sp24);
+  background:var(--cream2);
+  border-left:3px solid var(--gold);
+  border-radius:0 var(--r6) var(--r6) 0;
+  padding:var(--sp12) var(--sp16);
+}
+.extras-label{
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:var(--sp4);
+}
+.extras-text{
+  font-family:'Crimson Pro',serif;
+  font-size:13.5px;color:var(--steel);line-height:1.6;
+}
+
+/* ── ESSENTIALS SECTION ─────────────────────────── */
+#section-essentials .content-section{
+  background:var(--navy);
+}
+.essentials-header{
+  padding:var(--sp24) var(--sp24) var(--sp16);
+  border-bottom:2px solid rgba(201,169,110,.2);
+}
+.essentials-eyebrow{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:var(--sp8);
+}
+.essentials-title{
+  font-family:'Playfair Display',serif;
+  font-size:26px;font-weight:700;color:#fff;
+}
+.ess-grid{
+  padding:var(--sp16) var(--sp24) var(--sp24);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:var(--sp16);
+}
+.ess-item{}
+.ess-label{
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(201,169,110,.6);margin-bottom:var(--sp4);
+}
+.ess-value{
+  font-family:'Crimson Pro',serif;font-size:13.5px;
+  color:rgba(255,255,255,.75);line-height:1.5;
+}
+.ess-badge{
+  display:inline-block;
+  background:rgba(74,124,111,.3);
+  border:1px solid rgba(74,124,111,.5);
+  padding:2px 8px;border-radius:3px;
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:.08em;color:#A8D5C5;
+  margin-top:var(--sp4);width:fit-content;
+}
+
+/* ── REFERENCE TABLES ──────────────────────────── */
+.section-header{
+  padding:var(--sp32) var(--sp24) 20px;
+  border-bottom:2px solid var(--gold);
+  background:linear-gradient(to bottom,rgba(201,169,110,.04),transparent);
+}
+.section-eyebrow{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:var(--sp8);
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:26px;font-weight:700;color:var(--navy);
+}
+.ref-block{padding:var(--sp24)}
+.ref-block+.ref-block{padding-top:0}
+.ref-title{
+  font-family:'Playfair Display',serif;
+  font-size:17px;color:var(--navy);
+  margin-bottom:var(--sp12);
+  padding-bottom:var(--sp8);
+  border-bottom:1.5px solid var(--gold);
+}
+table.rtbl{width:100%;border-collapse:collapse;font-size:13px}
+table.rtbl th{
+  font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--steel);
+  padding:5px 8px;border-bottom:1px solid var(--divider);text-align:left;
+}
+table.rtbl td{
+  padding:7px 8px;border-bottom:1px solid var(--divider2);
+  font-family:'Crimson Pro',serif;vertical-align:top;
+  line-height:1.4;color:var(--body);
+}
+table.rtbl tr:last-child td{border-bottom:none}
+table.rtbl tr:nth-child(even) td{background:rgba(240,237,230,.5)}
+.td-ok{color:var(--green);font-weight:600}
+.td-warn{color:var(--amber);font-weight:600}
+.ref-note{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:12.5px;color:var(--steel);margin-top:var(--sp8);
+}
+
+/* ── SURVIVAL / ACCORDION ──────────────────────── */
+.survival-section{background:var(--navy2)}
+.surv-header{
+  padding:var(--sp32) var(--sp24) var(--sp24);
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.surv-eyebrow{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:#A0522D;margin-bottom:var(--sp12);
+}
+.surv-title{
+  font-family:'Playfair Display',serif;
+  font-size:28px;font-weight:700;color:#fff;
+  margin-bottom:var(--sp8);
+}
+.surv-rule{width:40px;height:1px;background:#A0522D;margin:0 auto}
+.emerg-grid{
+  display:flex;justify-content:center;gap:var(--sp8);
+  flex-wrap:wrap;padding:var(--sp24);
+}
+.emerg-card{
+  background:rgba(160,82,45,.2);
+  border:1px solid rgba(160,82,45,.35);
+  border-radius:var(--r9);
+  padding:var(--sp12) var(--sp16);
+  text-align:center;min-width:88px;
+}
+.emerg-num{
+  font-family:'Playfair Display',serif;
+  font-size:26px;font-weight:700;color:#DBA88A;line-height:1;
+}
+.emerg-lbl{
+  font-family:'DM Mono',monospace;font-size:7px;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-top:var(--sp4);
+}
+.surv-body{padding:0 var(--sp24) var(--sp24)}
+.accordion{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--r9);
+  overflow:hidden;
+  margin-bottom:var(--sp8);
+}
+.accordion-hdr{
+  width:100%;
+  font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(201,169,110,.75);
+  padding:13px var(--sp16) 11px;
+  border:none;background:none;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  text-align:left;
+  user-select:none;
+  transition:background .2s;
+}
+.accordion-hdr:hover{background:rgba(255,255,255,.03)}
+.accordion-hdr:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.acc-chevron{
+  transition:transform .25s;
+  opacity:.45;font-size:10px;flex-shrink:0;
+}
+.accordion.open .acc-chevron{transform:rotate(180deg)}
+.accordion-body{
+  display:none;
+  padding:var(--sp4) var(--sp16) var(--sp16);
+  border-top:1px solid rgba(255,255,255,.05);
+}
+.accordion.open .accordion-body{display:block}
+.acc-item{
+  font-family:'Crimson Pro',serif;font-size:13.5px;
+  color:rgba(255,255,255,.62);line-height:1.65;
+  padding:var(--sp8) 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.acc-item:last-child{border-bottom:none}
+.acc-item b{color:rgba(255,255,255,.86)}
+
+/* ── FOOTER ─────────────────────────────────────── */
+#site-footer{
+  background:var(--navy);
+  border-top:2px solid var(--gold);
+  padding:var(--sp32) var(--sp24);
+  text-align:center;
+}
+.footer-quote{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(15px,2.5vw,19px);
+  color:rgba(255,255,255,.6);
+  line-height:1.65;max-width:400px;margin:0 auto var(--sp12);
+}
+.footer-sub{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:14px;color:rgba(201,169,110,.5);margin-bottom:var(--sp12);
+}
+.footer-meta{
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(201,169,110,.3);
+}
+.footer-actions{
+  display:flex;justify-content:center;gap:var(--sp12);
+  margin-top:20px;flex-wrap:wrap;
+}
+.footer-btn{
+  display:inline-flex;align-items:center;gap:var(--sp8);
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:8px 16px;border-radius:var(--r6);
+  color:rgba(255,255,255,.5);
+  border:1px solid rgba(255,255,255,.1);
+  transition:all .2s;min-height:36px;
+}
+.footer-btn:hover{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.25)}
+.footer-pplx{
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(201,169,110,.25);margin-top:var(--sp16);
+}
+.footer-pplx a{color:rgba(201,169,110,.35);text-decoration:none;transition:color .2s}
+.footer-pplx a:hover{color:rgba(201,169,110,.6)}
+
+/* ── FLOATING UTILITY MENU ──────────────────────── */
+#float-menu{
+  position:fixed;
+  bottom:calc(var(--sp24) + env(safe-area-inset-bottom,0px));
+  right:20px;
+  z-index:180;
+  display:flex;flex-direction:column;gap:var(--sp8);
+  align-items:flex-end;
+  opacity:0;pointer-events:none;
+  transform:translateY(8px);
+  transition:opacity .3s,transform .3s;
+}
+#float-menu.visible{opacity:1;pointer-events:all;transform:none}
+.float-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--navy);color:var(--gold);
+  border:1px solid rgba(201,169,110,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+  box-shadow:0 2px 12px rgba(0,0,0,.3);
+  transition:all .2s;
+  text-decoration:none;
+  cursor:pointer;
+}
+.float-btn:hover{background:var(--navy3);border-color:var(--gold);transform:scale(1.05)}
+.float-btn-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+  text-align:right;margin-right:var(--sp4);
+  transition:color .2s;
+  pointer-events:none;
+}
+.float-row{display:flex;align-items:center;gap:var(--sp8)}
+.float-row:hover .float-btn-label{color:rgba(255,255,255,.65)}
+
+/* ── PROGRESS BAR ───────────────────────────────── */
+#progress-bar{
+  position:fixed;top:var(--hdr);left:0;
+  height:3px;background:var(--gold);
+  width:0%;z-index:195;
+  transition:width .1s linear;
+  opacity:.8;
+}
+
+/* ── TRANSITIONS ────────────────────────────────── */
+#page-fade{
+  position:fixed;inset:0;
+  background:var(--navy2);
+  opacity:0;pointer-events:none;
+  transition:opacity .55s ease;
+  z-index:9999;
+}
+
+/* ── ANIMATIONS ─────────────────────────────────── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ── RESPONSIVE ─────────────────────────────────── */
+@media(max-width:600px){
+  .day-header{grid-template-columns:1fr;gap:var(--sp16)}
+  .ess-grid{grid-template-columns:1fr}
+  .hdr-section-label{display:block}
+  #float-menu{display:none!important}
+}
+@media(min-width:601px){
+  #page-wrap{padding-left:var(--sp24);padding-right:var(--sp24)}
+  #float-menu .float-row.fab-trigger{display:none}
+}
+
+/* ── NAV SCROLL FADE INDICATOR ─────────────────── */
+.hdr-nav{
+  -webkit-mask-image:linear-gradient(to right,#000 85%,transparent 100%);
+  mask-image:linear-gradient(to right,#000 85%,transparent 100%);
+}
+.hdr-nav.scrolled-end{
+  -webkit-mask-image:linear-gradient(to left,#000 85%,transparent 100%);
+  mask-image:linear-gradient(to left,#000 85%,transparent 100%);
+}
+.hdr-nav.scrolled-mid{
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 8%,#000 85%,transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0%,#000 8%,#000 85%,transparent 100%);
+}
+.hdr-nav.no-overflow{
+  -webkit-mask-image:none;
+  mask-image:none;
+}
+
+/* ── SECTION SCROLL MARGIN ─────────────────────── */
+section[id]{
+  scroll-margin-top:calc(var(--hdr) + 20px);
+}
+
+/* ── OFFLINE INDICATOR ─────────────────────────── */
+#offline-bar{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  z-index:200;
+  background:rgba(146,64,14,.95);
+  padding:8px var(--sp16);
+  text-align:center;
+  font-family:'DM Mono',monospace;
+  font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.9);
+  transform:translateY(100%);
+  transition:transform .3s ease;
+}
+#offline-bar.visible{transform:translateY(0)}
+
+/* ── ACCESSIBILITY ──────────────────────────────── */
+:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:2px;
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE FADE OVERLAY -->
+<div id="page-fade"></div>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar" role="progressbar" aria-label="Reading progress"></div>
+
+<!-- ── SITE HEADER ────────────────────────────────── -->
+<header id="site-header" role="banner">
+  <div class="hdr-brand">
+    Maritimes
+    <span>Summer 2026</span>
+  </div>
+  <nav class="hdr-nav" aria-label="Trip sections">
+    <button class="nav-chip active" data-target="hero">Overview</button>
+    <button class="nav-chip" data-target="section-day1">Portland</button>
+    <button class="nav-chip" data-target="section-day2">Digby</button>
+    <button class="nav-chip" data-target="section-day3">Lunenburg</button>
+    <button class="nav-chip" data-target="section-day4">Ferry</button>
+    <button class="nav-chip" data-target="section-day5">Twillingate</button>
+    <button class="nav-chip" data-target="section-fogo">Fogo Island</button>
+    <button class="nav-chip" data-target="section-day9">Return</button>
+    <button class="nav-chip" data-target="section-day10">Pictou</button>
+    <button class="nav-chip" data-target="section-day11">Fredericton</button>
+    <button class="nav-chip" data-target="section-day12">Home</button>
+    <button class="nav-chip" data-target="section-essentials">Essentials</button>
+    <button class="nav-chip" data-target="section-reference">Reference</button>
+  </nav>
+  <div class="hdr-section-label" id="hdr-section-label">Overview</div>
+</header>
+
+<!-- ── FERRY ALERT BAR ─────────────────────────── -->
+<div id="ferry-bar" role="alert" aria-live="polite">
+  <div class="fbar-text">
+    <span class="fbar-full">⛴ 3 Ferry Crossings · Fundy Rose Jun 28 &nbsp;·&nbsp; Marine Atlantic Jun 30 & Jul 5 &nbsp;·&nbsp; Fogo Jul 2</span>
+    <span class="fbar-compact">⛴ <strong>3 Ferries</strong> · Fundy · Atlantic · Fogo</span>
+    <button class="fbar-dismiss" id="fbar-dismiss-btn" aria-label="Dismiss ferry alert">✕</button>
+  </div>
+</div>
+
+<!-- ── MAIN ─────────────────────────────────────── -->
+<main id="main-content">
+<div id="page-wrap">
+
+<!-- ── HERO ─────────────────────────────────────── -->
+<section id="hero" aria-label="Trip overview">
+  <div class="hero-grid"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">A 12-Day Road Trip · Portland → Fogo Island → Home</div>
+    <div class="hero-title" aria-label="Newfoundland & Nova Scotia">Newfoundland<br>&amp; Nova Scotia</div>
+    <div class="hero-dates">June 27 – July 8, 2026</div>
+    <div class="hero-rule"></div>
+    <div class="hero-desc">Eric and Jill — a grand loop through the Canadian Maritimes. Three ferries, one legendary island, and 12 days of Atlantic coastline.</div>
+    <div class="hero-actions">
+      <button class="hero-btn hero-btn-primary" id="hero-jump-fogo">
+        ✦ Jump to Fogo Island
+      </button>
+      <button class="hero-btn hero-btn-secondary" id="hero-jump-day1">
+        📍 Start from Day 1
+      </button>
+    </div>
+    <div class="hero-countdown" id="hero-countdown" aria-label="Trip countdown"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DAY 1 — PORTLAND, ME
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-day1-anchor"></span>
+<section id="section-day1" aria-label="Day 1 itinerary">
+  <div class="content-section">
+    <div class="day-header">
+      <div>
+        <div class="day-label">Day 1 · Saturday 27 June</div>
+        <h2 class="day-title">Portland, ME</h2>
+        <p class="day-intro">Meet up, unwind, and ease into the trip. Old Port stroll with Molly and Bonie, then an early dinner before the long drive north tomorrow.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+      <article class="stop" role="listitem">
+        <div class="stop-time">Afternoon</div>
+        <h3 class="stop-title">Meet Molly &amp; Bonie</h3>
+        <p class="stop-body">Arrive in Portland and connect with Molly and Bonie. Take a relaxed stroll through the Old Port — cobblestone streets, galleries, and waterfront views.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🚶 Old Port District</span>
+          <span class="meta-chip">📍 Portland, ME</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps?q=Old+Port+Portland+ME" target="_blank" rel="noopener">🗺 Old Port Map</a>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">Evening</div>
+        <h3 class="stop-title">Dinner in Portland</h3>
+        <p class="stop-body">Portland's food scene is outstanding — fresh seafood, farm-to-table, craft breweries. Enjoy a good meal before the road trip begins.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🍽 Seafood Capital</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="lodging-card">
+      <div class="lodging-icon">🏨</div>
+      <div class="lodging-info">
+        <div class="lodging-label">Confirmed Lodging · Night 1</div>
+        <div class="lodging-name">Courtyard by Marriott Portland Downtown/Waterfront</div>
+        <div class="lodging-addr">321 Commercial St, Portland, ME 04101</div>
+        <div class="lodging-actions">
+          <a class="lodging-btn" href="https://maps.google.com/maps?q=Courtyard+Marriott+321+Commercial+St+Portland+ME" target="_blank" rel="noopener">🗺 Map</a>
+          <a class="lodging-btn" href="tel:+12077806000">📞 Call</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DAY 2 — PORTLAND → DIGBY
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-day2-anchor"></span>
+<section id="section-day2" class="day-break" aria-label="Day 2 itinerary">
+  <div class="content-section">
+    <div class="day-header">
+      <div>
+        <div class="day-label">Day 2 · Sunday 28 June</div>
+        <h2 class="day-title">Portland → Digby</h2>
+        <p class="day-intro">Drive north to Saint John, NB, then take the Fundy Rose ferry across the Bay of Fundy to Digby, Nova Scotia.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+      <article class="stop" role="listitem">
+        <div class="stop-time">Morning</div>
+        <h3 class="stop-title">Drive: Portland → Saint John, NB</h3>
+        <p class="stop-body">Approximately 4.5-hour drive north through Maine and into New Brunswick. Cross the border at Calais/St. Stephen. Have passports ready.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🚗 ~280 mi / 450 km</span>
+          <span class="meta-chip">⏱ ~4.5 hours</span>
+          <span class="meta-chip">🛂 US–Canada Border</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps/dir/Portland+ME/Saint+John+NB" target="_blank" rel="noopener">🗺 Route</a>
+        </div>
+      </article>
+      <article class="stop is-ferry" role="listitem">
+        <div class="stop-time">2:15 PM AT <span class="stop-time-badge badge-ferry">⛴ Ferry</span></div>
+        <h3 class="stop-title ferry-title">MV Fundy Rose · Saint John → Digby</h3>
+        <p class="stop-body">Board the Fundy Rose for the 2.5-hour crossing of the Bay of Fundy. Arrive Digby at approximately 4:45 PM Atlantic Time. Beautiful views of the bay and coast.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">⛴ Bay Ferries</span>
+          <span class="meta-chip">⏱ 2.5 hours</span>
+          <span class="meta-chip">📞 1-877-762-7245</span>
+        </div>
+        <p class="stop-note">Departs 2:15 PM AT · Arrives ~4:45 PM AT · Check-in at least 1 hour before departure</p>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://www.fundyrose.ca" target="_blank" rel="noopener">🌐 Fundy Rose</a>
+          <a class="btn-call" href="tel:+18777627245">📞 Call Ferry</a>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">~5:00 PM</div>
+        <h3 class="stop-title">Arrive Digby · Explore Waterfront</h3>
+        <p class="stop-body">Digby is famous for its scallops — the world's largest scallop fleet operates from here. Walk the waterfront, take in the harbour.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🦪 Scallop Capital</span>
+          <span class="meta-chip">📍 Digby, NS</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="lodging-card">
+      <div class="lodging-icon">🏨</div>
+      <div class="lodging-info">
+        <div class="lodging-label">Confirmed Lodging · Night 2</div>
+        <div class="lodging-name">Fundy Complex Dockside Suites</div>
+        <div class="lodging-addr">34 Water St, Digby, NS B0V 1A0</div>
+        <div class="lodging-actions">
+          <a class="lodging-btn" href="https://maps.google.com/maps?q=34+Water+St+Digby+NS" target="_blank" rel="noopener">🗺 Map</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DAY 3 — DIGBY → LUNENBURG
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-day3-anchor"></span>
+<section id="section-day3" class="day-break" aria-label="Day 3 itinerary">
+  <div class="content-section">
+    <div class="day-header">
+      <div>
+        <div class="day-label">Day 3 · Monday 29 June</div>
+        <h2 class="day-title">Digby → Lunenburg</h2>
+        <p class="day-intro">Scenic coastal drive along the South Shore to Lunenburg — a UNESCO World Heritage town. Colourful waterfront, the Bluenose II, and outstanding seafood.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+      <article class="stop" role="listitem">
+        <div class="stop-time">Morning</div>
+        <h3 class="stop-title">Scenic Drive · South Shore</h3>
+        <p class="stop-body">Drive approximately 2.5 hours along the Lighthouse Route through charming Nova Scotian fishing villages. Stop where the road pulls you in.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🚗 ~155 mi / 250 km</span>
+          <span class="meta-chip">⏱ ~2.5–3 hours</span>
+          <span class="meta-chip">🏠 Lighthouse Route</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps/dir/Digby+NS/Lunenburg+NS" target="_blank" rel="noopener">🗺 Route</a>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">Afternoon</div>
+        <h3 class="stop-title">Explore Lunenburg</h3>
+        <p class="stop-body">UNESCO World Heritage Site since 1995. Wander the colourful harbour, visit the Fisheries Museum of the Atlantic, and see the Bluenose II (when docked). The town's architecture is beautifully preserved — a photographer's dream.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🏛 UNESCO Heritage</span>
+          <span class="meta-chip">🚣 Bluenose II</span>
+          <span class="meta-chip">📍 Lunenburg, NS</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps?q=Lunenburg+NS+Waterfront" target="_blank" rel="noopener">🗺 Lunenburg Map</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="lodging-card">
+      <div class="lodging-icon">🏨</div>
+      <div class="lodging-info">
+        <div class="lodging-label">Confirmed Lodging · Night 3</div>
+        <div class="lodging-name">Smugglers Cove Inn</div>
+        <div class="lodging-addr">139 Montague St, Lunenburg, NS B0J 2C0</div>
+        <div class="lodging-actions">
+          <a class="lodging-btn" href="https://maps.google.com/maps?q=139+Montague+St+Lunenburg+NS" target="_blank" rel="noopener">🗺 Map</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DAY 4 — LUNENBURG → OVERNIGHT FERRY
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-day4-anchor"></span>
+<section id="section-day4" class="day-break" aria-label="Day 4 itinerary">
+  <div class="content-section">
+    <div class="day-header">
+      <div>
+        <div class="day-label">Day 4 · Tuesday 30 June</div>
+        <h2 class="day-title">Lunenburg → Ferry</h2>
+        <p class="day-intro">Early departure. Long drive to North Sydney, then board the Marine Atlantic overnight ferry to Newfoundland. Sleep on the water.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+      <article class="stop" role="listitem">
+        <div class="stop-time">8:00 AM <span class="stop-time-badge badge-dep">Early Start</span></div>
+        <h3 class="stop-title depart">Depart Lunenburg</h3>
+        <p class="stop-body">Leave early for the ~4.5-hour drive to North Sydney, Cape Breton. This is the longest driving day — but the route through Nova Scotia is beautiful.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🚗 ~245 mi / 395 km</span>
+          <span class="meta-chip">⏱ ~4.5 hours</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps/dir/Lunenburg+NS/North+Sydney+NS" target="_blank" rel="noopener">🗺 Route</a>
+        </div>
+      </article>
+      <article class="stop is-ferry" role="listitem">
+        <div class="stop-time">Evening <span class="stop-time-badge badge-ferry">⛴ Overnight Ferry</span></div>
+        <h3 class="stop-title ferry-title">Marine Atlantic · North Sydney → Port aux Basques</h3>
+        <p class="stop-body">Board the Marine Atlantic ferry for the overnight crossing to Newfoundland. The crossing takes approximately 6–8 hours. Your cabin is booked — sleep through it and wake up in Newfoundland.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">⛴ Marine Atlantic</span>
+          <span class="meta-chip">⏱ 6–8 hours overnight</span>
+          <span class="meta-chip">📞 1-800-341-7981</span>
+        </div>
+        <p class="stop-note">Check-in at least 2 hours before departure · Vehicle required</p>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">🌐 Marine Atlantic</a>
+          <a class="btn-call" href="tel:+18003417981">📞 Call Ferry</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="lodging-card">
+      <div class="lodging-icon">⛴</div>
+      <div class="lodging-info">
+        <div class="lodging-label">Confirmed Lodging · Night 4</div>
+        <div class="lodging-name">Marine Atlantic Ferry Cabin</div>
+        <div class="lodging-addr">Overnight crossing · North Sydney → Port aux Basques</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DAY 5 — PORT AUX BASQUES → TWILLINGATE
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-day5-anchor"></span>
+<section id="section-day5" class="day-break" aria-label="Day 5 itinerary">
+  <div class="content-section">
+    <div class="day-header">
+      <div>
+        <div class="day-label">Day 5 · Wednesday 1 July · Canada Day 🇨🇦</div>
+        <h2 class="day-title">Port aux Basques → Twillingate</h2>
+        <p class="day-intro">Welcome to Newfoundland. Drive across the island with a stop in Lewisporte to visit Lisa Yates, then continue to Twillingate — the iceberg capital.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+      <article class="stop" role="listitem">
+        <div class="stop-time">Morning</div>
+        <h3 class="stop-title">Arrive Port aux Basques</h3>
+        <p class="stop-body">Disembark and begin the drive east across Newfoundland. The Trans-Canada Highway crosses stunning, empty landscapes — boreal forest, rivers, and barrens.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🚗 ~560 km total to Twillingate</span>
+          <span class="meta-chip">⏱ ~6.5 hours driving</span>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">Afternoon</div>
+        <h3 class="stop-title">Visit Lisa Yates · Lewisporte</h3>
+        <p class="stop-body">Stop in Lewisporte to visit Lisa Yates. A chance to stretch, catch up, and get local tips for the coast ahead.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">📍 Lewisporte, NL</span>
+          <span class="meta-chip">👋 Lisa Yates</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps?q=Lewisporte+NL" target="_blank" rel="noopener">🗺 Lewisporte Map</a>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">Evening</div>
+        <h3 class="stop-title">Arrive Twillingate</h3>
+        <p class="stop-body">The "Iceberg Capital of the World." If the timing is right (late June/early July), massive icebergs drift past from Greenland. Stunning coastal scenery, lighthouses, and whale watching.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🧊 Iceberg Alley</span>
+          <span class="meta-chip">🐋 Whale Season</span>
+          <span class="meta-chip">📍 Twillingate, NL</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps?q=Twillingate+NL" target="_blank" rel="noopener">🗺 Twillingate Map</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="tip-block">
+      <div class="tip-orn">✦</div>
+      <div class="tip-txt">July 1 is Canada Day — expect celebrations in towns along the route. Gas stations and shops may have reduced hours. Fill up when you can.</div>
+    </div>
+
+    <div class="lodging-card">
+      <div class="lodging-icon">🏨</div>
+      <div class="lodging-info">
+        <div class="lodging-label">Confirmed Lodging · Night 5</div>
+        <div class="lodging-name">Anchor Inn Hotel &amp; Suites</div>
+        <div class="lodging-addr">3 Path End, Twillingate, NL A0G 4M0</div>
+        <div class="lodging-actions">
+          <a class="lodging-btn" href="https://maps.google.com/maps?q=Anchor+Inn+Twillingate+NL" target="_blank" rel="noopener">🗺 Map</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DAYS 6–8 — FOGO ISLAND
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-fogo-anchor"></span>
+<section id="section-fogo" class="day-break" aria-label="Days 6–8 Fogo Island">
+  <div class="content-section">
+    <div class="day-header">
+      <div>
+        <div class="day-label">Days 6–8 · July 2–4 · Three Nights</div>
+        <h2 class="day-title">Fogo Island</h2>
+        <p class="day-intro">The crown jewel of the trip. Three nights at the world-renowned Fogo Island Inn on one of the four corners of the earth. Remote, stunning, and utterly unique.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+      <article class="stop is-ferry" role="listitem">
+        <div class="stop-time">Day 6 · Morning <span class="stop-time-badge badge-ferry">⛴ Ferry</span></div>
+        <h3 class="stop-title ferry-title">Fogo Island Ferry · Farewell → Fogo</h3>
+        <p class="stop-body">Drive from Twillingate to Farewell and take the ferry to Fogo Island. The crossing is approximately 45 minutes through iceberg-studded waters.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">⛴ Provincial Ferry</span>
+          <span class="meta-chip">⏱ ~45 min</span>
+          <span class="meta-chip">📞 1-800-563-6353</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://www.ferries.nl.ca" target="_blank" rel="noopener">🌐 NL Ferries</a>
+          <a class="btn-call" href="tel:+18005636353">📞 Call Ferry</a>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">Day 6 · Arrival</div>
+        <h3 class="stop-title">Check In · Fogo Island Inn</h3>
+        <p class="stop-body">Arrive at one of the world's most architecturally stunning hotels. Built on stilts at the edge of the North Atlantic, designed by Todd Saunders. Every room faces the sea. The inn is a social enterprise — all profits go back to the community.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">⭐ World-class</span>
+          <span class="meta-chip">📍 Joe Batt's Arm</span>
+          <span class="meta-chip">🏗 Todd Saunders architecture</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps?q=Fogo+Island+Inn+Joe+Batts+Arm" target="_blank" rel="noopener">🗺 Map</a>
+          <a class="btn-secondary" href="https://fogoislandinn.ca" target="_blank" rel="noopener">🌐 Fogo Island Inn</a>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">Days 6–8</div>
+        <h3 class="stop-title">Explore Fogo Island</h3>
+        <p class="stop-body">Three full days on this magical island. Visit the famous Fogo Island Studios (artist residencies), hike the coastal trails, meet local fishers, see icebergs and whales, and enjoy world-class dining at the inn. The pace here is dictated by weather and tide — embrace it.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🥾 Coastal Trails</span>
+          <span class="meta-chip">🎨 Artist Studios</span>
+          <span class="meta-chip">🧊 Icebergs</span>
+          <span class="meta-chip">🐋 Whales</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="extras-strip">
+      <div class="extras-label">Fogo Island Highlights</div>
+      <p class="extras-text">Brimstone Head (one of the "four corners of the earth"). Long Studio and Tower Studio on the coastal trails. Fogo Island Workshops (handmade furniture). Shoal Bay trail. Joe Batt's Point. Oliver's Cove.</p>
+    </div>
+
+    <div class="tip-block">
+      <div class="tip-orn">✦</div>
+      <div class="tip-txt">The Fogo Island Inn includes meals — breakfast, lunch, and dinner. Ask the community host about guided experiences, boat tours, and berry picking. Cell service is limited; embrace the disconnect.</div>
+    </div>
+
+    <div class="lodging-card">
+      <div class="lodging-icon">⭐</div>
+      <div class="lodging-info">
+        <div class="lodging-label">Confirmed Lodging · Nights 6, 7 &amp; 8</div>
+        <div class="lodging-name">Fogo Island Inn</div>
+        <div class="lodging-addr">Joe Batt's Arm, Fogo Island, NL</div>
+        <div class="lodging-actions">
+          <a class="lodging-btn" href="https://maps.google.com/maps?q=Fogo+Island+Inn" target="_blank" rel="noopener">🗺 Map</a>
+          <a class="lodging-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">🌐 Website</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DAY 9 — FOGO → OVERNIGHT FERRY
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-day9-anchor"></span>
+<section id="section-day9" class="day-break" aria-label="Day 9 itinerary">
+  <div class="content-section">
+    <div class="day-header">
+      <div>
+        <div class="day-label">Day 9 · Sunday 5 July</div>
+        <h2 class="day-title">Fogo → Ferry</h2>
+        <p class="day-intro">Say goodbye to Fogo Island. Ferry back to the mainland, then drive across Newfoundland to Port aux Basques for the overnight return ferry.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+      <article class="stop is-ferry" role="listitem">
+        <div class="stop-time">Morning <span class="stop-time-badge badge-ferry">⛴ Ferry</span></div>
+        <h3 class="stop-title ferry-title">Fogo Island Ferry → Farewell</h3>
+        <p class="stop-body">Take the morning ferry back to the mainland. ~45 minutes crossing.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">⛴ Provincial Ferry</span>
+          <span class="meta-chip">⏱ ~45 min</span>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">All Day</div>
+        <h3 class="stop-title">Drive: Farewell → Port aux Basques</h3>
+        <p class="stop-body">Long driving day back across Newfoundland (~560 km). The landscape is vast and wild. Allow about 6.5 hours with stops.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🚗 ~560 km</span>
+          <span class="meta-chip">⏱ ~6.5 hours</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps/dir/Farewell+NL/Port+aux+Basques+NL" target="_blank" rel="noopener">🗺 Route</a>
+        </div>
+      </article>
+      <article class="stop is-ferry" role="listitem">
+        <div class="stop-time">Evening <span class="stop-time-badge badge-ferry">⛴ Overnight Ferry</span></div>
+        <h3 class="stop-title ferry-title">Marine Atlantic · Port aux Basques → North Sydney</h3>
+        <p class="stop-body">Board the overnight ferry back to Nova Scotia. Another night sleeping on the water.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">⛴ Marine Atlantic</span>
+          <span class="meta-chip">⏱ 6–8 hours overnight</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">🌐 Marine Atlantic</a>
+          <a class="btn-call" href="tel:+18003417981">📞 Call Ferry</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="lodging-card">
+      <div class="lodging-icon">⛴</div>
+      <div class="lodging-info">
+        <div class="lodging-label">Confirmed Lodging · Night 9</div>
+        <div class="lodging-name">Marine Atlantic Ferry Cabin</div>
+        <div class="lodging-addr">Overnight crossing · Port aux Basques → North Sydney</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DAY 10 — NORTH SYDNEY → PICTOU
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-day10-anchor"></span>
+<section id="section-day10" class="day-break" aria-label="Day 10 itinerary">
+  <div class="content-section">
+    <div class="day-header">
+      <div>
+        <div class="day-label">Day 10 · Monday 6 July</div>
+        <h2 class="day-title">North Sydney → Pictou</h2>
+        <p class="day-intro">Morning arrival in Nova Scotia. Easy drive to Pictou — birthplace of New Scotland, known for its Scottish heritage and the Hector ship museum.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+      <article class="stop" role="listitem">
+        <div class="stop-time">Morning</div>
+        <h3 class="stop-title">Arrive North Sydney</h3>
+        <p class="stop-body">Disembark from the ferry and begin the comfortable drive to Pictou.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🚗 ~185 km</span>
+          <span class="meta-chip">⏱ ~2 hours</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps/dir/North+Sydney+NS/Pictou+NS" target="_blank" rel="noopener">🗺 Route</a>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">Afternoon</div>
+        <h3 class="stop-title">Explore Pictou</h3>
+        <p class="stop-body">Pictou is the "Birthplace of New Scotland" — where the first Scottish settlers landed in 1773. Visit the Ship Hector Heritage Quay, stroll the charming waterfront, and enjoy local seafood.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scottish Heritage</span>
+          <span class="meta-chip">⛵ Ship Hector</span>
+          <span class="meta-chip">📍 Pictou, NS</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps?q=Pictou+NS+Waterfront" target="_blank" rel="noopener">🗺 Pictou Map</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="lodging-card">
+      <div class="lodging-icon">🏨</div>
+      <div class="lodging-info">
+        <div class="lodging-label">Confirmed Lodging · Night 10</div>
+        <div class="lodging-name">The Scotsman Inn</div>
+        <div class="lodging-addr">78 Coleraine St, Pictou, NS B0K 1H0</div>
+        <div class="lodging-actions">
+          <a class="lodging-btn" href="https://maps.google.com/maps?q=78+Coleraine+St+Pictou+NS" target="_blank" rel="noopener">🗺 Map</a>
+          <a class="lodging-btn" href="tel:+19024851924">📞 902-485-1924</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DAY 11 — PICTOU → FREDERICTON
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-day11-anchor"></span>
+<section id="section-day11" class="day-break" aria-label="Day 11 itinerary">
+  <div class="content-section">
+    <div class="day-header">
+      <div>
+        <div class="day-label">Day 11 · Tuesday 7 July</div>
+        <h2 class="day-title">Pictou → Fredericton</h2>
+        <p class="day-intro">Drive through New Brunswick to the provincial capital. Stroll the Saint John River waterfront and enjoy a final Maritime evening.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+      <article class="stop" role="listitem">
+        <div class="stop-time">Morning</div>
+        <h3 class="stop-title">Drive: Pictou → Fredericton</h3>
+        <p class="stop-body">Approximately 4-hour drive through New Brunswick. Cross from Nova Scotia into NB via the Confederation Bridge vicinity or Amherst route.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🚗 ~385 km</span>
+          <span class="meta-chip">⏱ ~4 hours</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps/dir/Pictou+NS/Fredericton+NB" target="_blank" rel="noopener">🗺 Route</a>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">Afternoon</div>
+        <h3 class="stop-title">Fredericton Riverfront</h3>
+        <p class="stop-body">Stroll along the Saint John River. Fredericton is a pretty, walkable capital with excellent craft beer, riverside trails, and the Beaverbrook Art Gallery. A relaxing penultimate stop.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🏛 Provincial Capital</span>
+          <span class="meta-chip">🚶 River Trail</span>
+          <span class="meta-chip">📍 Fredericton, NB</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps?q=Fredericton+NB+Riverfront" target="_blank" rel="noopener">🗺 Fredericton Map</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="lodging-card">
+      <div class="lodging-icon">🏨</div>
+      <div class="lodging-info">
+        <div class="lodging-label">Confirmed Lodging · Night 11</div>
+        <div class="lodging-name">Delta Hotels by Marriott Fredericton</div>
+        <div class="lodging-addr">225 Woodstock Rd, Fredericton, NB E3B 2H8</div>
+        <div class="lodging-actions">
+          <a class="lodging-btn" href="https://maps.google.com/maps?q=225+Woodstock+Rd+Fredericton+NB" target="_blank" rel="noopener">🗺 Map</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DAY 12 — FREDERICTON → PORTLAND
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-day12-anchor"></span>
+<section id="section-day12" class="day-break" aria-label="Day 12 itinerary">
+  <div class="content-section">
+    <div class="day-header">
+      <div>
+        <div class="day-label">Day 12 · Wednesday 8 July</div>
+        <h2 class="day-title">Fredericton → Portland</h2>
+        <p class="day-intro">The final drive home. Cross back into the US and return to Portland, ME. Full circle — 12 days, three provinces, one unforgettable island.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+      <article class="stop" role="listitem">
+        <div class="stop-time">Morning</div>
+        <h3 class="stop-title">Final Drive · Fredericton → Portland</h3>
+        <p class="stop-body">Approximately 5-hour drive south through New Brunswick, crossing back into the US at Calais or Houlton. Return to Portland where it all began.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🚗 ~340 mi / 545 km</span>
+          <span class="meta-chip">⏱ ~5 hours</span>
+          <span class="meta-chip">🛂 Canada–US Border</span>
+        </div>
+        <div class="stop-actions">
+          <a class="btn-primary" href="https://maps.google.com/maps/dir/Fredericton+NB/Portland+ME" target="_blank" rel="noopener">🗺 Route</a>
+        </div>
+      </article>
+      <article class="stop" role="listitem">
+        <div class="stop-time">Afternoon</div>
+        <h3 class="stop-title">Arrive Portland · Trip Complete</h3>
+        <p class="stop-body">Welcome home. 12 days, ~4,000 km, three ferry crossings, and a lifetime of memories. Celebrate with dinner at your favourite Portland spot.</p>
+        <div class="stop-meta">
+          <span class="meta-chip">🏁 Trip Complete</span>
+          <span class="meta-chip">📍 Portland, ME</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="lodging-card">
+      <div class="lodging-icon">🏨</div>
+      <div class="lodging-info">
+        <div class="lodging-label">Confirmed Lodging · Night 12</div>
+        <div class="lodging-name">Courtyard by Marriott Portland Downtown/Waterfront</div>
+        <div class="lodging-addr">321 Commercial St, Portland, ME 04101</div>
+        <div class="lodging-actions">
+          <a class="lodging-btn" href="https://maps.google.com/maps?q=Courtyard+Marriott+321+Commercial+St+Portland+ME" target="_blank" rel="noopener">🗺 Map</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     ESSENTIALS
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-essentials-anchor"></span>
+<section id="section-essentials" aria-label="Trip essentials">
+  <div class="content-section" style="background:var(--navy)">
+    <div class="essentials-header">
+      <div class="essentials-eyebrow">Quick Reference</div>
+      <h2 class="essentials-title" style="color:#fff">Trip Essentials</h2>
+    </div>
+    <div class="ess-grid">
+      <div class="ess-item">
+        <div class="ess-label">Travelers</div>
+        <div class="ess-value">Eric &amp; Jill</div>
+      </div>
+      <div class="ess-item">
+        <div class="ess-label">Duration</div>
+        <div class="ess-value">12 days · 11 nights<br>June 27 – July 8, 2026</div>
+      </div>
+      <div class="ess-item">
+        <div class="ess-label">Route</div>
+        <div class="ess-value">Portland ME → Nova Scotia → Newfoundland → Fogo Island → Nova Scotia → NB → Portland ME</div>
+      </div>
+      <div class="ess-item">
+        <div class="ess-label">Ferries</div>
+        <div class="ess-value">3 crossings<br>Fundy Rose · Marine Atlantic (×2) · Fogo Island</div>
+      </div>
+      <div class="ess-item">
+        <div class="ess-label">Passports</div>
+        <div class="ess-value">Required for US–Canada crossings<br>Calais/St. Stephen or Houlton borders</div>
+        <div class="ess-badge">✓ Don't forget</div>
+      </div>
+      <div class="ess-item">
+        <div class="ess-label">Emergency (Canada)</div>
+        <div class="ess-value">911 — Any emergency<br>511 — Road conditions (NL/NS/NB)</div>
+      </div>
+      <div class="ess-item">
+        <div class="ess-label">Currency</div>
+        <div class="ess-value">Canadian Dollar (CAD)<br>US credit cards widely accepted</div>
+      </div>
+      <div class="ess-item">
+        <div class="ess-label">Time Zones</div>
+        <div class="ess-value">AT (Nova Scotia/NB) = EDT + 1<br>NT (Newfoundland) = EDT + 1.5</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     REFERENCE
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-reference-anchor"></span>
+<section id="section-reference" aria-label="Reference and survival guide">
+  <div class="content-section" style="background:var(--cream)">
+    <div class="section-header">
+      <div class="section-eyebrow">Reference</div>
+      <h2 class="section-title">Lodging, Ferries &amp; Survival</h2>
+    </div>
+
+    <div class="ref-block">
+      <div class="ref-title">Confirmed Lodging Summary</div>
+      <table class="rtbl" aria-label="Lodging summary by night">
+        <thead><tr><th>Night</th><th>Location</th><th>Hotel</th><th>Address</th></tr></thead>
+        <tbody>
+          <tr><td>1 &amp; 12</td><td>Portland, ME</td><td>Courtyard Marriott</td><td>321 Commercial St</td></tr>
+          <tr><td>2</td><td>Digby, NS</td><td>Fundy Complex Dockside</td><td>34 Water St</td></tr>
+          <tr><td>3</td><td>Lunenburg, NS</td><td>Smugglers Cove Inn</td><td>139 Montague St</td></tr>
+          <tr><td>4 &amp; 9</td><td>At Sea</td><td>Marine Atlantic Cabin</td><td>Ferry crossing</td></tr>
+          <tr><td>5</td><td>Twillingate, NL</td><td>Anchor Inn Hotel</td><td>3 Path End</td></tr>
+          <tr><td>6–8</td><td>Fogo Island, NL</td><td>Fogo Island Inn</td><td>Joe Batt's Arm</td></tr>
+          <tr><td>10</td><td>Pictou, NS</td><td>The Scotsman Inn</td><td>78 Coleraine St · 902-485-1924</td></tr>
+          <tr><td>11</td><td>Fredericton, NB</td><td>Delta Hotels Marriott</td><td>225 Woodstock Rd</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ref-block">
+      <div class="ref-title">Ferry Reservations</div>
+      <table class="rtbl" aria-label="Ferry reservation details">
+        <thead><tr><th>Ferry</th><th>Route</th><th>Contact</th><th>Website</th></tr></thead>
+        <tbody>
+          <tr><td>MV Fundy Rose</td><td>Saint John ↔ Digby</td><td><a href="tel:+18777627245" style="color:var(--blue)">1-877-762-7245</a></td><td><a href="https://www.fundyrose.ca" target="_blank" style="color:var(--blue)">fundyrose.ca</a></td></tr>
+          <tr><td>Marine Atlantic</td><td>N. Sydney ↔ Port aux Basques</td><td><a href="tel:+18003417981" style="color:var(--blue)">1-800-341-7981</a></td><td><a href="https://www.marineatlantic.ca" target="_blank" style="color:var(--blue)">marineatlantic.ca</a></td></tr>
+          <tr><td>Fogo Island Ferry</td><td>Farewell ↔ Fogo Island</td><td><a href="tel:+18005636353" style="color:var(--blue)">1-800-563-6353</a></td><td><a href="https://www.ferries.nl.ca" target="_blank" style="color:var(--blue)">ferries.nl.ca</a></td></tr>
+        </tbody>
+      </table>
+      <p class="ref-note">Check-in early for all ferry crossings. Marine Atlantic requires 2-hour advance check-in. Print or save boarding passes offline.</p>
+    </div>
+
+    <div class="ref-block">
+      <div class="ref-title">Daily Driving Distances</div>
+      <table class="rtbl" aria-label="Driving distances by day">
+        <thead><tr><th>Day</th><th>Route</th><th>Distance</th><th>Time</th></tr></thead>
+        <tbody>
+          <tr><td>2</td><td>Portland → Saint John</td><td>~450 km</td><td>~4.5 hr</td></tr>
+          <tr><td>3</td><td>Digby → Lunenburg</td><td>~250 km</td><td>~2.5 hr</td></tr>
+          <tr><td>4</td><td>Lunenburg → North Sydney</td><td>~395 km</td><td>~4.5 hr</td></tr>
+          <tr><td>5</td><td>Port aux Basques → Twillingate</td><td>~560 km</td><td>~6.5 hr</td></tr>
+          <tr><td>9</td><td>Fogo → Port aux Basques</td><td>~560 km</td><td>~6.5 hr</td></tr>
+          <tr><td>10</td><td>North Sydney → Pictou</td><td>~185 km</td><td>~2 hr</td></tr>
+          <tr><td>11</td><td>Pictou → Fredericton</td><td>~385 km</td><td>~4 hr</td></tr>
+          <tr><td>12</td><td>Fredericton → Portland</td><td>~545 km</td><td>~5 hr</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Survival Section -->
+  <div style="padding:var(--sp24);background:var(--navy2);border-top:1px solid rgba(255,255,255,.06)">
+    <div style="text-align:center;margin-bottom:var(--sp24)">
+      <div class="surv-eyebrow">Maritimes · Summer 2026</div>
+      <div class="surv-title">Survival Guide</div>
+      <div class="surv-rule"></div>
+    </div>
+
+    <div class="emerg-grid">
+      <div class="emerg-card"><div class="emerg-num">911</div><div class="emerg-lbl">Any Emergency</div></div>
+      <div class="emerg-card"><div class="emerg-num">511</div><div class="emerg-lbl">Road Conditions</div></div>
+      <div class="emerg-card"><div class="emerg-num">*16</div><div class="emerg-lbl">Roadside Assist</div></div>
+    </div>
+
+    <div class="surv-body">
+      <div class="accordion open" id="acc-border">
+        <button class="accordion-hdr" aria-expanded="true" aria-controls="acc-border-body">
+          Border Crossing <span class="acc-chevron">▾</span>
+        </button>
+        <div class="accordion-body" id="acc-border-body" role="region">
+          <div class="acc-item"><b>Valid US passport required.</b> Ensure at least 6 months validity remaining.</div>
+          <div class="acc-item"><b>Calais/St. Stephen border crossing</b> is the most direct route from Portland to Saint John.</div>
+          <div class="acc-item"><b>Declare everything.</b> Fruits, vegetables, meats, and alcohol have restrictions. Be honest.</div>
+          <div class="acc-item"><b>ArriveCAN is no longer required</b> (discontinued June 2023). Just passport.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-driving">
+        <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-driving-body">
+          Driving in Canada <span class="acc-chevron">▾</span>
+        </button>
+        <div class="accordion-body" id="acc-driving-body" role="region">
+          <div class="acc-item"><b>Distances in kilometres, speed in km/h.</b> Highway limits are typically 100–110 km/h.</div>
+          <div class="acc-item"><b>Gas is sold in litres.</b> Expect CAD $1.60–$1.90/litre. Fill up when you can — gas stations are sparse in rural NL.</div>
+          <div class="acc-item"><b>Moose warning in Newfoundland is real.</b> Do not drive at dusk or dawn on the TCH. A moose collision at highway speed is fatal. Locals take this seriously.</div>
+          <div class="acc-item"><b>Cell service is patchy</b> in rural NL and NS. Download offline maps before leaving.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-weather">
+        <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-weather-body">
+          Weather &amp; Packing <span class="acc-chevron">▾</span>
+        </button>
+        <div class="accordion-body" id="acc-weather-body" role="region">
+          <div class="acc-item"><b>Late June/early July:</b> Highs 15–22°C (60–72°F). Lows 8–14°C (46–57°F). Fogo Island will be cooler.</div>
+          <div class="acc-item"><b>Pack layers.</b> Fog, wind, and rain can appear quickly on the coast. A waterproof jacket is essential.</div>
+          <div class="acc-item"><b>Bug spray.</b> Blackflies and mosquitoes are active in Newfoundland in early July.</div>
+          <div class="acc-item"><b>Sun stays up late.</b> Expect sunset around 9:15–9:30 PM in Newfoundland. Long, bright evenings.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-apps">
+        <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-apps-body">
+          Essential Apps <span class="acc-chevron">▾</span>
+        </button>
+        <div class="accordion-body" id="acc-apps-body" role="region">
+          <div class="acc-item"><b>Google Maps</b> — download NS, NB, and NL offline maps before departure.</div>
+          <div class="acc-item"><b>Marine Atlantic app</b> — check-in, boarding pass, and sailing status.</div>
+          <div class="acc-item"><b>GasBuddy</b> — find cheapest gas along route. Essential for rural NL.</div>
+          <div class="acc-item"><b>iOverlander</b> — rest stops, camping, and fuel along remote stretches.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-time">
+        <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-time-body">
+          Time Zones <span class="acc-chevron">▾</span>
+        </button>
+        <div class="accordion-body" id="acc-time-body" role="region">
+          <div class="acc-item"><b>Maine:</b> Eastern Daylight Time (EDT)</div>
+          <div class="acc-item"><b>New Brunswick &amp; Nova Scotia:</b> Atlantic Time (AT) = EDT + 1 hour</div>
+          <div class="acc-item"><b>Newfoundland:</b> Newfoundland Time (NT) = EDT + 1.5 hours. Yes, half an hour. It's a thing.</div>
+          <div class="acc-item"><b>Set phone to automatic.</b> It will switch as you cross borders.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /page-wrap -->
+</main>
+
+<!-- ── FOOTER ──────────────────────────────────────── -->
+<footer id="site-footer" role="contentinfo">
+  <p class="footer-quote">May every ferry be on time, every iceberg majestic, and every mile a memory.</p>
+  <p class="footer-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home</p>
+  <p class="footer-meta">Maritimes · Summer 2026 · v1.0 · Updated March 2026</p>
+  <div class="footer-actions">
+    <a class="footer-btn" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
+    <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
+    <button class="footer-btn" id="footer-top-btn">↑ Back to Top</button>
+  </div>
+  <p class="footer-pplx"><a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a></p>
+</footer>
+
+<!-- ── FLOATING UTILITY MENU ──────────────────────── -->
+<div id="float-menu" aria-label="Quick navigation">
+  <div class="float-row fab-extra">
+    <span class="float-btn-label">Top</span>
+    <button class="float-btn" id="fab-top-btn" aria-label="Back to top">↑</button>
+  </div>
+  <div class="float-row fab-extra">
+    <span class="float-btn-label">Fogo</span>
+    <a class="float-btn" id="fab-fogo-btn" aria-label="Jump to Fogo Island" style="cursor:pointer">⭐</a>
+  </div>
+  <div class="float-row fab-trigger">
+    <button class="float-btn" aria-label="Toggle quick menu" id="fab-trigger-btn">⋯</button>
+  </div>
+</div>
+
+<!-- ── OFFLINE INDICATOR ───────────────────────────── -->
+<div id="offline-bar" role="status" aria-live="polite">📡 You're offline — cached version loaded</div>
+
+<script>
+// ── ACCORDION TOGGLES ─────────────────────────────────
+function toggleAcc(btn) {
+  const acc = btn.closest('.accordion');
+  const isOpen = acc.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+}
+
+// Keyboard a11y
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const t = e.target;
+    if (t.classList.contains('accordion-hdr')) {
+      e.preventDefault();
+      t.click();
+    }
+  }
+});
+
+// ── NAVIGATION ─────────────────────────────────────────
+let navTapLock = false;
+let navTapTimer;
+
+function navTo(sectionId, btn) {
+  if (btn) {
+    document.querySelectorAll('.nav-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    const hl = document.getElementById('hdr-section-label');
+    if (hl) hl.textContent = btn.textContent;
+    navTapLock = true;
+    lastActiveSection = sectionId;
+    clearTimeout(navTapTimer);
+    navTapTimer = setTimeout(() => { navTapLock = false; }, 1200);
+    if (navEl) {
+      const pad = 12;
+      const target = btn.offsetLeft - navEl.offsetLeft - pad;
+      navEl.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+      setTimeout(updateNavFade, 350);
+    }
+  }
+
+  if (sectionId === 'hero') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+
+  const hdr = document.getElementById('site-header');
+  const hdrH = hdr ? hdr.getBoundingClientRect().height : 56;
+
+  const fb = document.getElementById('ferry-bar');
+  const fbVisible = fb && !fb.classList.contains('hidden');
+  const fbH = fbVisible ? fb.getBoundingClientRect().height : 0;
+
+  const gap = 20;
+  const targetTop = section.getBoundingClientRect().top + window.scrollY - hdrH - fbH - gap;
+
+  window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+}
+
+// ── NAV SCROLL FADE INDICATOR ──────────────────────────
+const navEl = document.querySelector('.hdr-nav');
+function updateNavFade() {
+  if (!navEl) return;
+  const sl = navEl.scrollLeft;
+  const maxScroll = navEl.scrollWidth - navEl.clientWidth;
+  if (maxScroll <= 2) {
+    navEl.className = 'hdr-nav no-overflow';
+  } else if (sl < 4) {
+    navEl.className = 'hdr-nav';
+  } else if (sl >= maxScroll - 4) {
+    navEl.className = 'hdr-nav scrolled-end';
+  } else {
+    navEl.className = 'hdr-nav scrolled-mid';
+  }
+}
+if (navEl) {
+  navEl.addEventListener('scroll', updateNavFade, { passive: true });
+  window.addEventListener('resize', updateNavFade);
+  updateNavFade();
+}
+
+// ── FERRY BAR DISMISS ──────────────────────────────────
+let ferryBarDismissed = false;
+
+function dismissFerryBar() {
+  const fb = document.getElementById('ferry-bar');
+  fb.classList.add('hidden');
+  ferryBarDismissed = true;
+}
+
+// ── SCROLL BEHAVIORS ───────────────────────────────────
+const header = document.getElementById('site-header');
+const ferryBar = document.getElementById('ferry-bar');
+const floatMenu = document.getElementById('float-menu');
+const progressBar = document.getElementById('progress-bar');
+const hdrLabel = document.getElementById('hdr-section-label');
+
+const sections = [
+  { id: 'hero',               label: 'Overview' },
+  { id: 'section-day1',       label: 'Portland' },
+  { id: 'section-day2',       label: 'Digby' },
+  { id: 'section-day3',       label: 'Lunenburg' },
+  { id: 'section-day4',       label: 'Ferry' },
+  { id: 'section-day5',       label: 'Twillingate' },
+  { id: 'section-fogo',       label: 'Fogo Island' },
+  { id: 'section-day9',       label: 'Return' },
+  { id: 'section-day10',      label: 'Pictou' },
+  { id: 'section-day11',      label: 'Fredericton' },
+  { id: 'section-day12',      label: 'Home' },
+  { id: 'section-essentials', label: 'Essentials' },
+  { id: 'section-reference',  label: 'Reference' },
+];
+
+let lastScroll = 0;
+let lastActiveSection = 'hero';
+
+function onScroll() {
+  const scroll = window.scrollY;
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+
+  // Header shadow
+  if (scroll > 40) header.classList.add('scrolled');
+  else header.classList.remove('scrolled');
+
+  // Ferry bar auto-hide
+  const heroH = document.getElementById('hero').offsetHeight;
+  if (!ferryBarDismissed) {
+    if (scroll > heroH * 0.6) {
+      ferryBar.classList.add('hidden');
+    } else if (scroll <= heroH * 0.4) {
+      ferryBar.classList.remove('hidden');
+    }
+  }
+
+  // Float menu
+  if (scroll > 300) floatMenu.classList.add('visible');
+  else floatMenu.classList.remove('visible');
+
+  // Progress bar
+  const pct = docH > 0 ? Math.min(100, (scroll / docH) * 100) : 0;
+  progressBar.style.width = pct + '%';
+
+  // Scroll spy
+  let activeSection = 'hero';
+  const hdrH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--hdr')) || 56;
+  sections.forEach(s => {
+    const el = document.getElementById(s.id);
+    if (el && el.getBoundingClientRect().top <= hdrH + 40) {
+      activeSection = s.id;
+    }
+  });
+
+  if (activeSection !== lastActiveSection && !navTapLock) {
+    lastActiveSection = activeSection;
+    document.querySelectorAll('.nav-chip').forEach(chip => {
+      const isActive = chip.dataset.target === activeSection;
+      chip.classList.toggle('active', isActive);
+      if (isActive && hdrLabel) {
+        hdrLabel.textContent = chip.textContent;
+      }
+      if (isActive && navEl) {
+        const chipRect = chip.getBoundingClientRect();
+        const navRect = navEl.getBoundingClientRect();
+        if (chipRect.right > navRect.right - 8 || chipRect.left < navRect.left + 8) {
+          const pad = 12;
+          navEl.scrollTo({ left: Math.max(0, chip.offsetLeft - navEl.offsetLeft - pad), behavior: 'smooth' });
+          setTimeout(updateNavFade, 350);
+        }
+      }
+    });
+  }
+
+  lastScroll = scroll;
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// ── COUNTDOWN TIMER ────────────────────────────────────
+(function() {
+  const tripDate = new Date('2026-06-27T00:00:00-04:00'); // EDT
+  const now = new Date();
+  const diffMs = tripDate - now;
+  const el = document.getElementById('hero-countdown');
+  if (!el) return;
+
+  if (diffMs <= 0) {
+    const endDate = new Date('2026-07-09T00:00:00-04:00');
+    if (now < endDate) {
+      el.innerHTML = '✦ <span class="cd-num">Now</span> · Trip in progress';
+    } else {
+      el.style.display = 'none';
+    }
+  } else {
+    const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    if (days === 1) {
+      el.innerHTML = '✦ <span class="cd-num">Tomorrow</span> · Pack your bags';
+    } else {
+      el.innerHTML = '✦ <span class="cd-num">' + days + ' days</span> until departure';
+    }
+  }
+})();
+
+// ── OFFLINE INDICATOR ──────────────────────────────────
+const offlineBar = document.getElementById('offline-bar');
+function updateOnlineStatus() {
+  if (!offlineBar) return;
+  if (!navigator.onLine) {
+    offlineBar.classList.add('visible');
+  } else {
+    offlineBar.classList.remove('visible');
+  }
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+updateOnlineStatus();
+
+// ── EVENT BINDINGS ─────────────────────────────────────
+
+// Nav chips
+document.querySelectorAll('.nav-chip').forEach(chip => {
+  chip.addEventListener('click', function() { navTo(this.dataset.target, this); });
+});
+
+// Ferry bar dismiss
+const fbarDismissBtn = document.getElementById('fbar-dismiss-btn');
+if (fbarDismissBtn) fbarDismissBtn.addEventListener('click', dismissFerryBar);
+
+// Hero buttons
+const heroJumpFogo = document.getElementById('hero-jump-fogo');
+const heroJumpDay1 = document.getElementById('hero-jump-day1');
+if (heroJumpFogo) heroJumpFogo.addEventListener('click', function() { navTo('section-fogo', null); });
+if (heroJumpDay1) heroJumpDay1.addEventListener('click', function() { navTo('section-day1', null); });
+
+// Accordion headers
+document.querySelectorAll('.accordion-hdr').forEach(btn => {
+  btn.addEventListener('click', function() { toggleAcc(this); });
+});
+
+// Back to top buttons
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+const fabTopBtn = document.getElementById('fab-top-btn');
+const footerTopBtn = document.getElementById('footer-top-btn');
+if (fabTopBtn) fabTopBtn.addEventListener('click', scrollToTop);
+if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
+
+// FAB Fogo jump
+const fabFogoBtn = document.getElementById('fab-fogo-btn');
+if (fabFogoBtn) fabFogoBtn.addEventListener('click', function() { navTo('section-fogo', null); });
+
+// FAB toggle
+let fabOpen = false;
+const fabTriggerBtn = document.getElementById('fab-trigger-btn');
+function toggleFab() {
+  const fm = document.getElementById('float-menu');
+  fabOpen = !fabOpen;
+  fm.classList.toggle('fab-expanded', fabOpen);
+  fabTriggerBtn.textContent = fabOpen ? '✕' : '⋯';
+}
+if (fabTriggerBtn) fabTriggerBtn.addEventListener('click', toggleFab);
+
+document.addEventListener('click', function(e) {
+  if (fabOpen && !e.target.closest('#float-menu')) {
+    fabOpen = false;
+    document.getElementById('float-menu').classList.remove('fab-expanded');
+    fabTriggerBtn.textContent = '⋯';
+  }
+});
+</script>
+
+</body>
+</html>
