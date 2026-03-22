@@ -852,6 +852,87 @@ section[id]{
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+/* ── FLOATING SEARCH ────────────────────────────── */
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+#search-fab{
+  position:fixed;bottom:calc(var(--sp16) + env(safe-area-inset-bottom,0px));
+  left:var(--sp16);z-index:190;
+  width:48px;height:48px;border-radius:50%;
+  background:var(--navy);color:var(--gold);
+  border:1.5px solid rgba(201,169,110,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  box-shadow:0 3px 16px rgba(0,0,0,.35);
+  cursor:pointer;
+  transition:all .2s;
+}
+#search-fab:hover{background:var(--navy3);border-color:var(--gold);transform:scale(1.08)}
+#search-fab:active{transform:scale(.93)}
+#search-card{
+  display:none;
+  position:fixed;bottom:calc(72px + env(safe-area-inset-bottom,0px));
+  left:var(--sp16);right:var(--sp16);
+  max-width:400px;z-index:191;
+  background:var(--navy);
+  border:1px solid rgba(201,169,110,.2);
+  border-radius:var(--r12);
+  box-shadow:0 8px 40px rgba(0,0,0,.45);
+  padding:var(--sp16);
+  animation:slideUp .25s ease;
+}
+#search-card.open{display:block}
+.search-input-row{
+  display:flex;gap:var(--sp8);margin-bottom:var(--sp12);
+}
+#search-input{
+  flex:1;
+  font-family:'Crimson Pro',serif;font-size:15px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--r6);
+  padding:10px 14px;
+  color:#fff;
+  outline:none;
+}
+#search-input::placeholder{color:rgba(255,255,255,.35)}
+#search-input:focus{border-color:var(--gold);background:rgba(255,255,255,.1)}
+#search-go{
+  background:var(--gold);color:var(--navy2);
+  border:none;border-radius:var(--r6);
+  padding:10px 16px;cursor:pointer;
+  font-family:'DM Mono',monospace;font-size:10px;
+  font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  white-space:nowrap;
+}
+#search-go:hover{background:var(--gold2)}
+.search-presets{
+  display:flex;flex-wrap:wrap;gap:6px;
+}
+.search-preset{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.04em;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:7px 12px;
+  color:rgba(255,255,255,.6);
+  cursor:pointer;
+  transition:all .15s;
+  white-space:nowrap;
+}
+.search-preset:hover{
+  background:rgba(201,169,110,.12);
+  border-color:rgba(201,169,110,.3);
+  color:var(--gold2);
+}
+.search-preset:active{transform:scale(.95)}
+.search-loc-status{
+  font-family:'DM Mono',monospace;font-size:8px;
+  color:rgba(255,255,255,.3);
+  margin-top:var(--sp8);
+  letter-spacing:.04em;
+}
 </style>
 </head>
 <body>
@@ -2050,6 +2131,108 @@ document.querySelectorAll('.accordion-hdr').forEach(btn => {
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 const footerTopBtn = document.getElementById('footer-top-btn');
 if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
+</script>
+
+<!-- ── FLOATING SEARCH ───────────────────────────────── -->
+<button id="search-fab" aria-label="Search nearby">🔍</button>
+<div id="search-card" role="dialog" aria-label="Search nearby places">
+  <div class="search-input-row">
+    <input id="search-input" type="text" placeholder="Search nearby…" autocomplete="off">
+    <button id="search-go">Go</button>
+  </div>
+  <div class="search-presets">
+    <button class="search-preset" data-q="coffee shop">☕ Coffee</button>
+    <button class="search-preset" data-q="restaurant">🍽 Restaurant</button>
+    <button class="search-preset" data-q="supermarket grocery">🛒 Grocery</button>
+    <button class="search-preset" data-q="pharmacy">💊 Pharmacy</button>
+    <button class="search-preset" data-q="ATM">🏧 ATM</button>
+    <button class="search-preset" data-q="gas station">⛽ Gas</button>
+    <button class="search-preset" data-q="bar pub">🍺 Bar</button>
+    <button class="search-preset" data-q="liquor store wine beer">🍷 Liquor</button>
+    <button class="search-preset" data-q="public toilet restroom">🚻 WC</button>
+    <button class="search-preset" data-q="hiking trail">🥾 Hiking</button>
+  </div>
+  <div class="search-loc-status" id="search-loc-status">📍 Tap to allow location for nearby results</div>
+</div>
+
+<script>
+// ── FLOATING SEARCH ────────────────────────────────────
+(function() {
+  var fab = document.getElementById('search-fab');
+  var card = document.getElementById('search-card');
+  var input = document.getElementById('search-input');
+  var goBtn = document.getElementById('search-go');
+  var status = document.getElementById('search-loc-status');
+  if (!fab || !card) return;
+
+  var userLat = null, userLng = null;
+
+  // Toggle card
+  fab.addEventListener('click', function() {
+    var isOpen = card.classList.toggle('open');
+    fab.textContent = isOpen ? '✕' : '🔍';
+    if (isOpen) {
+      getLocation();
+    }
+  });
+
+  // Close on outside click
+  document.addEventListener('click', function(e) {
+    if (card.classList.contains('open') && !e.target.closest('#search-card') && !e.target.closest('#search-fab')) {
+      card.classList.remove('open');
+      fab.textContent = '🔍';
+    }
+  });
+
+  // Get user location
+  function getLocation() {
+    if (userLat) return;
+    if (!navigator.geolocation) {
+      status.textContent = '📍 Location not available — searching Halifax area';
+      userLat = 44.6488; userLng = -63.5752;
+      return;
+    }
+    status.textContent = '📍 Getting your location…';
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        userLat = pos.coords.latitude;
+        userLng = pos.coords.longitude;
+        status.textContent = '📍 Location found — results will be nearby';
+      },
+      function() {
+        status.textContent = '📍 Location denied — searching Halifax area';
+        userLat = 44.6488; userLng = -63.5752;
+      },
+      { timeout: 8000, maximumAge: 60000 }
+    );
+  }
+
+  // Search function
+  function doSearch(query) {
+    if (!query.trim()) return;
+    var lat = userLat || 44.6488;
+    var lng = userLng || -63.5752;
+    var url = 'https://www.google.com/maps/search/' + encodeURIComponent(query)
+      + '/@' + lat + ',' + lng + ',15z';
+    window.open(url, '_blank', 'noopener');
+    card.classList.remove('open');
+    fab.textContent = '🔍';
+    input.value = '';
+  }
+
+  // Go button
+  goBtn.addEventListener('click', function() { doSearch(input.value); });
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doSearch(input.value);
+  });
+
+  // Preset buttons
+  document.querySelectorAll('.search-preset').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      doSearch(btn.dataset.q);
+    });
+  });
+})();
 </script>
 
 <script>
