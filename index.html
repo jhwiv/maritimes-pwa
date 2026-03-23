@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Maritimes">
-<meta name="description" content="Newfoundland & Nova Scotia · June 27 – July 8, 2026 · Eric & Jill road trip">
+<meta name="description" content="Newfoundland & Nova Scotia · June 27 – July 8, 2026 · Maritimes Grand Loop">
 <meta property="og:title" content="Newfoundland & Nova Scotia · Summer 2026">
 <meta property="og:description" content="A 12-day road trip — Portland to Fogo Island and back.">
 <link rel="manifest" href="manifest.json">
@@ -53,7 +53,7 @@
   --teal3: #3E5C57;
   --sp4:4px;--sp8:8px;--sp12:12px;--sp16:16px;--sp24:24px;--sp32:32px;--sp48:48px;
   --r6:6px;--r9:9px;--r12:12px;
-  --hdr:56px;
+  --hdr:82px;
 }
 html{-webkit-text-size-adjust:100%}
 body{
@@ -74,50 +74,47 @@ img{display:block;max-width:100%}
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(201,169,110,.18);
   transition:box-shadow .25s ease;
-  padding:0 var(--sp16);
-  height:var(--hdr);
-  display:flex;align-items:center;
-  gap:0;
+  padding:6px var(--sp16) 4px;
+  display:flex;flex-direction:column;
+  justify-content:center;
 }
 #site-header.scrolled{
   box-shadow:0 2px 20px rgba(0,0,0,.35);
 }
+.hdr-top-row{
+  display:flex;align-items:center;
+  margin-bottom:1px;
+}
 .hdr-brand{
   font-family:'Playfair Display',serif;
-  font-size:14px;font-weight:700;
+  font-size:12px;font-weight:700;
   color:var(--gold2);
   white-space:nowrap;
   flex-shrink:0;
-  padding-right:var(--sp16);
-  border-right:1px solid rgba(201,169,110,.15);
-  margin-right:var(--sp12);
 }
-.hdr-brand span{
-  font-family:'DM Mono',monospace;
-  font-size:8px;letter-spacing:.18em;
-  text-transform:uppercase;
-  color:rgba(201,169,110,.5);
-  display:block;margin-top:1px;
+.hdr-rows{
+  display:flex;flex-direction:column;gap:0;
 }
-.hdr-nav{
+.hdr-row-1,.hdr-row-2{
   display:flex;align-items:center;
-  gap:var(--sp8);
+  gap:2px;
+  flex-wrap:nowrap;
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
-  flex:1;
-  padding:0 var(--sp4);
+  padding:1px 0;
 }
-.hdr-nav::-webkit-scrollbar{display:none}
+.hdr-row-1::-webkit-scrollbar,.hdr-row-2::-webkit-scrollbar{display:none}
 .nav-chip{
   font-family:'DM Mono',monospace;
-  font-size:10px;letter-spacing:.08em;
+  font-size:8px;letter-spacing:.05em;
   text-transform:uppercase;
-  padding:8px 14px;
-  min-height:36px;
-  border-radius:20px;
+  font-weight:600;
+  padding:4px 8px;
+  min-height:22px;
+  border-radius:12px;
   white-space:nowrap;
-  color:rgba(255,255,255,.5);
+  color:rgba(255,255,255,.55);
   border:1px solid transparent;
   background:transparent;
   transition:color .18s,background .18s,border-color .18s;
@@ -140,6 +137,10 @@ img{display:block;max-width:100%}
 }
 .nav-chip:active{transform:scale(.95);transition-duration:.05s}
 .hdr-section-label{display:none!important}
+@media(min-width:601px){
+  .nav-chip{font-size:9px;padding:5px 10px;min-height:26px;border-radius:14px}
+  .hdr-brand{font-size:13px}
+}
 
 /* ── FERRY ALERT BAR ───────────────────────────── */
 #ferry-bar{
@@ -219,7 +220,7 @@ img{display:block;max-width:100%}
 .hero-title{
   font-family:'Playfair Display',serif;
   font-weight:900;
-  font-size:clamp(38px,9vw,76px);
+  font-size:clamp(28px,7vw,52px);
   line-height:.95;letter-spacing:-.02em;
   color:var(--gold2);
   text-shadow:0 2px 40px rgba(201,169,110,.2);
@@ -804,23 +805,7 @@ table.rtbl tr:nth-child(even) td{background:rgba(240,237,230,.5)}
 
 }
 
-/* ── NAV SCROLL FADE INDICATOR ─────────────────── */
-.hdr-nav{
-  -webkit-mask-image:linear-gradient(to right,#000 85%,transparent 100%);
-  mask-image:linear-gradient(to right,#000 85%,transparent 100%);
-}
-.hdr-nav.scrolled-end{
-  -webkit-mask-image:linear-gradient(to left,#000 85%,transparent 100%);
-  mask-image:linear-gradient(to left,#000 85%,transparent 100%);
-}
-.hdr-nav.scrolled-mid{
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 8%,#000 85%,transparent 100%);
-  mask-image:linear-gradient(to right,transparent 0%,#000 8%,#000 85%,transparent 100%);
-}
-.hdr-nav.no-overflow{
-  -webkit-mask-image:none;
-  mask-image:none;
-}
+/* ── NAV (multi-row, no scroll needed) ─────────── */
 
 /* ── SECTION SCROLL MARGIN ─────────────────────── */
 section[id]{
@@ -945,36 +930,33 @@ section[id]{
 
 <!-- ── SITE HEADER ────────────────────────────────── -->
 <header id="site-header" role="banner">
-  <div class="hdr-brand">
-    Maritimes
-    <span>Summer 2026</span>
+  <div class="hdr-top-row">
+    <div class="hdr-brand">Maritimes Summer 2026</div>
   </div>
-  <nav class="hdr-nav" aria-label="Trip sections">
-    <button class="nav-chip active" data-target="hero">Overview</button>
-    <button class="nav-chip" data-target="section-day1">Portland</button>
-    <button class="nav-chip" data-target="section-day2">Digby</button>
-    <button class="nav-chip" data-target="section-day3">Lunenburg</button>
-    <button class="nav-chip" data-target="section-day4">Ferry</button>
-    <button class="nav-chip" data-target="section-day5">Twillingate</button>
-    <button class="nav-chip" data-target="section-fogo">Fogo Island</button>
-    <button class="nav-chip" data-target="section-day9">Return</button>
-    <button class="nav-chip" data-target="section-day10">Pictou</button>
-    <button class="nav-chip" data-target="section-day11">Fredericton</button>
-    <button class="nav-chip" data-target="section-day12">Home</button>
-    <button class="nav-chip" data-target="section-essentials">Essentials</button>
-    <button class="nav-chip" data-target="section-reference">Reference</button>
-  </nav>
+  <div class="hdr-rows">
+    <nav class="hdr-row-1" aria-label="Day sections">
+      <button class="nav-chip active" data-target="hero">Overview</button>
+      <button class="nav-chip" data-target="section-day1">Portland</button>
+      <button class="nav-chip" data-target="section-day2">Digby</button>
+      <button class="nav-chip" data-target="section-day3">Lunenburg</button>
+      <button class="nav-chip" data-target="section-day4">Ferry</button>
+      <button class="nav-chip" data-target="section-day5">Twillingate</button>
+      <button class="nav-chip" data-target="section-fogo">Fogo</button>
+    </nav>
+    <nav class="hdr-row-2" aria-label="Return and reference sections">
+      <button class="nav-chip" data-target="section-day9">Return</button>
+      <button class="nav-chip" data-target="section-day10">Pictou</button>
+      <button class="nav-chip" data-target="section-day11">Fredericton</button>
+      <button class="nav-chip" data-target="section-day12">Home</button>
+      <button class="nav-chip" data-target="section-essentials">Info</button>
+      <button class="nav-chip" data-target="section-reference">Reference</button>
+      <button class="nav-chip" data-target="section-history">History</button>
+    </nav>
+  </div>
   <div class="hdr-section-label" id="hdr-section-label">Overview</div>
 </header>
 
-<!-- ── FERRY ALERT BAR ─────────────────────────── -->
-<div id="ferry-bar" role="alert" aria-live="polite">
-  <div class="fbar-text">
-    <span class="fbar-full">⛴ 3 Ferry Crossings · Fundy Rose Jun 28 &nbsp;·&nbsp; Marine Atlantic Jun 30 & Jul 5 &nbsp;·&nbsp; Fogo Jul 2</span>
-    <span class="fbar-compact">⛴ <strong>3 Ferries</strong> · Fundy · Atlantic · Fogo</span>
-    <button class="fbar-dismiss" id="fbar-dismiss-btn" aria-label="Dismiss ferry alert">✕</button>
-  </div>
-</div>
+<!-- ferry bar removed -->
 
 <!-- ── MAIN ─────────────────────────────────────── -->
 <main id="main-content">
@@ -989,7 +971,7 @@ section[id]{
     <div class="hero-title" aria-label="Newfoundland & Nova Scotia">Newfoundland<br>&amp; Nova Scotia</div>
     <div class="hero-dates">June 27 – July 8, 2026</div>
     <div class="hero-rule"></div>
-    <div class="hero-desc">Eric and Jill — a grand loop through the Canadian Maritimes. Three ferries, one legendary island, and 12 days of Atlantic coastline.</div>
+    <div class="hero-desc">A grand loop through the Canadian Maritimes. Three ferries, one legendary island, and 12 days of Atlantic coastline.</div>
     <div class="hero-actions">
       <button class="hero-btn hero-btn-primary" id="hero-jump-fogo">
         ✦ Jump to Fogo Island
@@ -1693,8 +1675,8 @@ section[id]{
     </div>
     <div class="ess-grid">
       <div class="ess-item">
-        <div class="ess-label">Travelers</div>
-        <div class="ess-value">Eric &amp; Jill</div>
+        <div class="ess-label">Trip</div>
+        <div class="ess-value">Maritimes Grand Loop</div>
       </div>
       <div class="ess-item">
         <div class="ess-label">Duration</div>
@@ -1866,6 +1848,119 @@ section[id]{
   </div>
 </section>
 
+<!-- ══════════════════════════════════════════════════
+     HISTORY
+     ══════════════════════════════════════════════════ -->
+<span class="section-anchor" id="section-history-anchor"></span>
+<section id="section-history" aria-label="Destination history">
+  <div class="content-section" style="background:var(--navy2);padding:var(--sp24)">
+    <div class="section-header">
+      <div class="section-eyebrow">Background</div>
+      <h2 class="section-title" style="color:#fff">History</h2>
+    </div>
+
+    <div class="accordion" id="acc-hist-portland">
+      <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-hist-portland-body">
+        Portland, Maine <span class="acc-chevron">▾</span>
+      </button>
+      <div class="accordion-body" id="acc-hist-portland-body" role="region">
+        <div class="acc-item" style="font-family:'Crimson Pro',serif;font-size:14px;line-height:1.7;color:rgba(255,255,255,.88)">
+          Portland's Old Port district, where you'll start the trip, was once the busiest port north of Boston. Founded in 1632, the city was burned to the ground four times — by Native Americans in 1676, the French in 1690 and 1775, and the British in 1775 during the bombardment that destroyed 75% of the town. The Old Port's distinctive brick and granite buildings date to the rebuilding after the Great Fire of 1866, when fireworks on July 4th ignited a blaze that destroyed 1,800 buildings in ten hours. Henry Wadsworth Longfellow grew up here. Portland's food scene became nationally recognized in the 2010s — its per-capita restaurant count rivals San Francisco.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-hist-lunenburg">
+      <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-hist-lunenburg-body">
+        Lunenburg &amp; the Bluenose <span class="acc-chevron">▾</span>
+      </button>
+      <div class="accordion-body" id="acc-hist-lunenburg-body" role="region">
+        <div class="acc-item" style="font-family:'Crimson Pro',serif;font-size:14px;line-height:1.7;color:rgba(255,255,255,.88)">
+          Lunenburg was founded in 1753 by Protestant settlers from Germany, Switzerland, and France — the British Crown's deliberate counterbalance to the French-speaking Acadians. The town became a UNESCO World Heritage Site in 1995 for its remarkably preserved colonial architecture and its unbroken grid layout from the original 1753 survey. In 1921, the Smith and Rhuland shipyard here built the Bluenose — the legendary racing schooner that won the International Fishermen's Trophy every year it raced and became so iconic it was placed on the Canadian dime in 1937, where it remains today. The Bluenose II, a replica launched in 1963, still calls Lunenburg home.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-hist-digby">
+      <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-hist-digby-body">
+        Digby &amp; the Bay of Fundy <span class="acc-chevron">▾</span>
+      </button>
+      <div class="accordion-body" id="acc-hist-digby-body" role="region">
+        <div class="acc-item" style="font-family:'Crimson Pro',serif;font-size:14px;line-height:1.7;color:rgba(255,255,255,.88)">
+          Digby sits on the Annapolis Basin at the mouth of the Bay of Fundy, which holds the world's highest tides — up to 16 metres (53 feet). The bay's extreme tidal range creates one of the planet's most productive marine ecosystems. Digby has been the scallop capital of the world since the early 1900s, with its fleet harvesting the prized Digby scallops from the bay's rich waters. The town is named after Admiral Robert Digby, who transported 1,500 United Empire Loyalists here from New England after the American Revolution in 1783.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-hist-pictou">
+      <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-hist-pictou-body">
+        Pictou &amp; the Ship Hector <span class="acc-chevron">▾</span>
+      </button>
+      <div class="accordion-body" id="acc-hist-pictou-body" role="region">
+        <div class="acc-item" style="font-family:'Crimson Pro',serif;font-size:14px;line-height:1.7;color:rgba(255,255,255,.88)">
+          Pictou is the "Birthplace of New Scotland." In September 1773, the ship Hector arrived carrying 189 Scottish Highlanders — the first major wave of Scottish immigration to Nova Scotia. The crossing took 11 harrowing weeks. Eighteen passengers, mostly children, died of smallpox and dysentery en route. The survivors founded a community that shaped the province's culture, music, and identity. Their descendants spread across Nova Scotia and beyond. The Ship Hector Heritage Quay preserves a full-size replica of the vessel. Every September, the Hector Festival celebrates this founding with Highland games, piping, and ceilidhs.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-hist-newfoundland">
+      <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-hist-newfoundland-body">
+        Newfoundland <span class="acc-chevron">▾</span>
+      </button>
+      <div class="accordion-body" id="acc-hist-newfoundland-body" role="region">
+        <div class="acc-item" style="font-family:'Crimson Pro',serif;font-size:14px;line-height:1.7;color:rgba(255,255,255,.88)">
+          Newfoundland has one of the longest histories of European contact in the Americas. Norse Vikings established a settlement at L'Anse aux Meadows around 1000 AD — the only confirmed Viking site in North America. John Cabot arrived in 1497, and the Grand Banks cod fishery drew English, French, Portuguese, and Basque fishermen for centuries. The cod was so abundant that early explorers reported you could lower a basket and pull it up full of fish. Newfoundland was Britain's oldest colony but fiercely independent — it was a self-governing Dominion until financial collapse during the Great Depression forced it to revert to British rule in 1934. It did not join Canada until 1949, after a razor-thin 52% referendum, making it the country's youngest province.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-hist-fogo">
+      <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-hist-fogo-body">
+        Fogo Island &amp; the Inn <span class="acc-chevron">▾</span>
+      </button>
+      <div class="accordion-body" id="acc-hist-fogo-body" role="region">
+        <div class="acc-item" style="font-family:'Crimson Pro',serif;font-size:14px;line-height:1.7;color:rgba(255,255,255,.88)">
+          Fogo Island has been inhabited for over 5,000 years. The island's name likely comes from the Portuguese fogo ("fire"), after the fires early explorers saw on shore. For centuries it was a remote fishing outport, its 11 communities sustained entirely by cod. When the Canadian government declared a cod moratorium in 1992, it devastated the island's economy and triggered an exodus. The revival began with Zita Cobb, a Fogo native who left at 16, made a fortune as CFO of a fibre optics company, and returned home with a vision. She founded the Shorefast Foundation and built the Fogo Island Inn in 2013 — a striking modernist hotel on stilts at the edge of the North Atlantic, designed by Todd Saunders. Every room faces the sea. All profits return to the community. The inn has become one of the world's most celebrated hotels, putting this remote island of 2,200 people on the global map.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-hist-twillingate">
+      <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-hist-twillingate-body">
+        Twillingate &amp; Iceberg Alley <span class="acc-chevron">▾</span>
+      </button>
+      <div class="accordion-body" id="acc-hist-twillingate-body" role="region">
+        <div class="acc-item" style="font-family:'Crimson Pro',serif;font-size:14px;line-height:1.7;color:rgba(255,255,255,.88)">
+          Twillingate, the "Iceberg Capital of the World," sits at the end of the Road to the Isles on Newfoundland's northeast coast. Named by French fishermen as "Toulinguet" after a town in Brittany, it has been a fishing settlement since the 1700s. Every spring and summer, massive icebergs calved from Greenland's glaciers drift south through Iceberg Alley on the Labrador Current. Some are 10,000+ years old. The icebergs arrive between May and July, and on a good year dozens are visible from shore. The town is also prime territory for humpback whale watching — the whales follow the capelin that follow the plankton-rich cold water pushed along by the same current that delivers the icebergs.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-hist-fredericton">
+      <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-hist-fredericton-body">
+        Fredericton &amp; New Brunswick <span class="acc-chevron">▾</span>
+      </button>
+      <div class="accordion-body" id="acc-hist-fredericton-body" role="region">
+        <div class="acc-item" style="font-family:'Crimson Pro',serif;font-size:14px;line-height:1.7;color:rgba(255,255,255,.88)">
+          Fredericton was founded by United Empire Loyalists who fled the American Revolution in the 1780s. The city sits on the Wolastoq (Saint John River) — the Wolastoqiyik (Maliseet) people have lived along this river for at least 10,000 years. The Beaverbrook Art Gallery, a gift from Lord Beaverbrook (the New Brunswick-born press baron who became Churchill's Minister of Aircraft Production), houses Salvador Dalí's monumental Santiago El Grande. New Brunswick is Canada's only officially bilingual province. The Hartland Covered Bridge, which you may pass on the drive home, is the longest covered bridge in the world at 1,282 feet — built in 1901, it was originally open-sided until a roof was added in 1921 after too many horses spooked at the sight of the river below.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" id="acc-hist-fundy">
+      <button class="accordion-hdr" aria-expanded="false" aria-controls="acc-hist-fundy-body">
+        Hopewell Rocks &amp; Fundy Tides <span class="acc-chevron">▾</span>
+      </button>
+      <div class="accordion-body" id="acc-hist-fundy-body" role="region">
+        <div class="acc-item" style="font-family:'Crimson Pro',serif;font-size:14px;line-height:1.7;color:rgba(255,255,255,.88)">
+          The Bay of Fundy, shared between New Brunswick and Nova Scotia, experiences the most extreme tides on Earth — 100 billion tonnes of water flow in and out twice daily. At Hopewell Rocks, the tides have carved dramatic "flowerpot" rock formations over thousands of years. At low tide you walk the ocean floor among towering rock pillars topped with trees; six hours later the same rocks are islands surrounded by 12+ metres of water. The phenomenon is caused by the bay's funnel shape and the natural resonance period of its water — which happens to match the tidal cycle almost exactly, amplifying the tides like pushing a child on a swing at just the right moment.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 </div><!-- /page-wrap -->
 </main>
 
@@ -1920,16 +2015,11 @@ function navTo(sectionId, btn) {
     lastActiveSection = sectionId;
     clearTimeout(navTapTimer);
     navTapTimer = setTimeout(() => { navTapLock = false; }, 1200);
-    if (navEl) {
-      const pad = 12;
-      const target = btn.offsetLeft - navEl.offsetLeft - pad;
-      navEl.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
-      setTimeout(updateNavFade, 350);
-    }
+    // Multi-row nav: no horizontal scroll needed
   }
 
   if (sectionId === 'hero') {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e) { window.scrollTo(0, 0); }
     return;
   }
 
@@ -1937,39 +2027,25 @@ function navTo(sectionId, btn) {
   if (!section) return;
 
   const hdr = document.getElementById('site-header');
-  const hdrH = hdr ? hdr.getBoundingClientRect().height : 56;
-
-  const fb = document.getElementById('ferry-bar');
-  const fbVisible = fb && !fb.classList.contains('hidden');
-  const fbH = fbVisible ? fb.getBoundingClientRect().height : 0;
+  const hdrH = hdr ? hdr.getBoundingClientRect().height : 82;
 
   const gap = 20;
-  const targetTop = section.getBoundingClientRect().top + window.scrollY - hdrH - fbH - gap;
+  const targetTop = Math.max(0, section.getBoundingClientRect().top + window.scrollY - hdrH - gap);
 
-  window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+  try { window.scrollTo({ top: targetTop, behavior: 'smooth' }); } catch(e) { window.scrollTo(0, targetTop); }
 }
 
-// ── NAV SCROLL FADE INDICATOR ──────────────────────────
-const navEl = document.querySelector('.hdr-nav');
-function updateNavFade() {
-  if (!navEl) return;
-  const sl = navEl.scrollLeft;
-  const maxScroll = navEl.scrollWidth - navEl.clientWidth;
-  if (maxScroll <= 2) {
-    navEl.className = 'hdr-nav no-overflow';
-  } else if (sl < 4) {
-    navEl.className = 'hdr-nav';
-  } else if (sl >= maxScroll - 4) {
-    navEl.className = 'hdr-nav scrolled-end';
-  } else {
-    navEl.className = 'hdr-nav scrolled-mid';
-  }
+// ── DYNAMIC HEADER HEIGHT ───────────────────────
+function updateHdrHeight() {
+  const hdr = document.getElementById('site-header');
+  if (!hdr) return;
+  const h = hdr.getBoundingClientRect().height;
+  document.documentElement.style.setProperty('--hdr', Math.ceil(h) + 'px');
 }
-if (navEl) {
-  navEl.addEventListener('scroll', updateNavFade, { passive: true });
-  window.addEventListener('resize', updateNavFade);
-  updateNavFade();
-}
+updateHdrHeight();
+window.addEventListener('resize', updateHdrHeight);
+
+const navEl = null; // Multi-row layout, no horizontal scrolling
 
 // ── FERRY BAR DISMISS ──────────────────────────────────
 let ferryBarDismissed = false;
@@ -2001,6 +2077,7 @@ const sections = [
   { id: 'section-day12',      label: 'Home' },
   { id: 'section-essentials', label: 'Essentials' },
   { id: 'section-reference',  label: 'Reference' },
+  { id: 'section-history',    label: 'History' },
 ];
 
 let lastScroll = 0;
@@ -2014,15 +2091,7 @@ function onScroll() {
   if (scroll > 40) header.classList.add('scrolled');
   else header.classList.remove('scrolled');
 
-  // Ferry bar auto-hide
-  const heroH = document.getElementById('hero').offsetHeight;
-  if (!ferryBarDismissed) {
-    if (scroll > heroH * 0.6) {
-      ferryBar.classList.add('hidden');
-    } else if (scroll <= heroH * 0.4) {
-      ferryBar.classList.remove('hidden');
-    }
-  }
+  // Ferry bar removed — no auto-hide needed
 
 
 
@@ -2048,15 +2117,7 @@ function onScroll() {
       if (isActive && hdrLabel) {
         hdrLabel.textContent = chip.textContent;
       }
-      if (isActive && navEl) {
-        const chipRect = chip.getBoundingClientRect();
-        const navRect = navEl.getBoundingClientRect();
-        if (chipRect.right > navRect.right - 8 || chipRect.left < navRect.left + 8) {
-          const pad = 12;
-          navEl.scrollTo({ left: Math.max(0, chip.offsetLeft - navEl.offsetLeft - pad), behavior: 'smooth' });
-          setTimeout(updateNavFade, 350);
-        }
-      }
+      // Multi-row layout: no scroll needed for chip visibility
     });
   }
 
