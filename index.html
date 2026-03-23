@@ -224,7 +224,7 @@ img{display:block;max-width:100%}
   line-height:.95;letter-spacing:-.02em;
   color:var(--gold2);
   text-shadow:0 2px 40px rgba(201,169,110,.2);
-  margin-bottom:var(--sp16);
+  margin-bottom:2px;
   opacity:0;animation:fadeUp .7s ease .35s forwards;
 }
 .hero-dates{
@@ -918,6 +918,89 @@ section[id]{
   margin-top:var(--sp8);
   letter-spacing:.04em;
 }
+
+/* ── WEATHER CARDS ──────────────────────────────── */
+.wx-card{
+  background:#fff;
+  border:1px solid var(--divider);
+  border-radius:var(--r9);
+  padding:var(--sp16);
+  text-decoration:none;
+  display:block;
+  position:relative;overflow:hidden;
+  transition:box-shadow .2s,transform .2s;
+  grid-column:1/-1;
+  margin-top:var(--sp12);
+}
+.wx-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:var(--gold);border-radius:3px 0 0 3px;
+}
+.wx-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-1px)}
+.wx-top{display:flex;align-items:baseline;gap:var(--sp12);flex-wrap:wrap}
+.wx-hi{
+  font-family:'Playfair Display',serif;
+  font-size:34px;font-weight:700;
+  color:var(--navy);line-height:1;
+}
+.wx-lo{font-size:13px;color:var(--steel)}
+.wx-cond{
+  font-family:'Crimson Pro',serif;font-size:15px;
+  color:var(--body);margin-top:var(--sp8);line-height:1.45;
+}
+.wx-narrative{
+  font-family:'Crimson Pro',serif;font-size:14px;
+  color:var(--steel);margin-top:var(--sp4);line-height:1.45;
+}
+.wx-stats{
+  display:flex;gap:var(--sp12);
+  margin-top:var(--sp12);padding-top:var(--sp8);
+  border-top:1px solid var(--divider);flex-wrap:wrap;
+}
+.wx-stat{
+  font-family:'DM Mono',monospace;font-size:8px;
+  color:var(--muted);letter-spacing:.04em;
+}
+.wx-tap{
+  font-family:'DM Mono',monospace;font-size:7px;
+  color:var(--gold);margin-top:var(--sp8);
+  letter-spacing:.08em;opacity:.75;
+}
+.wx-c{display:none}
+@media(max-width:600px){
+  .wx-card{width:100%;max-width:none}
+}
+
+/* ── ALTERRA BRANDING ──────────────────────────── */
+.alterra-powered{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:0.85rem;
+  letter-spacing:0.04em;
+  color:rgba(150,150,150,0.6);
+  text-align:center;
+  padding:20px 0;
+  margin:0;
+}
+.alterra-powered .alterra-name{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:1.1rem;
+  letter-spacing:0.06em;
+  background:linear-gradient(135deg,#C9A84C,#B8704B);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.alterra-powered .alterra-digital{
+  font-family:sans-serif;
+  font-style:normal;
+  font-weight:300;
+  font-size:0.7rem;
+  letter-spacing:0.15em;
+  color:rgba(150,150,150,0.4);
+  text-transform:lowercase;
+}
 </style>
 </head>
 <body>
@@ -969,6 +1052,10 @@ section[id]{
   <div class="hero-inner">
     <div class="hero-eyebrow">A 12-Day Road Trip · Portland → Fogo Island → Home</div>
     <div class="hero-title" aria-label="Newfoundland & Nova Scotia">Newfoundland<br>&amp; Nova Scotia</div>
+    <p class="alterra-powered" style="padding:0;margin:0 0 var(--sp12) 0;font-size:0.65rem;">
+      powered by <span class="alterra-name" style="font-size:0.8rem;">Alterra</span><span class="alterra-digital" style="font-size:0.55rem;">, digital</span>
+    </p>
+
     <div class="hero-dates">June 27 – July 8, 2026</div>
     <div class="hero-rule"></div>
     <div class="hero-desc">A grand loop through the Canadian Maritimes. Three ferries, one legendary island, and 12 days of Atlantic coastline.</div>
@@ -989,6 +1076,19 @@ section[id]{
         <h2 class="day-title">Portland, ME</h2>
         <p class="day-intro">Meet up, unwind, and ease into the trip. Old Port stroll with Molly and Bonie, then an early dinner before the long drive north tomorrow.</p>
       </div>
+      <a class="wx-card" href="https://www.accuweather.com/en/us/portland/04101/weather-forecast/329157" target="_blank" rel="noopener" aria-label="Portland, ME weather — tap for live forecast" id="wx-day1">
+        <div class="wx-top"><span class="wx-hi">--°</span><span class="wx-lo">Loading…</span></div>
+        <div class="wx-cond">Portland, ME · Loading forecast…</div>
+        <div class="wx-narrative" id="wx-day1-narrative"></div>
+        <div class="wx-stats">
+          <span class="wx-stat">Rain --%</span>
+          <span class="wx-stat">Wind -- mph</span>
+          <span class="wx-stat">☀ --</span>
+          <span class="wx-stat">☾ --</span>
+        </div>
+        <div class="wx-tap">Tap · Live Forecast ↗</div>
+      </a>
+
     </div>
     <div class="stops" role="list">
       <article class="stop" role="listitem">
@@ -1045,6 +1145,19 @@ section[id]{
         <h2 class="day-title">Portland → Digby</h2>
         <p class="day-intro">Drive north to Saint John, NB, then take the Fundy Rose ferry across the Bay of Fundy to Digby, Nova Scotia.</p>
       </div>
+      <a class="wx-card" href="https://www.accuweather.com/en/ca/digby/b0v/weather-forecast/52636" target="_blank" rel="noopener" aria-label="Digby, NS weather — tap for live forecast" id="wx-day2">
+        <div class="wx-top"><span class="wx-hi">--°</span><span class="wx-lo">Loading…</span></div>
+        <div class="wx-cond">Digby, NS · Loading forecast…</div>
+        <div class="wx-narrative" id="wx-day2-narrative"></div>
+        <div class="wx-stats">
+          <span class="wx-stat">Rain --%</span>
+          <span class="wx-stat">Wind -- mph</span>
+          <span class="wx-stat">☀ --</span>
+          <span class="wx-stat">☾ --</span>
+        </div>
+        <div class="wx-tap">Tap · Live Forecast ↗</div>
+      </a>
+
     </div>
     <div class="stops" role="list">
       <article class="stop" role="listitem">
@@ -1126,6 +1239,19 @@ section[id]{
         <h2 class="day-title">Digby → Lunenburg</h2>
         <p class="day-intro">Scenic coastal drive along the South Shore to Lunenburg — a UNESCO World Heritage town. Colourful waterfront, the Bluenose II, and outstanding seafood.</p>
       </div>
+      <a class="wx-card" href="https://www.accuweather.com/en/ca/lunenburg/b0j/weather-forecast/52677" target="_blank" rel="noopener" aria-label="Lunenburg, NS weather — tap for live forecast" id="wx-day3">
+        <div class="wx-top"><span class="wx-hi">--°</span><span class="wx-lo">Loading…</span></div>
+        <div class="wx-cond">Lunenburg, NS · Loading forecast…</div>
+        <div class="wx-narrative" id="wx-day3-narrative"></div>
+        <div class="wx-stats">
+          <span class="wx-stat">Rain --%</span>
+          <span class="wx-stat">Wind -- mph</span>
+          <span class="wx-stat">☀ --</span>
+          <span class="wx-stat">☾ --</span>
+        </div>
+        <div class="wx-tap">Tap · Live Forecast ↗</div>
+      </a>
+
     </div>
     <div class="stops" role="list">
       <article class="stop" role="listitem">
@@ -1187,6 +1313,19 @@ section[id]{
         <h2 class="day-title">Lunenburg → Ferry</h2>
         <p class="day-intro">Early departure. Long drive to North Sydney, then board the Marine Atlantic overnight ferry to Newfoundland. Sleep on the water.</p>
       </div>
+      <a class="wx-card" href="https://www.accuweather.com/en/ca/north-sydney/b2a/weather-forecast/52719" target="_blank" rel="noopener" aria-label="North Sydney, NS weather — tap for live forecast" id="wx-day4">
+        <div class="wx-top"><span class="wx-hi">--°</span><span class="wx-lo">Loading…</span></div>
+        <div class="wx-cond">North Sydney, NS · Loading forecast…</div>
+        <div class="wx-narrative" id="wx-day4-narrative"></div>
+        <div class="wx-stats">
+          <span class="wx-stat">Rain --%</span>
+          <span class="wx-stat">Wind -- mph</span>
+          <span class="wx-stat">☀ --</span>
+          <span class="wx-stat">☾ --</span>
+        </div>
+        <div class="wx-tap">Tap · Live Forecast ↗</div>
+      </a>
+
     </div>
     <div class="stops" role="list">
       <article class="stop" role="listitem">
@@ -1242,6 +1381,19 @@ section[id]{
         <h2 class="day-title">Port aux Basques → Twillingate</h2>
         <p class="day-intro">Welcome to Newfoundland. Drive across the island — the Trans-Canada Highway passes through Corner Brook and Deer Lake before turning east to the iceberg capital, Twillingate.</p>
       </div>
+      <a class="wx-card" href="https://www.accuweather.com/en/ca/twillingate/a0g/weather-forecast/54408" target="_blank" rel="noopener" aria-label="Twillingate, NL weather — tap for live forecast" id="wx-day5">
+        <div class="wx-top"><span class="wx-hi">--°</span><span class="wx-lo">Loading…</span></div>
+        <div class="wx-cond">Twillingate, NL · Loading forecast…</div>
+        <div class="wx-narrative" id="wx-day5-narrative"></div>
+        <div class="wx-stats">
+          <span class="wx-stat">Rain --%</span>
+          <span class="wx-stat">Wind -- mph</span>
+          <span class="wx-stat">☀ --</span>
+          <span class="wx-stat">☾ --</span>
+        </div>
+        <div class="wx-tap">Tap · Live Forecast ↗</div>
+      </a>
+
     </div>
     <div class="stops" role="list">
       <article class="stop" role="listitem">
@@ -1326,6 +1478,19 @@ section[id]{
         <h2 class="day-title">Fogo Island</h2>
         <p class="day-intro">The crown jewel of the trip. Three nights at the world-renowned Fogo Island Inn on one of the four corners of the earth. Remote, stunning, and utterly unique.</p>
       </div>
+      <a class="wx-card" href="https://www.accuweather.com/en/ca/fogo-island/a0g/weather-forecast/3383537" target="_blank" rel="noopener" aria-label="Fogo Island, NL weather — tap for live forecast" id="wx-fogo">
+        <div class="wx-top"><span class="wx-hi">--°</span><span class="wx-lo">Loading…</span></div>
+        <div class="wx-cond">Fogo Island, NL · Loading forecast…</div>
+        <div class="wx-narrative" id="wx-fogo-narrative"></div>
+        <div class="wx-stats">
+          <span class="wx-stat">Rain --%</span>
+          <span class="wx-stat">Wind -- mph</span>
+          <span class="wx-stat">☀ --</span>
+          <span class="wx-stat">☾ --</span>
+        </div>
+        <div class="wx-tap">Tap · Live Forecast ↗</div>
+      </a>
+
     </div>
     <div class="stops" role="list">
       <article class="stop is-ferry" role="listitem">
@@ -1406,6 +1571,19 @@ section[id]{
         <h2 class="day-title">Fogo → Ferry</h2>
         <p class="day-intro">Say goodbye to Fogo Island. Ferry back to the mainland, then drive across Newfoundland to Port aux Basques for the overnight return ferry.</p>
       </div>
+      <a class="wx-card" href="https://www.accuweather.com/en/ca/north-sydney/b2a/weather-forecast/52719" target="_blank" rel="noopener" aria-label="North Sydney, NS weather — tap for live forecast" id="wx-day9">
+        <div class="wx-top"><span class="wx-hi">--°</span><span class="wx-lo">Loading…</span></div>
+        <div class="wx-cond">North Sydney, NS · Loading forecast…</div>
+        <div class="wx-narrative" id="wx-day9-narrative"></div>
+        <div class="wx-stats">
+          <span class="wx-stat">Rain --%</span>
+          <span class="wx-stat">Wind -- mph</span>
+          <span class="wx-stat">☀ --</span>
+          <span class="wx-stat">☾ --</span>
+        </div>
+        <div class="wx-tap">Tap · Live Forecast ↗</div>
+      </a>
+
     </div>
     <div class="stops" role="list">
       <article class="stop is-ferry" role="listitem">
@@ -1477,6 +1655,19 @@ section[id]{
         <h2 class="day-title">North Sydney → Pictou</h2>
         <p class="day-intro">Morning arrival in Nova Scotia. Easy drive to Pictou — birthplace of New Scotland, known for its Scottish heritage and the Hector ship museum.</p>
       </div>
+      <a class="wx-card" href="https://www.accuweather.com/en/ca/pictou/b0k/weather-forecast/52737" target="_blank" rel="noopener" aria-label="Pictou, NS weather — tap for live forecast" id="wx-day10">
+        <div class="wx-top"><span class="wx-hi">--°</span><span class="wx-lo">Loading…</span></div>
+        <div class="wx-cond">Pictou, NS · Loading forecast…</div>
+        <div class="wx-narrative" id="wx-day10-narrative"></div>
+        <div class="wx-stats">
+          <span class="wx-stat">Rain --%</span>
+          <span class="wx-stat">Wind -- mph</span>
+          <span class="wx-stat">☀ --</span>
+          <span class="wx-stat">☾ --</span>
+        </div>
+        <div class="wx-tap">Tap · Live Forecast ↗</div>
+      </a>
+
     </div>
     <div class="stops" role="list">
       <article class="stop" role="listitem">
@@ -1538,6 +1729,19 @@ section[id]{
         <h2 class="day-title">Pictou → Fredericton</h2>
         <p class="day-intro">Drive through New Brunswick to the provincial capital. Stroll the Saint John River waterfront and enjoy a final Maritime evening.</p>
       </div>
+      <a class="wx-card" href="https://www.accuweather.com/en/ca/fredericton/e3b/weather-forecast/49724" target="_blank" rel="noopener" aria-label="Fredericton, NB weather — tap for live forecast" id="wx-day11">
+        <div class="wx-top"><span class="wx-hi">--°</span><span class="wx-lo">Loading…</span></div>
+        <div class="wx-cond">Fredericton, NB · Loading forecast…</div>
+        <div class="wx-narrative" id="wx-day11-narrative"></div>
+        <div class="wx-stats">
+          <span class="wx-stat">Rain --%</span>
+          <span class="wx-stat">Wind -- mph</span>
+          <span class="wx-stat">☀ --</span>
+          <span class="wx-stat">☾ --</span>
+        </div>
+        <div class="wx-tap">Tap · Live Forecast ↗</div>
+      </a>
+
     </div>
     <div class="stops" role="list">
       <article class="stop" role="listitem">
@@ -1607,6 +1811,19 @@ section[id]{
         <h2 class="day-title">Fredericton → Portland</h2>
         <p class="day-intro">The final drive home. Cross back into the US and return to Portland, ME. Full circle — 12 days, three provinces, one unforgettable island.</p>
       </div>
+      <a class="wx-card" href="https://www.accuweather.com/en/us/portland/04101/weather-forecast/329157" target="_blank" rel="noopener" aria-label="Portland, ME weather — tap for live forecast" id="wx-day12">
+        <div class="wx-top"><span class="wx-hi">--°</span><span class="wx-lo">Loading…</span></div>
+        <div class="wx-cond">Portland, ME · Loading forecast…</div>
+        <div class="wx-narrative" id="wx-day12-narrative"></div>
+        <div class="wx-stats">
+          <span class="wx-stat">Rain --%</span>
+          <span class="wx-stat">Wind -- mph</span>
+          <span class="wx-stat">☀ --</span>
+          <span class="wx-stat">☾ --</span>
+        </div>
+        <div class="wx-tap">Tap · Live Forecast ↗</div>
+      </a>
+
     </div>
     <div class="stops" role="list">
       <article class="stop" role="listitem">
@@ -1967,6 +2184,9 @@ section[id]{
     <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
     <button class="footer-btn" id="footer-top-btn">↑ Back to Top</button>
   </div>
+  <p class="alterra-powered">
+    powered by <span class="alterra-name">Alterra</span><span class="alterra-digital">, digital</span>
+  </p>
   <p class="footer-pplx"><a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a></p>
 </footer>
 
@@ -2303,6 +2523,140 @@ if ('serviceWorker' in navigator) {
     });
   }
 }
+</script>
+
+
+<script>
+// ── LIVE WEATHER (Open-Meteo API) ─────────────────────────────
+(function() {
+  var WX = {
+    0:'Clear', 1:'Mainly clear', 2:'Partly cloudy', 3:'Overcast',
+    45:'Foggy', 48:'Rime fog',
+    51:'Light drizzle', 53:'Drizzle', 55:'Dense drizzle',
+    61:'Light rain', 63:'Rain', 65:'Heavy rain',
+    71:'Light snow', 73:'Snow', 75:'Heavy snow',
+    80:'Light showers', 81:'Showers', 82:'Heavy showers',
+    95:'Thunderstorm'
+  };
+
+  function fToC(f) { return Math.round((f - 32) * 5 / 9); }
+
+  function fmtSunTime(iso, tz) {
+    try {
+      var d = new Date(iso);
+      return d.toLocaleTimeString('en-US', {
+        hour: 'numeric', minute: '2-digit', hour12: true, timeZone: tz
+      }).replace(':00 ', ' ').replace(/^0/, '');
+    } catch(e) {
+      return iso ? iso.split('T')[1] : '--';
+    }
+  }
+
+  // Location configs: cardId, lat, lon, date, tz, accuweather
+  var locations = [
+    { id: 'wx-day1',  lat: 43.6591, lon: -70.2568, date: '2026-06-27', tz: 'America/New_York' },
+    { id: 'wx-day2',  lat: 44.6219, lon: -65.7602, date: '2026-06-28', tz: 'America/Halifax' },
+    { id: 'wx-day3',  lat: 44.3765, lon: -64.3181, date: '2026-06-29', tz: 'America/Halifax' },
+    { id: 'wx-day4',  lat: 46.2148, lon: -60.2444, date: '2026-06-30', tz: 'America/Halifax' },
+    { id: 'wx-day5',  lat: 49.6492, lon: -54.7698, date: '2026-07-01', tz: 'America/St_Johns' },
+    { id: 'wx-fogo',  lat: 49.7164, lon: -54.1690, date: '2026-07-02', endDate: '2026-07-04', tz: 'America/St_Johns' },
+    { id: 'wx-day9',  lat: 46.2148, lon: -60.2444, date: '2026-07-05', tz: 'America/Halifax' },
+    { id: 'wx-day10', lat: 45.6793, lon: -62.7108, date: '2026-07-06', tz: 'America/Halifax' },
+    { id: 'wx-day11', lat: 45.9636, lon: -66.6431, date: '2026-07-07', tz: 'America/Moncton' },
+    { id: 'wx-day12', lat: 43.6591, lon: -70.2568, date: '2026-07-08', tz: 'America/New_York' }
+  ];
+
+  // Group by unique lat/lon to minimize API calls
+  var groups = {};
+  locations.forEach(function(loc) {
+    var key = loc.lat + ',' + loc.lon;
+    if (!groups[key]) {
+      groups[key] = { lat: loc.lat, lon: loc.lon, tz: loc.tz, locs: [] };
+    }
+    groups[key].locs.push(loc);
+  });
+
+  // Find overall date range
+  var allDates = locations.map(function(l) { return l.endDate || l.date; }).concat(locations.map(function(l) { return l.date; }));
+  allDates.sort();
+  var startDate = allDates[0];
+  var endDate = allDates[allDates.length - 1];
+
+  Object.keys(groups).forEach(function(key) {
+    var g = groups[key];
+    var url = 'https://api.open-meteo.com/v1/forecast'
+      + '?latitude=' + g.lat + '&longitude=' + g.lon
+      + '&daily=weather_code,temperature_2m_max,temperature_2m_min,'
+      + 'precipitation_probability_max,wind_speed_10m_max,sunrise,sunset'
+      + '&temperature_unit=fahrenheit&wind_speed_unit=mph'
+      + '&timezone=' + encodeURIComponent(g.tz)
+      + '&start_date=' + startDate + '&end_date=' + endDate;
+
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var d = data.daily;
+        if (!d || !d.time) return;
+
+        g.locs.forEach(function(loc) {
+          // Find the index for this date
+          var idx = d.time.indexOf(loc.date);
+          if (idx === -1) return;
+
+          var hi = Math.round(d.temperature_2m_max[idx]);
+          var lo = Math.round(d.temperature_2m_min[idx]);
+          var hiC = fToC(d.temperature_2m_max[idx]);
+          var loC = fToC(d.temperature_2m_min[idx]);
+          var cond = WX[d.weather_code[idx]] || 'Mixed';
+          var rain = d.precipitation_probability_max[idx];
+          var wind = Math.round(d.wind_speed_10m_max[idx]);
+          var rise = fmtSunTime(d.sunrise[idx], loc.tz);
+          var set = fmtSunTime(d.sunset[idx], loc.tz);
+
+          // For Fogo (multi-day), show range
+          var condText = cond + '. Hi ' + hi + '\u00B0F.';
+          if (loc.endDate) {
+            var endIdx = d.time.indexOf(loc.endDate);
+            if (endIdx !== -1 && endIdx !== idx) {
+              var hiMax = hi, loMin = lo, rainMax = rain;
+              for (var j = idx; j <= endIdx; j++) {
+                hiMax = Math.max(hiMax, Math.round(d.temperature_2m_max[j]));
+                loMin = Math.min(loMin, Math.round(d.temperature_2m_min[j]));
+                rainMax = Math.max(rainMax, d.precipitation_probability_max[j]);
+              }
+              hi = hiMax;
+              lo = loMin;
+              rain = rainMax;
+              hiC = fToC(hiMax);
+              loC = fToC(loMin);
+              condText = cond + '. Hi ' + hi + '\u00B0F (3-day range).';
+            }
+          }
+
+          var card = document.getElementById(loc.id);
+          if (!card) return;
+
+          var wxHi = card.querySelector('.wx-hi');
+          var wxLo = card.querySelector('.wx-lo');
+          var wxCond = card.querySelector('.wx-cond');
+          var stats = card.querySelectorAll('.wx-stat');
+
+          if (wxHi) wxHi.textContent = hi + '\u00B0';
+          if (wxLo) wxLo.textContent = 'Lo ' + lo + '\u00B0F (' + hiC + '/' + loC + '\u00B0C)';
+          if (wxCond) wxCond.textContent = condText;
+          if (stats.length >= 4) {
+            stats[0].textContent = 'Rain ' + rain + '%';
+            stats[1].textContent = 'Wind ' + wind + ' mph';
+            stats[2].textContent = '\u2600 ' + rise;
+            stats[3].textContent = '\u263E ' + set;
+          }
+        });
+      })
+      .catch(function(e) {
+        console.log('Weather fetch failed for ' + key + ' (offline?), using placeholders.');
+      });
+  });
+})();
 </script>
 
 </body>
