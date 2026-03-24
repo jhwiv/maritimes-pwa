@@ -1504,6 +1504,65 @@ body.map-fullscreen #map-back-btn{display:flex}
 }
 .wx-card{cursor:pointer}
 .wx-card .wx-tap{color:var(--gold)}
+
+/* ── STREET VIEW SECTION ───────────────────── */
+.sv-img-panel{
+  display:block;margin-top:var(--sp8);border-radius:var(--r9);
+  overflow:hidden;border:1px solid rgba(201,169,110,.15);
+  background:#0a111a;position:relative;cursor:pointer;
+  transition:transform .2s,box-shadow .2s;
+}
+.sv-img-panel:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.15)}
+.sv-img-panel:active{transform:scale(.98);transition-duration:.05s}
+.sv-img-panel img{display:block;width:100%;height:200px;object-fit:cover}
+.sv-panel-hint{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,.6));
+  padding:24px 12px 8px;
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);text-align:center;pointer-events:none;
+}
+.sv-stop .stop-title{font-size:17px}
+.sv-stop .stop-body{color:var(--muted);font-size:13px;margin-bottom:0}
+.sv-stop .sv-img-panel{margin-top:var(--sp12)}
+.sv-mock{width:100%;height:100%;position:relative}
+.sv-mock img{width:100%;height:100%;object-fit:cover}
+.sv-mock-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(17,29,43,.72) 0%,rgba(17,29,43,.08) 28%,rgba(17,29,43,.04) 50%,rgba(17,29,43,.25) 75%,rgba(17,29,43,.88) 100%);
+  display:flex;flex-direction:column;justify-content:space-between;padding:18px 14px;
+}
+.sv-mock-head{text-align:center}
+.sv-mock-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:2px}
+.sv-mock-sub{font-family:'DM Mono',monospace;font-size:8px;color:rgba(250,247,242,.6);letter-spacing:.1em;text-transform:uppercase}
+.sv-mock-badge{
+  position:absolute;bottom:68px;left:14px;display:flex;align-items:center;gap:5px;
+  background:rgba(17,29,43,.65);backdrop-filter:blur(6px);
+  border:1px solid rgba(201,169,110,.25);border-radius:16px;padding:5px 10px;
+}
+.sv-mock-badge span{font-family:'DM Mono',monospace;font-size:9px;font-weight:600;color:var(--gold);letter-spacing:.04em}
+.sv-mock-badge svg{width:14px;height:14px;color:var(--gold)}
+.sv-mock-nav{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(17,29,43,.88);backdrop-filter:blur(10px);
+  border-top:1px solid rgba(201,169,110,.12);display:flex;justify-content:space-around;align-items:center;padding:8px 12px 12px;
+}
+.sv-nav-i{display:flex;flex-direction:column;align-items:center;gap:1px;color:rgba(250,247,242,.35);font-size:7px;letter-spacing:.03em;font-family:'DM Mono',monospace}
+.sv-nav-i.on{color:var(--gold)}
+.sv-nav-i svg{width:16px;height:16px}
+.sv-nav-bg{background:rgba(201,169,110,.12);border-radius:8px;padding:5px 12px 3px}
+.sv-mock-pins{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);width:75%;height:35%}
+.sv-pin{position:absolute;width:18px;height:18px;display:flex;align-items:center;justify-content:center}
+.sv-pin-dot{width:7px;height:7px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px rgba(201,169,110,.5);animation:svPulse 2.2s infinite}
+@keyframes svPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.35);opacity:.65}}
+.sv-pin:nth-child(2) .sv-pin-dot{animation-delay:.5s}
+.sv-pin:nth-child(3) .sv-pin-dot{animation-delay:1s}
+.sv-pin:nth-child(4) .sv-pin-dot{animation-delay:1.5s}
+.sv-pin:nth-child(1){top:18%;left:22%}
+.sv-pin:nth-child(2){top:42%;left:58%}
+.sv-pin:nth-child(3){top:68%;left:30%}
+.sv-pin:nth-child(4){top:28%;left:72%}
 @media(min-width:420px){
   .phone-mock{width:320px;height:640px;border-radius:40px}
   .phone-screen{top:8px;left:8px;right:8px;bottom:8px;border-radius:33px}
@@ -1544,6 +1603,7 @@ body.map-fullscreen #map-back-btn{display:flex}
       <button class="nav-chip" data-target="section-essentials">Info</button>
       <button class="nav-chip" data-target="section-reference">Reference</button>
       <button class="nav-chip" data-target="section-history">History</button>
+      <button class="nav-chip" data-target="section-streetview">Street Views</button>
       <button class="nav-chip" data-target="section-map">Map</button>
     </nav>
   </div>
@@ -2684,6 +2744,144 @@ body.map-fullscreen #map-back-btn{display:flex}
 
 
 <!-- ── MAP ─────────────────────────────────────── -->
+
+<!-- ── STREET VIEWS ───────────────────────────────── -->
+<span class="section-anchor" id="section-streetview-anchor"></span>
+<section id="section-streetview" aria-label="Street View exploration">
+  <div class="content-section">
+    <div class="day-header" style="grid-template-columns:1fr">
+      <div>
+        <div class="day-label">Explore · Destinations</div>
+        <h2 class="day-title">Street Views</h2>
+        <p class="day-intro">Curated photos of every key stop along the route. Tap any image to explore.</p>
+      </div>
+    </div>
+    <div class="stops" role="list">
+
+      <div style="margin:20px 0 8px;padding:10px 0 6px;border-bottom:1px solid rgba(201,169,110,.3)">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold);margin:0;letter-spacing:.03em">Maine · Day 1</h3>
+      </div>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Portland Old Port</h3>
+        <p class="stop-body">Cobblestone streets, galleries, and waterfront views</p>
+        <div class="sv-img-panel" data-sv-title="Portland Old Port" data-sv-img="sv-img/portland.jpg" data-sv-region="Portland, Maine" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/portland.jpg" alt="Portland Old Port" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+
+      <div style="margin:20px 0 8px;padding:10px 0 6px;border-bottom:1px solid rgba(201,169,110,.3)">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold);margin:0;letter-spacing:.03em">Nova Scotia · Days 2–4</h3>
+      </div>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Bay of Fundy · Hopewell Rocks</h3>
+        <p class="stop-body">World's highest tides — iconic flowerpot rock formations</p>
+        <div class="sv-img-panel" data-sv-title="Hopewell Rocks" data-sv-img="sv-img/hopewell-rocks.jpg" data-sv-region="Bay of Fundy, NB" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/hopewell-rocks.jpg" alt="Hopewell Rocks" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Saint John Harbour</h3>
+        <p class="stop-body">New Brunswick's port city on the Bay of Fundy</p>
+        <div class="sv-img-panel" data-sv-title="Saint John Harbour" data-sv-img="sv-img/saint-john.jpg" data-sv-region="Saint John, NB" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/saint-john.jpg" alt="Saint John Harbour" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">MV Fundy Rose</h3>
+        <p class="stop-body">Ferry crossing Saint John → Digby across the Bay of Fundy</p>
+        <div class="sv-img-panel" data-sv-title="MV Fundy Rose" data-sv-img="sv-img/fundy-rose.jpg" data-sv-region="Bay of Fundy" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/fundy-rose.jpg" alt="MV Fundy Rose ferry" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Digby Waterfront</h3>
+        <p class="stop-body">Scallop capital of the world — quiet harbour town</p>
+        <div class="sv-img-panel" data-sv-title="Digby Waterfront" data-sv-img="sv-img/digby.jpg" data-sv-region="Digby, Nova Scotia" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/digby.jpg" alt="Digby waterfront" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Peggy's Cove Lighthouse</h3>
+        <p class="stop-body">Canada's most photographed lighthouse on granite shores</p>
+        <div class="sv-img-panel" data-sv-title="Peggy's Cove" data-sv-img="sv-img/peggys-cove.jpg" data-sv-region="Peggy's Cove, NS" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/peggys-cove.jpg" alt="Peggy's Cove Lighthouse" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Lunenburg</h3>
+        <p class="stop-body">UNESCO World Heritage — colorful waterfront and Bluenose II</p>
+        <div class="sv-img-panel" data-sv-title="Lunenburg" data-sv-img="sv-img/lunenburg.jpg" data-sv-region="Lunenburg, Nova Scotia" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/lunenburg.jpg" alt="Lunenburg waterfront" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+
+      <div style="margin:20px 0 8px;padding:10px 0 6px;border-bottom:1px solid rgba(201,169,110,.3)">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold);margin:0;letter-spacing:.03em">Newfoundland · Days 5–8</h3>
+      </div>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Port aux Basques</h3>
+        <p class="stop-body">Gateway to Newfoundland — rugged Atlantic coastline</p>
+        <div class="sv-img-panel" data-sv-title="Port aux Basques" data-sv-img="sv-img/port-aux-basques.jpg" data-sv-region="Newfoundland" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/port-aux-basques.jpg" alt="Port aux Basques" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Twillingate</h3>
+        <p class="stop-body">Iceberg Alley — massive icebergs drift past in summer</p>
+        <div class="sv-img-panel" data-sv-title="Twillingate" data-sv-img="sv-img/twillingate.jpg" data-sv-region="Twillingate, NL" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/twillingate.jpg" alt="Twillingate icebergs" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Fogo Island Inn</h3>
+        <p class="stop-body">Award-winning hotel perched on the edge of the North Atlantic</p>
+        <div class="sv-img-panel" data-sv-title="Fogo Island Inn" data-sv-img="sv-img/fogo-inn.jpg" data-sv-region="Fogo Island, NL" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/fogo-inn.jpg" alt="Fogo Island Inn" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+
+      <div style="margin:20px 0 8px;padding:10px 0 6px;border-bottom:1px solid rgba(201,169,110,.3)">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold);margin:0;letter-spacing:.03em">Return · Days 9–12</h3>
+      </div>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Cabot Trail</h3>
+        <p class="stop-body">One of the world's most scenic drives — Cape Breton Highlands</p>
+        <div class="sv-img-panel" data-sv-title="Cabot Trail" data-sv-img="sv-img/cabot-trail.jpg" data-sv-region="Cape Breton, NS" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/cabot-trail.jpg" alt="Cabot Trail" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Pictou Waterfront</h3>
+        <p class="stop-body">Birthplace of New Scotland — Ship Hector heritage site</p>
+        <div class="sv-img-panel" data-sv-title="Pictou" data-sv-img="sv-img/pictou.jpg" data-sv-region="Pictou, Nova Scotia" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/pictou.jpg" alt="Pictou waterfront" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+      <article class="stop sv-stop" role="listitem">
+        <h3 class="stop-title">Fredericton Riverfront</h3>
+        <p class="stop-body">New Brunswick's capital on the Saint John River</p>
+        <div class="sv-img-panel" data-sv-title="Fredericton" data-sv-img="sv-img/fredericton.jpg" data-sv-region="Fredericton, NB" role="button" tabindex="0" onclick="openSvModal(this)">
+          <img src="sv-img/fredericton.jpg" alt="Fredericton riverfront" loading="lazy">
+          <div class="sv-panel-hint">Tap to explore</div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 <section id="section-map" aria-label="Route Map">
   <h2 class="map-section-title">Route Map</h2>
   <p class="map-section-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home · 12 days, ~2,800 miles</p>
@@ -2835,6 +3033,7 @@ const sections = [
   { id: 'section-essentials', label: 'Essentials' },
   { id: 'section-reference',  label: 'Reference' },
   { id: 'section-history',    label: 'History' },
+  { id: 'section-streetview', label: 'Street Views' },
   { id: 'section-map',        label: 'Map' },
 ];
 
@@ -3866,6 +4065,67 @@ if ('serviceWorker' in navigator) {
   <a class="wx-modal-ext" id="wxm-ext-link" href="#" target="_blank" rel="noopener">Live Forecast ↗</a>
 </div>
 <button class="wx-modal-close" id="wx-modal-close" aria-label="Close" onclick="closeWxModal()">&times;</button>
+
+<!-- ── STREET VIEW EXPANDED MODAL ───────────── -->
+<div class="wx-modal-overlay" id="sv-modal-overlay" role="dialog" aria-label="Expanded street view" aria-modal="true">
+  <div class="phone-mock">
+    <div class="phone-screen">
+      <div class="sv-mock">
+        <img id="svm-img" src="" alt="" loading="eager">
+        <div class="sv-mock-overlay">
+          <div class="sv-mock-head">
+            <div class="sv-mock-title" id="svm-title">Explore</div>
+            <div class="sv-mock-sub" id="svm-sub">Maritimes</div>
+          </div>
+          <div class="sv-mock-pins">
+            <div class="sv-pin"><div class="sv-pin-dot"></div></div>
+            <div class="sv-pin"><div class="sv-pin-dot"></div></div>
+            <div class="sv-pin"><div class="sv-pin-dot"></div></div>
+            <div class="sv-pin"><div class="sv-pin-dot"></div></div>
+          </div>
+          <div class="sv-mock-badge">
+            <span>360°</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+        </div>
+        <nav class="sv-mock-nav">
+          <div class="sv-nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div class="sv-nav-i on sv-nav-bg"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg></div>
+          <div class="sv-nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div>
+          <div class="sv-nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+          <div class="sv-nav-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="wx-modal-close" id="sv-modal-close" aria-label="Close" onclick="closeSvModal()">&times;</button>
+
+<script>
+(function() {
+  var overlay = document.getElementById('sv-modal-overlay');
+  var closeBtn = document.getElementById('sv-modal-close');
+  window.openSvModal = function(el) {
+    var img = el.getAttribute('data-sv-img');
+    var title = el.getAttribute('data-sv-title');
+    var region = el.getAttribute('data-sv-region');
+    document.getElementById('svm-img').src = img;
+    document.getElementById('svm-img').alt = title;
+    document.getElementById('svm-title').textContent = 'Explore: ' + title;
+    document.getElementById('svm-sub').textContent = region;
+    overlay.classList.add('open','entering');
+    closeBtn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function(){requestAnimationFrame(function(){overlay.classList.remove('entering');});});
+  };
+  window.closeSvModal = function() {
+    overlay.classList.add('entering');
+    setTimeout(function(){overlay.classList.remove('open','entering');closeBtn.classList.remove('open');document.body.style.overflow='';},300);
+  };
+  overlay.addEventListener('click',function(e){if(e.target===overlay)closeSvModal();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('open'))closeSvModal();});
+})();
+</script>
 
 <script>
 (function() {
