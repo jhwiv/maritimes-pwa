@@ -1072,6 +1072,30 @@ section[id]{
   width:10px;height:10px;border-radius:50%;
   flex-shrink:0;
 }
+/* Full-screen map mode */
+body.map-fullscreen{overflow:hidden}
+body.map-fullscreen #site-header,
+body.map-fullscreen #progress-bar,
+body.map-fullscreen #page-fade,
+body.map-fullscreen #search-fab,
+body.map-fullscreen #search-card,
+body.map-fullscreen #site-footer,
+body.map-fullscreen #offline-bar{display:none!important}
+body.map-fullscreen #page-wrap{padding-top:0!important;max-width:none;padding-left:0;padding-right:0}
+body.map-fullscreen #main-content{position:fixed;inset:0;z-index:9000;overflow:hidden;background:var(--navy2)}
+body.map-fullscreen #main-content > #page-wrap > section:not(#section-map),
+body.map-fullscreen #main-content > #page-wrap > span{display:none!important}
+body.map-fullscreen #section-map{padding:0;max-width:none;height:100vh;display:flex;flex-direction:column}
+body.map-fullscreen .map-section-title,
+body.map-fullscreen .map-section-sub{display:none}
+body.map-fullscreen .map-filters{position:absolute;top:12px;left:12px;right:54px;z-index:9010;margin:0;flex-wrap:wrap}
+body.map-fullscreen .map-filter-chip{background:rgba(17,29,43,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-color:rgba(201,169,110,.25);font-size:8px;padding:4px 8px}
+body.map-fullscreen .map-wrap{flex:1;border-radius:0;border:none;box-shadow:none;margin:0}
+body.map-fullscreen #route-map{height:100%!important;min-height:100vh}
+body.map-fullscreen .map-legend{position:absolute;bottom:12px;left:12px;right:12px;z-index:9010;background:rgba(17,29,43,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:8px 12px;border-radius:8px;border:1px solid rgba(201,169,110,.15)}
+#map-back-btn{display:none;position:absolute;top:12px;right:12px;z-index:9020;width:40px;height:40px;border-radius:50%;background:rgba(17,29,43,.9);border:1px solid rgba(201,169,110,.3);color:var(--gold2);font-size:18px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.4);transition:all .2s}
+#map-back-btn:hover{background:var(--navy);border-color:var(--gold);transform:scale(1.08)}
+body.map-fullscreen #map-back-btn{display:flex}
 /* Leaflet popup overrides */
 .leaflet-popup-content-wrapper{
   background:rgba(17,29,43,.95) !important;
@@ -2429,6 +2453,7 @@ section[id]{
 
   <div class="map-wrap">
     <div id="route-map"></div>
+    <button id="map-back-btn" aria-label="Exit full-screen map">✕</button>
   </div>
 
   <div class="map-legend" id="map-legend">
@@ -2681,7 +2706,7 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
   var mapEl = document.getElementById('route-map');
   if (!mapEl) return;
 
-  var map = L.map('route-map', {
+  var map = window.routeMap = L.map('route-map', {
     center: [46.8, -60.5],
     zoom: 5,
     zoomControl: true,
@@ -3306,5 +3331,62 @@ if ('serviceWorker' in navigator) {
   });
 })();
 </script>
+<script>
+// ── MAP FULLSCREEN ────────────────────────────────────
+(function() {
+  var backBtn = document.getElementById('map-back-btn');
+  var savedScroll = 0;
+
+  function enterMapFullscreen() {
+    savedScroll = window.scrollY;
+    document.body.classList.add('map-fullscreen');
+    window.scrollTo(0, 0);
+    // Resize map after layout change
+    setTimeout(function() {
+      if (window.routeMap) window.routeMap.invalidateSize();
+    }, 100);
+  }
+
+  function exitMapFullscreen() {
+    document.body.classList.remove('map-fullscreen');
+    window.scrollTo(0, savedScroll);
+    setTimeout(function() {
+      if (window.routeMap) window.routeMap.invalidateSize();
+    }, 100);
+    // Reset active chip to overview
+    document.querySelectorAll('.nav-chip').forEach(function(c) { c.classList.remove('active'); });
+    var overview = document.querySelector('[data-target="hero"]');
+    if (overview) overview.classList.add('active');
+  }
+
+  if (backBtn) backBtn.addEventListener('click', exitMapFullscreen);
+
+  // Intercept the Map tab click to go fullscreen instead of scrolling
+  var origNavTo = window.navTo;
+  window.navTo = function(sectionId, btn) {
+    if (sectionId === 'section-map') {
+      if (btn) {
+        document.querySelectorAll('.nav-chip').forEach(function(c) { c.classList.remove('active'); });
+        btn.classList.add('active');
+      }
+      enterMapFullscreen();
+      return;
+    }
+    // Exit fullscreen if navigating away from map
+    if (document.body.classList.contains('map-fullscreen')) {
+      exitMapFullscreen();
+    }
+    origNavTo(sectionId, btn);
+  };
+
+  // Also handle back button / escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.body.classList.contains('map-fullscreen')) {
+      exitMapFullscreen();
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
