@@ -438,6 +438,7 @@ img{display:block;max-width:100%}
   transition:background .2s,transform .15s;
   min-height:36px;
   text-decoration:none;
+  border:none;cursor:pointer;
 }
 .btn-primary:hover{background:var(--navy3);transform:translateY(-1px)}
 .btn-primary:active{transform:scale(.97);transition-duration:.05s}
@@ -1428,7 +1429,7 @@ section[id]{
         </div>
         <p class="stop-note">Departs 2:15 PM AT · Arrives ~4:45 PM AT · Check-in at least 1 hour before departure</p>
         <div class="stop-actions">
-          <a class="btn-primary" href="https://www.fundyrose.ca" target="_blank" rel="noopener">🌐 Fundy Rose</a>
+          <button class="btn-primary" data-popup data-popup-title="Bay Ferries — Fundy Rose" data-popup-body="The MV Fundy Rose is a high-speed catamaran operated by Bay Ferries, crossing the Bay of Fundy between Saint John, NB and Digby, NS. The 2.5-hour crossing runs daily in summer with morning and afternoon sailings. The ship has a cafeteria, lounge, outdoor deck, and vehicle deck." data-popup-tip="Book online at fundyrose.ca. Arrive at the terminal 60-90 min before departure. Vehicles board first, then walk-ons." data-popup-link="https://www.fundyrose.ca/" data-popup-link-label="Bay Ferries Website">🌐 Fundy Rose</button>
           <a class="btn-call" href="tel:+18777627245">📞 Call Ferry</a>
         </div>
       </article>
@@ -1587,7 +1588,7 @@ section[id]{
         </div>
         <p class="stop-note">Check-in at least 2 hours before departure · Vehicle required</p>
         <div class="stop-actions">
-          <a class="btn-primary" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">🌐 Marine Atlantic</a>
+          <button class="btn-primary" data-popup data-popup-title="Marine Atlantic — North Sydney to Port aux Basques" data-popup-body="Marine Atlantic operates the essential ferry link between Nova Scotia and Newfoundland. The crossing from North Sydney to Port aux Basques takes 6-8 hours. Ships have cabins, berths, recliner lounges, a cafeteria, and a gift shop. Summer sailings include day and overnight options." data-popup-tip="Book a private cabin for overnight crossings — worth every penny. Check in 2 hours early. Reserve at marineatlantic.ca well in advance for peak summer." data-popup-link="https://www.marineatlantic.ca/" data-popup-link-label="Marine Atlantic Website">🌐 Marine Atlantic</button>
           <a class="btn-call" href="tel:+18003417981">📞 Call Ferry</a>
         </div>
       </article>
@@ -1738,7 +1739,7 @@ section[id]{
           <a class="meta-chip meta-link" href="tel:+18005636353">📞 1-800-563-6353</a>
         </div>
         <div class="stop-actions">
-          <a class="btn-primary" href="https://www.ferries.nl.ca" target="_blank" rel="noopener">🌐 NL Ferries</a>
+          <button class="btn-primary" data-popup data-popup-title="Newfoundland Provincial Ferries — Fogo Island" data-popup-body="The provincial ferry service connects Farewell (Change Islands terminal) to Fogo Island with multiple daily crossings. The ~45 minute ride passes through scenic island-dotted waters. Vehicles are first-come, first-served." data-popup-tip="Check the schedule at ferries.nl.ca. Arrive 30+ minutes early in summer for vehicle loading. Walk-ons have priority." data-popup-link="https://www.ferries.nl.ca/" data-popup-link-label="NL Ferries Website">🌐 NL Ferries</button>
           <a class="btn-call" href="tel:+18005636353">📞 Call Ferry</a>
         </div>
       </article>
@@ -1861,7 +1862,7 @@ section[id]{
           <span class="meta-chip" data-popup data-popup-title="Marine Atlantic Overnight Ferry" data-popup-body="The crossing from North Sydney to Port aux Basques takes 6-8 hours depending on conditions. Overnight sailings let you sleep during the crossing and arrive ready to drive. The ship has cabins, berths, a cafeteria, and a lounge." data-popup-tip="Book a cabin — sleeping in the recliner seats is rough. Bring earplugs and a sleep mask.">⏱ 6–8 hours overnight</span>
         </div>
         <div class="stop-actions">
-          <a class="btn-primary" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">🌐 Marine Atlantic</a>
+          <button class="btn-primary" data-popup data-popup-title="Marine Atlantic — Return Crossing" data-popup-body="The return overnight ferry from Port aux Basques back to North Sydney. Same 6-8 hour crossing. You'll arrive in Nova Scotia early morning, ready for the drive to Pictou." data-popup-tip="Book a cabin again for the return. Morning arrival means you can drive to Pictou at a relaxed pace." data-popup-link="https://www.marineatlantic.ca/" data-popup-link-label="Marine Atlantic Website">🌐 Marine Atlantic</button>
           <a class="btn-call" href="tel:+18003417981">📞 Call Ferry</a>
         </div>
       </article>
@@ -3280,9 +3281,10 @@ if ('serviceWorker' in navigator) {
     document.body.style.overflow = '';
   }
 
-  // Click on chip
-  document.querySelectorAll('.meta-chip[data-popup]').forEach(function(chip) {
+  // Click on chip or popup-enabled button
+  document.querySelectorAll('[data-popup]').forEach(function(chip) {
     chip.addEventListener('click', function(e) {
+      e.preventDefault();
       e.stopPropagation();
       openPopup(this);
     });
