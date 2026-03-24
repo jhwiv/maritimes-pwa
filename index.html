@@ -17,6 +17,8 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
 <title>Maritimes · Summer 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -54,7 +56,7 @@
   --teal3: #3E5C57;
   --sp4:4px;--sp8:8px;--sp12:12px;--sp16:16px;--sp24:24px;--sp32:32px;--sp48:48px;
   --r6:6px;--r9:9px;--r12:12px;
-  --hdr:82px;
+  --hdr:104px;
 }
 html{-webkit-text-size-adjust:100%}
 body{
@@ -96,7 +98,7 @@ img{display:block;max-width:100%}
 .hdr-rows{
   display:flex;flex-direction:column;gap:0;
 }
-.hdr-row-1,.hdr-row-2{
+.hdr-row-1,.hdr-row-2,.hdr-row-3{
   display:flex;align-items:center;
   gap:2px;
   flex-wrap:nowrap;
@@ -105,7 +107,7 @@ img{display:block;max-width:100%}
   scrollbar-width:none;
   padding:1px 0;
 }
-.hdr-row-1::-webkit-scrollbar,.hdr-row-2::-webkit-scrollbar{display:none}
+.hdr-row-1::-webkit-scrollbar,.hdr-row-2::-webkit-scrollbar,.hdr-row-3::-webkit-scrollbar{display:none}
 .nav-chip{
   font-family:'DM Mono',monospace;
   font-size:8px;letter-spacing:.05em;
@@ -1002,6 +1004,130 @@ section[id]{
   color:rgba(150,150,150,0.4);
   text-transform:lowercase;
 }
+
+/* ── MAP TAB ────────────────────────────────────── */
+#section-map{
+  padding:var(--sp48) var(--sp16) var(--sp32);
+  max-width:900px;margin:0 auto;
+}
+.map-section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(22px,4vw,32px);font-weight:700;
+  color:var(--gold);margin-bottom:6px;
+  letter-spacing:.01em;
+}
+.map-section-sub{
+  font-family:'Crimson Pro',serif;
+  font-size:14px;color:rgba(255,255,255,.55);
+  margin-bottom:var(--sp16);
+}
+.map-wrap{
+  position:relative;
+  border-radius:var(--r12);overflow:hidden;
+  border:1px solid rgba(201,169,110,.2);
+  box-shadow:0 4px 24px rgba(0,0,0,.4);
+  margin-bottom:var(--sp16);
+}
+#route-map{
+  height:min(65vh,560px);width:100%;
+  background:var(--navy2);
+}
+.map-filters{
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin-bottom:var(--sp12);
+}
+.map-filter-chip{
+  font-family:'DM Mono',monospace;
+  font-size:9px;letter-spacing:.04em;
+  text-transform:uppercase;font-weight:500;
+  padding:5px 10px;border-radius:14px;
+  color:rgba(255,255,255,.5);
+  border:1px solid rgba(255,255,255,.12);
+  background:transparent;
+  cursor:pointer;
+  transition:all .18s ease;
+}
+.map-filter-chip:hover{
+  color:rgba(255,255,255,.8);
+  border-color:rgba(201,169,110,.35);
+}
+.map-filter-chip.active{
+  color:var(--gold);
+  border-color:var(--gold);
+  background:rgba(201,169,110,.1);
+}
+.map-legend{
+  display:flex;flex-wrap:wrap;gap:12px;
+  margin-top:var(--sp8);
+}
+.map-legend-item{
+  display:flex;align-items:center;gap:5px;
+  font-family:'DM Mono',monospace;
+  font-size:8px;text-transform:uppercase;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,.45);
+}
+.map-legend-swatch{
+  width:10px;height:10px;border-radius:50%;
+  flex-shrink:0;
+}
+/* Leaflet popup overrides */
+.leaflet-popup-content-wrapper{
+  background:rgba(17,29,43,.95) !important;
+  border:1px solid rgba(201,169,110,.25) !important;
+  border-radius:8px !important;
+  box-shadow:0 4px 16px rgba(0,0,0,.5) !important;
+  color:#fff !important;
+}
+.leaflet-popup-tip{
+  background:rgba(17,29,43,.95) !important;
+  border:1px solid rgba(201,169,110,.25) !important;
+}
+.leaflet-popup-content{
+  margin:10px 14px !important;
+  font-family:'Crimson Pro',serif !important;
+  font-size:13px !important;
+  line-height:1.5 !important;
+}
+.leaflet-popup-content .pop-day{
+  font-family:'DM Mono',monospace;
+  font-size:9px;text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--gold);margin-bottom:2px;
+}
+.leaflet-popup-content .pop-name{
+  font-family:'Playfair Display',serif;
+  font-size:15px;font-weight:700;
+  color:var(--gold2);margin-bottom:4px;
+}
+.leaflet-popup-content .pop-detail{
+  color:rgba(255,255,255,.7);
+  font-size:12px;
+}
+.leaflet-popup-close-button{
+  color:rgba(255,255,255,.5) !important;
+  font-size:18px !important;
+}
+.leaflet-popup-close-button:hover{
+  color:var(--gold) !important;
+}
+/* Leaflet controls dark theme */
+.leaflet-control-zoom a{
+  background:rgba(17,29,43,.9) !important;
+  color:var(--gold2) !important;
+  border-color:rgba(201,169,110,.2) !important;
+}
+.leaflet-control-zoom a:hover{
+  background:rgba(17,29,43,1) !important;
+}
+.leaflet-control-attribution{
+  background:rgba(17,29,43,.7) !important;
+  color:rgba(255,255,255,.35) !important;
+  font-size:9px !important;
+}
+.leaflet-control-attribution a{
+  color:rgba(201,169,110,.5) !important;
+}
 </style>
 </head>
 <body>
@@ -1027,14 +1153,17 @@ section[id]{
       <button class="nav-chip" data-target="section-day5">Twillingate</button>
       <button class="nav-chip" data-target="section-fogo">Fogo</button>
     </nav>
-    <nav class="hdr-row-2" aria-label="Return and reference sections">
+    <nav class="hdr-row-2" aria-label="Return sections">
       <button class="nav-chip" data-target="section-day9">Return</button>
       <button class="nav-chip" data-target="section-day10">Pictou</button>
       <button class="nav-chip" data-target="section-day11">Fredericton</button>
       <button class="nav-chip" data-target="section-day12">Home</button>
+    </nav>
+    <nav class="hdr-row-3" aria-label="Reference sections">
       <button class="nav-chip" data-target="section-essentials">Info</button>
       <button class="nav-chip" data-target="section-reference">Reference</button>
       <button class="nav-chip" data-target="section-history">History</button>
+      <button class="nav-chip" data-target="section-map">Map</button>
     </nav>
   </div>
   <div class="hdr-section-label" id="hdr-section-label">Overview</div>
@@ -2172,6 +2301,38 @@ section[id]{
   </div>
 </section>
 
+
+<!-- ── MAP ─────────────────────────────────────── -->
+<section id="section-map" aria-label="Route Map">
+  <h2 class="map-section-title">Route Map</h2>
+  <p class="map-section-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home · 12 days, ~2,800 miles</p>
+
+  <div class="map-filters" id="map-filters">
+    <button class="map-filter-chip active" data-day="all">All Days</button>
+    <button class="map-filter-chip" data-day="1">D1 Portland</button>
+    <button class="map-filter-chip" data-day="2">D2 Digby</button>
+    <button class="map-filter-chip" data-day="3">D3 Lunenburg</button>
+    <button class="map-filter-chip" data-day="4">D4 Ferry</button>
+    <button class="map-filter-chip" data-day="5">D5 Twillingate</button>
+    <button class="map-filter-chip" data-day="6-8">D6-8 Fogo</button>
+    <button class="map-filter-chip" data-day="9">D9 Return</button>
+    <button class="map-filter-chip" data-day="10">D10 Pictou</button>
+    <button class="map-filter-chip" data-day="11">D11 Fredericton</button>
+    <button class="map-filter-chip" data-day="12">D12 Home</button>
+  </div>
+
+  <div class="map-wrap">
+    <div id="route-map"></div>
+  </div>
+
+  <div class="map-legend" id="map-legend">
+    <div class="map-legend-item"><span class="map-legend-swatch" style="background:#C9A96E"></span>Overnight stop</div>
+    <div class="map-legend-item"><span class="map-legend-swatch" style="background:#527872"></span>Waypoint</div>
+    <div class="map-legend-item"><span class="map-legend-swatch" style="background:#6BA3D6;width:16px;height:3px;border-radius:2px"></span>Driving route</div>
+    <div class="map-legend-item"><span class="map-legend-swatch" style="background:#C9A96E;width:16px;height:3px;border-radius:2px;opacity:.5"></span>Ferry crossing</div>
+  </div>
+</section>
+
 </div><!-- /page-wrap -->
 </main>
 
@@ -2292,6 +2453,7 @@ const sections = [
   { id: 'section-essentials', label: 'Essentials' },
   { id: 'section-reference',  label: 'Reference' },
   { id: 'section-history',    label: 'History' },
+  { id: 'section-map',        label: 'Map' },
 ];
 
 let lastScroll = 0;
@@ -2406,6 +2568,218 @@ document.querySelectorAll('.accordion-hdr').forEach(btn => {
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 const footerTopBtn = document.getElementById('footer-top-btn');
 if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
+
+
+// ── ROUTE MAP (LEAFLET) ──────────────────────────────
+(function() {
+  var mapEl = document.getElementById('route-map');
+  if (!mapEl) return;
+
+  // Initialize map centered on the route midpoint
+  var map = L.map('route-map', {
+    center: [46.8, -60.5],
+    zoom: 5,
+    zoomControl: true,
+    scrollWheelZoom: true,
+    attributionControl: true
+  });
+
+  // Dark tile layer (CartoDB Dark Matter)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+
+  // ── Stop data ──
+  var stops = [
+    // Day 1: Portland, ME
+    { day:'1', lat:43.6591, lng:-70.2568, name:'Portland, ME', type:'overnight',
+      detail:'Old Port · Courtyard Marriott, 321 Commercial St', popDay:'Day 1 · June 27' },
+    // Day 2: Portland → Saint John → Fundy Rose ferry → Digby
+    { day:'2', lat:45.2718, lng:-66.0582, name:'Saint John, NB', type:'waypoint',
+      detail:'Fundy Rose ferry terminal', popDay:'Day 2 · June 28' },
+    { day:'2', lat:44.6217, lng:-65.7585, name:'Digby, NS', type:'overnight',
+      detail:'Fundy Complex Dockside Suites, 34 Water St', popDay:'Day 2 · June 28' },
+    // Day 3: Lighthouse Route → Lunenburg
+    { day:'3', lat:44.3764, lng:-64.3118, name:'Lunenburg, NS', type:'overnight',
+      detail:'Smugglers Cove Inn, 139 Montague St · UNESCO', popDay:'Day 3 · June 29' },
+    // Day 4: Lunenburg → North Sydney → Marine Atlantic ferry
+    { day:'4', lat:46.2170, lng:-60.2488, name:'North Sydney, NS', type:'waypoint',
+      detail:'Marine Atlantic terminal · Overnight ferry', popDay:'Day 4 · June 30' },
+    { day:'4', lat:47.5719, lng:-59.1354, name:'Port aux Basques, NL', type:'waypoint',
+      detail:'Marine Atlantic arrival', popDay:'Day 4-5 · June 30-July 1' },
+    // Day 5: Corner Brook → Twillingate
+    { day:'5', lat:48.9509, lng:-57.9531, name:'Corner Brook, NL', type:'waypoint',
+      detail:'Trans-Canada Highway', popDay:'Day 5 · July 1' },
+    { day:'5', lat:49.3458, lng:-54.7727, name:'Twillingate, NL', type:'overnight',
+      detail:'Anchor Inn, 3 Path End · Iceberg Alley', popDay:'Day 5 · July 1' },
+    // Days 6-8: Fogo Island
+    { day:'6-8', lat:49.6170, lng:-54.2282, name:'Farewell, NL', type:'waypoint',
+      detail:'Fogo Island ferry terminal', popDay:'Days 6-8 · July 2-4' },
+    { day:'6-8', lat:49.7483, lng:-54.1729, name:'Fogo Island Inn', type:'overnight',
+      detail:"Joe Batt's Arm · World-class inn", popDay:'Days 6-8 · July 2-4' },
+    // Day 9: Return from Fogo → Port aux Basques → Marine Atlantic ferry
+    { day:'9', lat:49.6170, lng:-54.2282, name:'Farewell, NL', type:'waypoint',
+      detail:'Ferry back to mainland', popDay:'Day 9 · July 5' },
+    // Day 10: North Sydney → Pictou
+    { day:'10', lat:45.6768, lng:-62.7086, name:'Pictou, NS', type:'overnight',
+      detail:'Scotsman Inn, 78 Coleraine St', popDay:'Day 10 · July 6' },
+    // Day 11: Pictou → Hopewell Rocks → Fredericton
+    { day:'11', lat:45.8231, lng:-64.5726, name:'Hopewell Rocks, NB', type:'waypoint',
+      detail:'Bay of Fundy flowerpot rocks', popDay:'Day 11 · July 7' },
+    { day:'11', lat:45.9636, lng:-66.6431, name:'Fredericton, NB', type:'overnight',
+      detail:'Delta Marriott, 225 Woodstock Rd', popDay:'Day 11 · July 7' },
+    // Day 12: Fredericton → Portland
+    { day:'12', lat:43.6591, lng:-70.2568, name:'Portland, ME', type:'overnight',
+      detail:'Courtyard Marriott · Home', popDay:'Day 12 · July 8' }
+  ];
+
+  // ── Colors ──
+  var dayColors = {
+    '1':   '#C9A96E',
+    '2':   '#6BA3D6',
+    '3':   '#7ECB8B',
+    '4':   '#D48B6A',
+    '5':   '#B88DD6',
+    '6-8': '#E8C56D',
+    '9':   '#D48B6A',
+    '10':  '#6BA3D6',
+    '11':  '#7ECB8B',
+    '12':  '#C9A96E'
+  };
+
+  // ── Route segments (driving) ──
+  var routes = [
+    { day:'1',  pts:[[43.6591,-70.2568]] },
+    { day:'2',  pts:[[43.6591,-70.2568],[45.2718,-66.0582],[44.6217,-65.7585]], ferry:[[45.2718,-66.0582],[44.6217,-65.7585]] },
+    { day:'3',  pts:[[44.6217,-65.7585],[44.3764,-64.3118]] },
+    { day:'4',  pts:[[44.3764,-64.3118],[46.2170,-60.2488]], ferry:[[46.2170,-60.2488],[47.5719,-59.1354]] },
+    { day:'5',  pts:[[47.5719,-59.1354],[48.9509,-57.9531],[49.3458,-54.7727]] },
+    { day:'6-8',pts:[[49.3458,-54.7727],[49.6170,-54.2282],[49.7483,-54.1729]], ferry:[[49.3458,-54.7727],[49.6170,-54.2282]] },
+    { day:'9',  pts:[[49.7483,-54.1729],[49.6170,-54.2282],[47.5719,-59.1354]], ferry:[[49.7483,-54.1729],[49.6170,-54.2282]] },
+    { day:'9b', pts:[[47.5719,-59.1354],[46.2170,-60.2488]], ferry:[[47.5719,-59.1354],[46.2170,-60.2488]] },
+    { day:'10', pts:[[46.2170,-60.2488],[45.6768,-62.7086]] },
+    { day:'11', pts:[[45.6768,-62.7086],[45.8231,-64.5726],[45.9636,-66.6431]] },
+    { day:'12', pts:[[45.9636,-66.6431],[43.6591,-70.2568]] }
+  ];
+
+  // ── Create map layers ──
+  var markers = [];
+  var routeLines = [];
+  var ferryLines = [];
+
+  // Create markers
+  stops.forEach(function(s) {
+    var color = s.type === 'overnight' ? '#C9A96E' : '#527872';
+    var radius = s.type === 'overnight' ? 7 : 5;
+    var marker = L.circleMarker([s.lat, s.lng], {
+      radius: radius,
+      fillColor: color,
+      fillOpacity: 0.9,
+      color: 'rgba(255,255,255,0.3)',
+      weight: 1.5
+    });
+    marker._dayTag = s.day;
+    marker.bindPopup(
+      '<div class="pop-day">' + s.popDay + '</div>' +
+      '<div class="pop-name">' + s.name + '</div>' +
+      '<div class="pop-detail">' + s.detail + '</div>'
+    );
+    markers.push(marker);
+  });
+
+  // Create route lines (driving)
+  routes.forEach(function(r) {
+    if (r.pts && r.pts.length > 1) {
+      // Filter out ferry segments from driving line
+      var drivePts = r.pts;
+      var line = L.polyline(drivePts, {
+        color: dayColors[r.day] || dayColors[r.day.replace('b','')] || '#6BA3D6',
+        weight: 2.5,
+        opacity: 0.6,
+        dashArray: null
+      });
+      line._dayTag = r.day.replace('b','');
+      routeLines.push(line);
+    }
+    // Ferry crossing lines (dashed)
+    if (r.ferry) {
+      var ferryLine = L.polyline(r.ferry, {
+        color: '#C9A96E',
+        weight: 2,
+        opacity: 0.4,
+        dashArray: '8,6'
+      });
+      ferryLine._dayTag = r.day.replace('b','');
+      ferryLines.push(ferryLine);
+    }
+  });
+
+  // Add all to map
+  var allLayers = [];
+  routeLines.forEach(function(l) { l.addTo(map); allLayers.push(l); });
+  ferryLines.forEach(function(l) { l.addTo(map); allLayers.push(l); });
+  markers.forEach(function(m) { m.addTo(map); allLayers.push(m); });
+
+  // Fit bounds to all markers
+  var group = L.featureGroup(markers);
+  map.fitBounds(group.getBounds().pad(0.08));
+
+  // ── Day filtering ──
+  var filterBtns = document.querySelectorAll('#map-filters .map-filter-chip');
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var day = btn.dataset.day;
+
+      markers.forEach(function(m) {
+        if (day === 'all' || m._dayTag === day) {
+          m.addTo(map);
+        } else {
+          map.removeLayer(m);
+        }
+      });
+      routeLines.forEach(function(l) {
+        if (day === 'all' || l._dayTag === day) {
+          l.addTo(map);
+        } else {
+          map.removeLayer(l);
+        }
+      });
+      ferryLines.forEach(function(l) {
+        if (day === 'all' || l._dayTag === day) {
+          l.addTo(map);
+        } else {
+          map.removeLayer(l);
+        }
+      });
+
+      // Zoom to filtered markers
+      if (day !== 'all') {
+        var filtered = markers.filter(function(m) { return m._dayTag === day; });
+        if (filtered.length > 0) {
+          var fg = L.featureGroup(filtered);
+          map.fitBounds(fg.getBounds().pad(0.3));
+        }
+      } else {
+        map.fitBounds(group.getBounds().pad(0.08));
+      }
+    });
+  });
+
+  // Fix map rendering on scroll-into-view
+  var mapObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        setTimeout(function() { map.invalidateSize(); }, 150);
+      }
+    });
+  }, { threshold: 0.1 });
+  mapObserver.observe(mapEl);
+})();
+
 </script>
 
 <!-- ── FLOATING SEARCH ───────────────────────────────── -->
