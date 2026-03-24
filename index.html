@@ -1129,6 +1129,26 @@ section[id]{
   color:rgba(201,169,110,.5) !important;
 }
 
+
+.chip-popup-link{
+  display:none;
+  margin-top:14px;
+  padding:8px 16px;
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:500;
+  color:var(--gold);
+  border:1px solid var(--gold);
+  border-radius:20px;
+  text-decoration:none;
+  text-align:center;
+  transition:background .18s,color .18s;
+}
+.chip-popup-link:hover{
+  background:var(--gold);
+  color:var(--navy2);
+}
+.chip-popup-link.visible{display:inline-block}
 /* ── META-CHIP POPUPS ───────────────────────────── */
 .meta-chip[data-popup]{
   cursor:pointer;
@@ -1402,7 +1422,7 @@ section[id]{
         <h3 class="stop-title ferry-title">MV Fundy Rose · Saint John → Digby</h3>
         <p class="stop-body">Board the Fundy Rose for the 2.5-hour crossing of the Bay of Fundy. Arrive Digby at approximately 4:45 PM Atlantic Time. Beautiful views of the bay and coast.</p>
         <div class="stop-meta">
-          <a class="meta-chip meta-link" href="https://www.fundyrose.ca/" target="_blank" rel="noopener">⛴ Bay Ferries</a>
+          <span class="meta-chip" data-popup data-popup-title="Bay Ferries — Fundy Rose" data-popup-body="The MV Fundy Rose is a high-speed catamaran operated by Bay Ferries, crossing the Bay of Fundy between Saint John, NB and Digby, NS. The 2.5-hour crossing runs daily in summer with morning and afternoon sailings. The ship has a cafeteria, lounge, outdoor deck, and vehicle deck." data-popup-tip="Book online at fundyrose.ca. Arrive at the terminal 60-90 min before departure. Vehicles board first, then walk-ons." data-popup-link="https://www.fundyrose.ca/" data-popup-link-label="Bay Ferries Website">⛴ Bay Ferries</span>
           <span class="meta-chip" data-popup data-popup-title="Fundy Rose Ferry: 2.5 Hours" data-popup-body="The Fundy Rose catamaran crosses the Bay of Fundy from Saint John, NB to Digby, NS. It&#39;s a comfortable crossing with a cafeteria, lounge seating, and outdoor decks." data-popup-tip="Book in advance during peak season. Arrive 60-90 min before departure for vehicle loading.">⏱ 2.5 hours</span>
           <a class="meta-chip meta-link" href="tel:+18777627245">📞 1-877-762-7245</a>
         </div>
@@ -1561,7 +1581,7 @@ section[id]{
         <h3 class="stop-title ferry-title">Marine Atlantic · North Sydney → Port aux Basques</h3>
         <p class="stop-body">Board the Marine Atlantic ferry for the overnight crossing to Newfoundland. The crossing takes approximately 6–8 hours. Your cabin is booked — sleep through it and wake up in Newfoundland.</p>
         <div class="stop-meta">
-          <a class="meta-chip meta-link" href="https://www.marineatlantic.ca/" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
+          <span class="meta-chip" data-popup data-popup-title="Marine Atlantic — North Sydney to Port aux Basques" data-popup-body="Marine Atlantic operates the essential ferry link between Nova Scotia and Newfoundland. The crossing from North Sydney to Port aux Basques takes 6-8 hours. Ships have cabins, berths, recliner lounges, a cafeteria, and a gift shop. Summer sailings include day and overnight options." data-popup-tip="Book a private cabin for overnight crossings — worth every penny. Check in 2 hours early. Reserve at marineatlantic.ca well in advance for peak summer." data-popup-link="https://www.marineatlantic.ca/" data-popup-link-label="Marine Atlantic Website">⛴ Marine Atlantic</span>
           <span class="meta-chip" data-popup data-popup-title="Marine Atlantic Overnight Ferry" data-popup-body="The crossing from North Sydney to Port aux Basques takes 6-8 hours depending on conditions. Overnight sailings let you sleep during the crossing and arrive ready to drive. The ship has cabins, berths, a cafeteria, and a lounge." data-popup-tip="Book a cabin — sleeping in the recliner seats is rough. Bring earplugs and a sleep mask.">⏱ 6–8 hours overnight</span>
           <a class="meta-chip meta-link" href="tel:+18003417981">📞 1-800-341-7981</a>
         </div>
@@ -1713,7 +1733,7 @@ section[id]{
         <h3 class="stop-title ferry-title">Fogo Island Ferry · Farewell → Fogo</h3>
         <p class="stop-body">Drive from Twillingate to Farewell and take the ferry to Fogo Island. The crossing is approximately 45 minutes through iceberg-studded waters.</p>
         <div class="stop-meta">
-          <a class="meta-chip meta-link" href="https://www.ferries.nl.ca/" target="_blank" rel="noopener">⛴ Provincial Ferry</a>
+          <span class="meta-chip" data-popup data-popup-title="Provincial Ferry — Farewell to Fogo" data-popup-body="The Government of Newfoundland and Labrador operates the ferry between Farewell and Fogo Island. Multiple daily crossings year-round, with increased summer frequency. The ~45 minute crossing passes through scenic island-dotted waters. Vehicle reservations recommended in peak season." data-popup-tip="Check schedules and book at ferries.nl.ca. Arrive 30+ min early — first-come, first-served for vehicles in summer." data-popup-link="https://www.ferries.nl.ca/" data-popup-link-label="NL Ferries Website">⛴ Provincial Ferry</span>
           <span class="meta-chip" data-popup data-popup-title="Ferry: ~45 Minutes" data-popup-body="The provincial ferry from Farewell (Change Islands terminal) to Fogo Island runs multiple times daily. Short, scenic crossing through island-dotted waters. Reservations recommended but not always required." data-popup-tip="Check the schedule at ferries.nl.ca. First-come, first-served for vehicles — arrive 30+ min early in summer.">⏱ ~45 min</span>
           <a class="meta-chip meta-link" href="tel:+18005636353">📞 1-800-563-6353</a>
         </div>
@@ -1806,7 +1826,7 @@ section[id]{
         <h3 class="stop-title ferry-title">Fogo Island Ferry → Farewell</h3>
         <p class="stop-body">Take the morning ferry back to the mainland. ~45 minutes crossing.</p>
         <div class="stop-meta">
-          <a class="meta-chip meta-link" href="https://www.ferries.nl.ca/" target="_blank" rel="noopener">⛴ Provincial Ferry</a>
+          <span class="meta-chip" data-popup data-popup-title="Provincial Ferry — Fogo to Farewell" data-popup-body="Return crossing from Fogo Island back to the mainland at Farewell. Same ~45 minute scenic crossing. Check the schedule carefully — the last ferry of the day can be earlier than expected." data-popup-tip="Don't miss the last ferry. Check schedules at ferries.nl.ca. Allow buffer time for the drive from wherever you are on Fogo." data-popup-link="https://www.ferries.nl.ca/" data-popup-link-label="NL Ferries Website">⛴ Provincial Ferry</span>
           <span class="meta-chip" data-popup data-popup-title="Ferry: ~45 Minutes" data-popup-body="The provincial ferry from Farewell (Change Islands terminal) to Fogo Island runs multiple times daily. Short, scenic crossing through island-dotted waters. Reservations recommended but not always required." data-popup-tip="Check the schedule at ferries.nl.ca. First-come, first-served for vehicles — arrive 30+ min early in summer.">⏱ ~45 min</span>
         </div>
       </article>
@@ -1837,7 +1857,7 @@ section[id]{
         <h3 class="stop-title ferry-title">Marine Atlantic · Port aux Basques → North Sydney</h3>
         <p class="stop-body">Board the overnight ferry back to Nova Scotia. Another night sleeping on the water.</p>
         <div class="stop-meta">
-          <a class="meta-chip meta-link" href="https://www.marineatlantic.ca/" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
+          <span class="meta-chip" data-popup data-popup-title="Marine Atlantic — Return Crossing" data-popup-body="The return overnight ferry from Port aux Basques back to North Sydney. Same 6-8 hour crossing. You'll arrive in Nova Scotia early morning, ready for the drive to Pictou." data-popup-tip="Book a cabin again for the return. Morning arrival means you can drive to Pictou at a relaxed pace." data-popup-link="https://www.marineatlantic.ca/" data-popup-link-label="Marine Atlantic Website">⛴ Marine Atlantic</span>
           <span class="meta-chip" data-popup data-popup-title="Marine Atlantic Overnight Ferry" data-popup-body="The crossing from North Sydney to Port aux Basques takes 6-8 hours depending on conditions. Overnight sailings let you sleep during the crossing and arrive ready to drive. The ship has cabins, berths, a cafeteria, and a lounge." data-popup-tip="Book a cabin — sleeping in the recliner seats is rough. Bring earplugs and a sleep mask.">⏱ 6–8 hours overnight</span>
         </div>
         <div class="stop-actions">
@@ -3212,6 +3232,7 @@ if ('serviceWorker' in navigator) {
     <div class="chip-popup-body">
       <p class="chip-popup-text" id="chip-popup-text"></p>
       <div class="chip-popup-tip" id="chip-popup-tip"></div>
+      <a class="chip-popup-link" id="chip-popup-link" href="#" target="_blank" rel="noopener"></a>
     </div>
   </div>
 </div>
@@ -3225,10 +3246,14 @@ if ('serviceWorker' in navigator) {
   var tipEl = document.getElementById('chip-popup-tip');
   var closeBtn = document.getElementById('chip-popup-close');
 
+  var linkEl = document.getElementById('chip-popup-link');
+
   function openPopup(chip) {
     var title = chip.getAttribute('data-popup-title') || '';
     var body = chip.getAttribute('data-popup-body') || '';
     var tip = chip.getAttribute('data-popup-tip') || '';
+    var link = chip.getAttribute('data-popup-link') || '';
+    var linkLabel = chip.getAttribute('data-popup-link-label') || 'Visit Website';
 
     titleEl.textContent = title;
     textEl.textContent = body;
@@ -3237,6 +3262,13 @@ if ('serviceWorker' in navigator) {
       tipEl.style.display = 'block';
     } else {
       tipEl.style.display = 'none';
+    }
+    if (link) {
+      linkEl.href = link;
+      linkEl.textContent = linkLabel + ' →';
+      linkEl.classList.add('visible');
+    } else {
+      linkEl.classList.remove('visible');
     }
     overlay.classList.add('visible');
     document.body.style.overflow = 'hidden';
