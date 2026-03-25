@@ -4040,9 +4040,45 @@ if ('serviceWorker' in navigator) {
     chatPanel.classList.remove('open');
     if (chatOverlay) chatOverlay.classList.remove('open');
     chatInput.blur();
+    // Reset inline styles from keyboard repositioning
+    chatPanel.style.top = '';
+    chatPanel.style.left = '';
+    chatPanel.style.right = '';
+    chatPanel.style.bottom = '';
+    chatPanel.style.transform = '';
+    chatPanel.style.maxHeight = '';
   }
   function isChatOpen() {
     return chatPanel.classList.contains('open');
+  }
+
+  // Move chat panel above iOS keyboard when it opens
+  function repositionChat() {
+    if (!isChatOpen()) return;
+    var vv = window.visualViewport;
+    if (!vv) return;
+    var keyboardHeight = window.innerHeight - vv.height - vv.offsetTop;
+    if (keyboardHeight > 100) {
+      // Keyboard open — switch to bottom-anchored layout
+      chatPanel.style.top = 'auto';
+      chatPanel.style.transform = 'none';
+      chatPanel.style.bottom = keyboardHeight + 'px';
+      chatPanel.style.left = '16px';
+      chatPanel.style.right = '16px';
+      chatPanel.style.maxHeight = Math.min(vv.height - 20, 420) + 'px';
+    } else {
+      // Keyboard closed — restore centered modal
+      chatPanel.style.top = '50%';
+      chatPanel.style.left = '50%';
+      chatPanel.style.right = 'auto';
+      chatPanel.style.transform = 'translate(-50%,-50%)';
+      chatPanel.style.bottom = 'auto';
+      chatPanel.style.maxHeight = 'min(480px, calc(100vh - 80px))';
+    }
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', repositionChat);
+    window.visualViewport.addEventListener('scroll', repositionChat);
   }
 
   chatFab.addEventListener('click', function() {
