@@ -3991,6 +3991,11 @@ if ('serviceWorker' in navigator) {
   var chatOverlay = document.getElementById('chat-overlay');
 
   function openChat() {
+    // Reset conversation on every open
+    chatMessages.innerHTML = '';
+    chatHistory = [];
+    chatSuggestions.style.display = '';
+    chatInput.value = '';
     chatPanel.classList.add('open');
     if (chatOverlay) chatOverlay.classList.add('open');
     getChatLocation();
