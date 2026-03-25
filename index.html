@@ -4196,6 +4196,8 @@ if ('serviceWorker' in navigator) {
       body: JSON.stringify({
         message: text,
         activeTab: getActiveTabLabel(),
+        lat: chatLat,
+        lng: chatLng,
         history: chatHistory.slice(-8)
       })
     })
