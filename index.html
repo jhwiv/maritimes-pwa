@@ -1579,6 +1579,16 @@ body.map-fullscreen #map-back-btn{display:flex}
   letter-spacing:.1em;text-transform:uppercase;
   color:var(--gold);white-space:nowrap;
 }
+/* ── Webcam iframe modal ── */
+.wc-iframe-wrap{
+  position:relative;width:92vw;max-width:1100px;height:80vh;max-height:750px;
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,.6);
+  background:#0a0e1a;
+}
+.wc-iframe-wrap iframe{
+  width:100%;height:100%;border:0;display:block;
+}
 /* ── Street View iframe modal ── */
 .sv-iframe-wrap{
   width:min(960px,calc(100vw - 32px));
@@ -2830,7 +2840,6 @@ body.map-fullscreen #map-back-btn{display:flex}
         <div class="sv-img-panel" data-sv-title="Portland Old Port" data-sv-url="https://www.google.com/maps?layer=c&cbll=43.6577,-70.2501&cbp=11,180,0,0,0" data-sv-img="sv-img/portland.jpg" data-sv-region="Portland, Maine" role="button" tabindex="0" onclick="openSvModal(this)">
           <img src="sv-img/portland.jpg" alt="Portland Old Port" loading="lazy">
           <button class="sv-gsv-btn" onclick="event.stopPropagation();openStreetViewEmbed('https://www.google.com/maps?layer=c&cbll=43.6577,-70.2501&cbp=11,180,0,0,0')" aria-label="Open in Google Street View"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--gold)" opacity=".85"/><circle cx="12" cy="9" r="2.5" fill="var(--navy)"/></svg><span>Street View</span></button>
-          <a class="sv-webcam-btn" href="https://www.portlandoldport.com/portland-maine-live-webcam/" target="_blank" rel="noopener" onclick="event.stopPropagation()" aria-label="Open Live Webcam"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="15" height="12" rx="2" fill="var(--gold)" opacity=".85"/><path d="M22 8l-5 3.5v-1L22 8zM22 16l-5-3.5v1L22 16z" fill="var(--gold)" opacity=".85"/><polygon points="17,8.5 22,6 22,18 17,15.5" fill="var(--gold)" opacity=".85"/></svg><span>Webcam</span></a>
           <div class="sv-panel-hint">Tap to explore</div>
         </div>
       </article>
@@ -2872,7 +2881,7 @@ body.map-fullscreen #map-back-btn{display:flex}
         <div class="sv-img-panel" data-sv-title="Digby Waterfront" data-sv-url="https://www.google.com/maps?layer=c&cbll=44.6217,-65.7573&cbp=11,180,0,0,0" data-sv-img="sv-img/digby.jpg" data-sv-region="Digby, Nova Scotia" role="button" tabindex="0" onclick="openSvModal(this)">
           <img src="sv-img/digby.jpg" alt="Digby waterfront" loading="lazy">
           <button class="sv-gsv-btn" onclick="event.stopPropagation();openStreetViewEmbed('https://www.google.com/maps?layer=c&cbll=44.6217,-65.7573&cbp=11,180,0,0,0')" aria-label="Open in Google Street View"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--gold)" opacity=".85"/><circle cx="12" cy="9" r="2.5" fill="var(--navy)"/></svg><span>Street View</span></button>
-          <a class="sv-webcam-btn" href="https://www.novascotiawebcams.com/webcams/digby-harbour" target="_blank" rel="noopener" onclick="event.stopPropagation()" aria-label="Open Live Webcam"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="15" height="12" rx="2" fill="var(--gold)" opacity=".85"/><path d="M22 8l-5 3.5v-1L22 8zM22 16l-5-3.5v1L22 16z" fill="var(--gold)" opacity=".85"/><polygon points="17,8.5 22,6 22,18 17,15.5" fill="var(--gold)" opacity=".85"/></svg><span>Webcam</span></a>
+          <button class="sv-webcam-btn" onclick="event.stopPropagation();openWebcamEmbed('https://www.novascotiawebcams.com/webcams/digby-harbour')" aria-label="Open Live Webcam"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="15" height="12" rx="2" fill="var(--gold)" opacity=".85"/><path d="M22 8l-5 3.5v-1L22 8zM22 16l-5-3.5v1L22 16z" fill="var(--gold)" opacity=".85"/><polygon points="17,8.5 22,6 22,18 17,15.5" fill="var(--gold)" opacity=".85"/></svg><span>Webcam</span></button>
           <div class="sv-panel-hint">Tap to explore</div>
         </div>
       </article>
@@ -2882,7 +2891,7 @@ body.map-fullscreen #map-back-btn{display:flex}
         <div class="sv-img-panel" data-sv-title="Peggy's Cove" data-sv-url="https://www.google.com/maps?layer=c&cbll=44.4917,-63.9183&cbp=11,270,0,0,0" data-sv-img="sv-img/peggys-cove.jpg" data-sv-region="Peggy's Cove, NS" role="button" tabindex="0" onclick="openSvModal(this)">
           <img src="sv-img/peggys-cove.jpg" alt="Peggy's Cove Lighthouse" loading="lazy">
           <button class="sv-gsv-btn" onclick="event.stopPropagation();openStreetViewEmbed('https://www.google.com/maps?layer=c&cbll=44.4917,-63.9183&cbp=11,270,0,0,0')" aria-label="Open in Google Street View"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--gold)" opacity=".85"/><circle cx="12" cy="9" r="2.5" fill="var(--navy)"/></svg><span>Street View</span></button>
-          <a class="sv-webcam-btn" href="https://www.novascotiawebcams.com/webcams/peggys-cove-lighthouse" target="_blank" rel="noopener" onclick="event.stopPropagation()" aria-label="Open Live Webcam"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="15" height="12" rx="2" fill="var(--gold)" opacity=".85"/><path d="M22 8l-5 3.5v-1L22 8zM22 16l-5-3.5v1L22 16z" fill="var(--gold)" opacity=".85"/><polygon points="17,8.5 22,6 22,18 17,15.5" fill="var(--gold)" opacity=".85"/></svg><span>Webcam</span></a>
+          <button class="sv-webcam-btn" onclick="event.stopPropagation();openWebcamEmbed('https://www.novascotiawebcams.com/webcams/peggys-cove-lighthouse')" aria-label="Open Live Webcam"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="15" height="12" rx="2" fill="var(--gold)" opacity=".85"/><path d="M22 8l-5 3.5v-1L22 8zM22 16l-5-3.5v1L22 16z" fill="var(--gold)" opacity=".85"/><polygon points="17,8.5 22,6 22,18 17,15.5" fill="var(--gold)" opacity=".85"/></svg><span>Webcam</span></button>
           <div class="sv-panel-hint">Tap to explore</div>
         </div>
       </article>
@@ -2892,7 +2901,7 @@ body.map-fullscreen #map-back-btn{display:flex}
         <div class="sv-img-panel" data-sv-title="Lunenburg" data-sv-url="https://www.google.com/maps?layer=c&cbll=44.3765,-64.3181&cbp=11,180,0,0,0" data-sv-img="sv-img/lunenburg.jpg" data-sv-region="Lunenburg, Nova Scotia" role="button" tabindex="0" onclick="openSvModal(this)">
           <img src="sv-img/lunenburg.jpg" alt="Lunenburg waterfront" loading="lazy">
           <button class="sv-gsv-btn" onclick="event.stopPropagation();openStreetViewEmbed('https://www.google.com/maps?layer=c&cbll=44.3765,-64.3181&cbp=11,180,0,0,0')" aria-label="Open in Google Street View"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--gold)" opacity=".85"/><circle cx="12" cy="9" r="2.5" fill="var(--navy)"/></svg><span>Street View</span></button>
-          <a class="sv-webcam-btn" href="https://www.novascotiawebcams.com/webcams/bluenose-ii-wharf" target="_blank" rel="noopener" onclick="event.stopPropagation()" aria-label="Open Live Webcam"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="15" height="12" rx="2" fill="var(--gold)" opacity=".85"/><path d="M22 8l-5 3.5v-1L22 8zM22 16l-5-3.5v1L22 16z" fill="var(--gold)" opacity=".85"/><polygon points="17,8.5 22,6 22,18 17,15.5" fill="var(--gold)" opacity=".85"/></svg><span>Webcam</span></a>
+          <button class="sv-webcam-btn" onclick="event.stopPropagation();openWebcamEmbed('https://www.novascotiawebcams.com/webcams/bluenose-ii-wharf')" aria-label="Open Live Webcam"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="15" height="12" rx="2" fill="var(--gold)" opacity=".85"/><path d="M22 8l-5 3.5v-1L22 8zM22 16l-5-3.5v1L22 16z" fill="var(--gold)" opacity=".85"/><polygon points="17,8.5 22,6 22,18 17,15.5" fill="var(--gold)" opacity=".85"/></svg><span>Webcam</span></button>
           <div class="sv-panel-hint">Tap to explore</div>
         </div>
       </article>
@@ -2948,7 +2957,7 @@ body.map-fullscreen #map-back-btn{display:flex}
         <div class="sv-img-panel" data-sv-title="Pictou" data-sv-url="https://www.google.com/maps?layer=c&cbll=45.6793,-62.7108&cbp=11,180,0,0,0" data-sv-img="sv-img/pictou.jpg" data-sv-region="Pictou, Nova Scotia" role="button" tabindex="0" onclick="openSvModal(this)">
           <img src="sv-img/pictou.jpg" alt="Pictou waterfront" loading="lazy">
           <button class="sv-gsv-btn" onclick="event.stopPropagation();openStreetViewEmbed('https://www.google.com/maps?layer=c&cbll=45.6793,-62.7108&cbp=11,180,0,0,0')" aria-label="Open in Google Street View"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--gold)" opacity=".85"/><circle cx="12" cy="9" r="2.5" fill="var(--navy)"/></svg><span>Street View</span></button>
-          <a class="sv-webcam-btn" href="https://www.novascotiawebcams.com/webcams/pictou-causeway" target="_blank" rel="noopener" onclick="event.stopPropagation()" aria-label="Open Live Webcam"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="15" height="12" rx="2" fill="var(--gold)" opacity=".85"/><path d="M22 8l-5 3.5v-1L22 8zM22 16l-5-3.5v1L22 16z" fill="var(--gold)" opacity=".85"/><polygon points="17,8.5 22,6 22,18 17,15.5" fill="var(--gold)" opacity=".85"/></svg><span>Webcam</span></a>
+          <button class="sv-webcam-btn" onclick="event.stopPropagation();openWebcamEmbed('https://www.novascotiawebcams.com/webcams/pictou-causeway')" aria-label="Open Live Webcam"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="15" height="12" rx="2" fill="var(--gold)" opacity=".85"/><path d="M22 8l-5 3.5v-1L22 8zM22 16l-5-3.5v1L22 16z" fill="var(--gold)" opacity=".85"/><polygon points="17,8.5 22,6 22,18 17,15.5" fill="var(--gold)" opacity=".85"/></svg><span>Webcam</span></button>
           <div class="sv-panel-hint">Tap to explore</div>
         </div>
       </article>
@@ -3005,7 +3014,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 <footer id="site-footer" role="contentinfo">
   <p class="footer-quote">May every ferry be on time, every iceberg majestic, and every mile a memory.</p>
   <p class="footer-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home</p>
-  <p class="footer-meta">Maritimes · Summer 2026 · v1.2 · Updated 25 March 2026</p>
+  <p class="footer-meta">Maritimes · Summer 2026 · v1.3 · Updated 25 March 2026</p>
   <div class="footer-actions">
     <a class="footer-btn" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
     <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
@@ -4158,6 +4167,14 @@ if ('serviceWorker' in navigator) {
   </div>
 </div>
 <button class="wx-modal-close" id="sv-iframe-close" aria-label="Close Street View" onclick="closeSvIframe()">&times;</button>
+<!-- ── WEBCAM IFRAME MODAL ── -->
+<div class="wx-modal-overlay" id="wc-iframe-overlay" role="dialog" aria-label="Live Webcam" aria-modal="true">
+  <div class="wc-iframe-wrap">
+    <iframe id="wc-iframe" src="" allow="accelerometer;gyroscope" allowfullscreen></iframe>
+  </div>
+</div>
+<button class="wx-modal-close" id="wc-iframe-close" aria-label="Close Webcam" onclick="closeWcIframe()">&times;</button>
+
 
 
 <!-- ── STREET VIEW EXPANDED MODAL ───────────── -->
@@ -4216,6 +4233,29 @@ if ('serviceWorker' in navigator) {
   overlay.addEventListener('click',function(e){if(e.target===overlay)closeSvIframe();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('open'))closeSvIframe();});
 })();
+</script>
+
+<script>
+// ── WEBCAM IFRAME MODAL ──────────────────────
+(function() {
+  var overlay = document.getElementById('wc-iframe-overlay');
+  var closeBtn = document.getElementById('wc-iframe-close');
+  var iframe = document.getElementById('wc-iframe');
+  window.openWebcamEmbed = function(url) {
+    iframe.src = url;
+    overlay.classList.add('open','entering');
+    closeBtn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function(){requestAnimationFrame(function(){overlay.classList.remove('entering');});});
+  };
+  window.closeWcIframe = function() {
+    overlay.classList.add('entering');
+    setTimeout(function(){overlay.classList.remove('open','entering');closeBtn.classList.remove('open');document.body.style.overflow='';iframe.src='';},300);
+  };
+  overlay.addEventListener('click',function(e){if(e.target===overlay)closeWcIframe();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('open'))closeWcIframe();});
+})();
+
 </script>
 
 <script>
