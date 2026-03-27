@@ -3045,7 +3045,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 <footer id="site-footer" role="contentinfo">
   <p class="footer-quote">May every ferry be on time, every iceberg majestic, and every mile a memory.</p>
   <p class="footer-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home</p>
-  <p class="footer-meta">Maritimes · Summer 2026 · v1.3 · Updated 25 March 2026</p>
+  <p class="footer-meta">Maritimes · Summer 2026 · v1.4 · Updated 27 March 2026</p>
   <div class="footer-actions">
     <a class="footer-btn" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
     <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
@@ -3516,6 +3516,8 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
   if (!fab || !card) return;
 
   var userLat = null, userLng = null;
+  var hasRealGps = false;
+  var FALLBACK_LAT = 44.6488, FALLBACK_LNG = -63.5752;
 
   // Toggle card
   fab.addEventListener('click', function() {
@@ -3534,12 +3536,12 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
     }
   });
 
-  // Get user location
+  // Get user location — always tries real GPS first
   function getLocation() {
-    if (userLat) return;
+    if (hasRealGps) return; // already have real GPS, no need to retry
     if (!navigator.geolocation) {
       status.textContent = '📍 Location not available — searching Halifax area';
-      userLat = 44.6488; userLng = -63.5752;
+      userLat = FALLBACK_LAT; userLng = FALLBACK_LNG;
       return;
     }
     status.textContent = '📍 Getting your location…';
@@ -3547,21 +3549,22 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
       function(pos) {
         userLat = pos.coords.latitude;
         userLng = pos.coords.longitude;
-        status.textContent = '📍 Location found — results will be nearby';
+        hasRealGps = true;
+        status.textContent = '📍 Using your GPS location';
       },
       function() {
         status.textContent = '📍 Location denied — searching Halifax area';
-        userLat = 44.6488; userLng = -63.5752;
+        userLat = FALLBACK_LAT; userLng = FALLBACK_LNG;
       },
-      { timeout: 8000, maximumAge: 60000 }
+      { timeout: 5000, maximumAge: 300000 }
     );
   }
 
   // Search function
   function doSearch(query) {
     if (!query.trim()) return;
-    var lat = userLat || 44.6488;
-    var lng = userLng || -63.5752;
+    var lat = userLat || FALLBACK_LAT;
+    var lng = userLng || FALLBACK_LNG;
     var url = 'https://www.google.com/maps/search/' + encodeURIComponent(query)
       + '/@' + lat + ',' + lng + ',15z';
     openSearchIframe(url);
@@ -4008,6 +4011,8 @@ if ('serviceWorker' in navigator) {
 
   var chatHistory = [];
   var chatLat = null, chatLng = null;
+  var chatGpsTimestamp = 0;
+  var GPS_CACHE_MS = 5 * 60 * 1000; // refresh GPS every 5 minutes
   function getActiveTabLabel() {
     var active = document.querySelector('.nav-chip.active');
     return active ? active.textContent.trim() : 'Overview';
@@ -4016,10 +4021,16 @@ if ('serviceWorker' in navigator) {
 
   function getChatLocation() {
     if (!navigator.geolocation) return;
+    // Skip if cached position is fresh enough
+    if (chatLat && (Date.now() - chatGpsTimestamp < GPS_CACHE_MS)) return;
     navigator.geolocation.getCurrentPosition(
-      function(pos) { chatLat = pos.coords.latitude; chatLng = pos.coords.longitude; },
+      function(pos) {
+        chatLat = pos.coords.latitude;
+        chatLng = pos.coords.longitude;
+        chatGpsTimestamp = Date.now();
+      },
       function() {},
-      { timeout: 8000, maximumAge: 120000 }
+      { timeout: 5000, maximumAge: 300000 }
     );
   }
 
@@ -4196,8 +4207,9 @@ if ('serviceWorker' in navigator) {
       body: JSON.stringify({
         message: text,
         activeTab: getActiveTabLabel(),
-        lat: chatLat,
-        lng: chatLng,
+        latitude: chatLat,
+        longitude: chatLng,
+        localTime: new Date().toISOString(),
         history: chatHistory.slice(-8)
       })
     })
