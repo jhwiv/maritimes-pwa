@@ -1213,6 +1213,28 @@ section[id]{
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 
+/* Ask Concierge link */
+.search-ask-concierge{
+  display:block;width:100%;padding:14px 0;margin:8px 0 0;
+  background:transparent;border:none;cursor:pointer;
+  color:var(--gold2);font-family:var(--ff-body);font-size:13px;
+  text-align:center;opacity:0.7;transition:opacity .2s
+}
+.search-ask-concierge:hover{opacity:1}
+
+/* Chat action chips */
+.chat-action-chips{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:8px
+}
+.chat-action-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:6px 12px;border-radius:16px;
+  background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.25);
+  color:var(--gold2);font-family:var(--ff-body);font-size:12px;
+  cursor:pointer;transition:background .2s
+}
+.chat-action-chip:hover{background:rgba(200,168,75,.22)}
+
 /* Bottom navigation */
 .search-bottom-nav{
   display:flex;justify-content:space-around;align-items:center;
@@ -3178,7 +3200,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 <footer id="site-footer" role="contentinfo">
   <p class="footer-quote">May every ferry be on time, every iceberg majestic, and every mile a memory.</p>
   <p class="footer-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home</p>
-  <p class="footer-meta">Maritimes · Summer 2026 · v1.6 · Updated 27 March 2026</p>
+  <p class="footer-meta">Maritimes · Summer 2026 · v1.7 · Updated 27 March 2026</p>
   <div class="footer-actions">
     <a class="footer-btn" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
     <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
@@ -3691,6 +3713,9 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
     <div class="search-explore-scroll" id="search-explore-scroll">
       <!-- POI cards populated by JS -->
     </div>
+    <button class="search-ask-concierge" id="search-ask-concierge">
+      💬 Can't find what you need? <span style="text-decoration:underline">Ask the Trip Concierge</span>
+    </button>
   </div>
 
   <!-- Bottom nav -->
@@ -3988,6 +4013,32 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
       syncCityUI();
     }
   }, 300);
+
+  // "Ask Concierge" button — cross-link to chat
+  var askConcierge = document.getElementById('search-ask-concierge');
+  if (askConcierge) {
+    askConcierge.addEventListener('click', function() {
+      var searchText = input.value.trim();
+      closeSearch();
+      var prefill = searchText
+        ? 'I\'m looking for ' + searchText + ' near my hotel \u2014 any recommendations?'
+        : '';
+      if (window.openChatFromSearch) window.openChatFromSearch(prefill);
+    });
+  }
+
+  // Cross-IIFE: allow chat chips to trigger search results map
+  window.openSearchWithQuery = function(query) {
+    var city = getActiveCity();
+    var lat = geoGranted ? userLat : city.lat;
+    var lng = geoGranted ? userLng : city.lng;
+    openSearchIframe(null, lat, lng, query);
+  };
+
+  // Cross-IIFE: allow chat chips to open the search overlay
+  window.openSearchOverlay = function() {
+    openSearch();
+  };
 })();
 </script>
 
@@ -4588,6 +4639,9 @@ if ('serviceWorker' in navigator) {
   function sendMessage(text) {
     if (!text || !text.trim() || isSending) return;
     text = text.trim();
+    // Remove any existing action chips from previous responses
+    var oldChips = chatMessages.querySelectorAll('.chat-action-chips');
+    for (var c = 0; c < oldChips.length; c++) oldChips[c].remove();
     isSending = true;
     chatSend.disabled = true;
     chatInput.value = '';
@@ -4641,6 +4695,29 @@ if ('serviceWorker' in navigator) {
         return reader.read().then(function(result) {
           if (result.done) {
             chatHistory.push({ role: 'assistant', content: fullText });
+            // Append action chips if response contains map recommendations
+            if (/maps\.google\.com/.test(fullText)) {
+              var chipRow = document.createElement('div');
+              chipRow.className = 'chat-action-chips';
+              chipRow.innerHTML = '<button class="chat-action-chip" data-action="search-coffee">☕ Coffee nearby</button>'
+                + '<button class="chat-action-chip" data-action="search-restaurant">🍽 Restaurants</button>'
+                + '<button class="chat-action-chip" data-action="search-nearby">🔍 Search nearby</button>';
+              msgDiv.parentNode.appendChild(chipRow);
+              chipRow.addEventListener('click', function(e) {
+                var chip = e.target.closest('.chat-action-chip');
+                if (!chip) return;
+                closeChat();
+                var action = chip.dataset.action;
+                if (action === 'search-coffee' && window.openSearchWithQuery) {
+                  window.openSearchWithQuery('coffee shop');
+                } else if (action === 'search-restaurant' && window.openSearchWithQuery) {
+                  window.openSearchWithQuery('restaurant');
+                } else if (action === 'search-nearby' && window.openSearchOverlay) {
+                  window.openSearchOverlay();
+                }
+              });
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
             isSending = false;
             chatSend.disabled = false;
             chatInput.focus();
@@ -4678,6 +4755,15 @@ if ('serviceWorker' in navigator) {
       chatInput.focus();
     });
   }
+
+  // Cross-IIFE: allow search overlay to open chat with pre-filled text
+  window.openChatFromSearch = function(prefilledText) {
+    openChat();
+    if (prefilledText) {
+      chatInput.value = prefilledText;
+      chatInput.focus();
+    }
+  };
 })();
 </script>
 
