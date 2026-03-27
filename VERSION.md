@@ -3,7 +3,7 @@
 **Site:** [maritimesgrandloop.com](https://maritimesgrandloop.com)
 **Repo:** [jhwiv/maritimes-pwa](https://github.com/jhwiv/maritimes-pwa)
 **Deploy:** Cloudflare Pages (auto-deploy from main)
-**Current:** v1.10
+**Current:** v4.0
 
 | Version | Date | Feature | Shared Feature ID |
 |---------|------|---------|-------------------|
@@ -27,3 +27,4 @@
 | v1.8 | 2026-03-27 | Restyle cross-link buttons for more prominent appearance | — |
 | v1.9 | 2026-03-27 | Restaurant menu pop-ups for 9 restaurants along the route (Eventide, Scales, Fundy, Beach Pea, Salt Shaker, Doyle Sansome, Fogo Island Inn, Alladin, 11th Mile) | `MENU_POPUP` |
 | v1.10 | 2026-03-27 | Two-tier Overpass search (500m→1200m), distance-sorted results with walk time, Google Maps auto-fallback on zero results/failure | `SEARCH_TWOTIER` |
+| v4.0 | 2026-03-27 | Feature parity with Zürich PWA: time-aware auto-navigation IIFE, getItineraryCity hook in search overlay, unified version numbering | `AUTO_NAV` `ITINERARY_CITY` |

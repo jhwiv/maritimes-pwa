@@ -3308,7 +3308,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 <footer id="site-footer" role="contentinfo">
   <p class="footer-quote">May every ferry be on time, every iceberg majestic, and every mile a memory.</p>
   <p class="footer-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home</p>
-  <p class="footer-meta">Maritimes · Summer 2026 · v1.10 · Updated 27 March 2026</p>
+  <p class="footer-meta">Maritimes · Summer 2026 · v4.0 · Updated 27 March 2026</p>
   <div class="footer-actions">
     <a class="footer-btn" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
     <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
@@ -3538,6 +3538,72 @@ function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 const footerTopBtn = document.getElementById('footer-top-btn');
 if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
 
+// ── TIME-AWARE AUTO-NAVIGATION ──────────────────────
+(function() {
+  if (window.performance && window.performance.navigation && window.performance.navigation.type === 2) return;
+  if (window.location.hash) return;
+
+  // Maritimes trip schedule: [ISO time, section, stop index (0-based)]
+  var schedule = [
+    // Day 1: Portland
+    ['2026-06-27T12:00-04:00', 'section-day1', 0],
+    // Day 2: Portland → Saint John → Digby
+    ['2026-06-28T08:00-04:00', 'section-day2', 0],
+    ['2026-06-28T14:00-03:00', 'section-day2', 2], // Ferry
+    // Day 3: Digby → Lunenburg
+    ['2026-06-29T09:00-03:00', 'section-day3', 0],
+    ['2026-06-29T13:00-03:00', 'section-day3', 1], // Explore Lunenburg
+    // Day 4: Lunenburg → North Sydney → Ferry
+    ['2026-06-30T08:00-03:00', 'section-day4', 0],
+    ['2026-06-30T18:00-03:00', 'section-day4', 1], // Overnight ferry
+    // Day 5: Port aux Basques → Twillingate
+    ['2026-07-01T07:00-02:30', 'section-day5', 0],
+    ['2026-07-01T12:00-02:30', 'section-day5', 2], // Deer Lake
+    ['2026-07-01T18:00-02:30', 'section-day5', 3], // Arrive Twillingate
+    // Days 6-8: Fogo Island
+    ['2026-07-02T08:00-02:30', 'section-fogo', 0],
+    // Day 9: Fogo → Return ferry
+    ['2026-07-05T08:00-02:30', 'section-day9', 0],
+    // Day 10: North Sydney → Pictou
+    ['2026-07-06T08:00-03:00', 'section-day10', 0],
+    // Day 11: Pictou → Fredericton
+    ['2026-07-07T09:00-03:00', 'section-day11', 0],
+    // Day 12: Fredericton → Portland (Home)
+    ['2026-07-08T09:00-04:00', 'section-day12', 0],
+    // Trip over
+    ['2026-07-08T20:00-04:00', null, 0]
+  ];
+
+  var now = new Date();
+  var target = null;
+  var stopIdx = 0;
+
+  for (var i = 0; i < schedule.length; i++) {
+    var t = new Date(schedule[i][0]);
+    if (now >= t) {
+      target = schedule[i][1];
+      stopIdx = schedule[i][2];
+    }
+  }
+
+  if (target) {
+    // Single instant jump on load — no visible scrolling, no flicker
+    requestAnimationFrame(function() {
+      var btn = document.querySelector('.nav-chip[data-target="' + target + '"]');
+      if (btn) {
+        document.querySelectorAll('.nav-chip').forEach(function(c) { c.classList.remove('active'); });
+        btn.classList.add('active');
+      }
+      var section = document.getElementById(target);
+      if (!section) return;
+      var stops = section.querySelectorAll('.stop');
+      var stop = stops[stopIdx] || stops[stops.length - 1] || section;
+      var hdr = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--hdr')) || 80;
+      var top = stop.getBoundingClientRect().top + window.pageYOffset - hdr - 12;
+      window.scrollTo(0, top);
+    });
+  }
+})();
 
 // ── ROUTE MAP (LEAFLET) ──────────────────────────────
 (function() {
@@ -3885,6 +3951,23 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
 </script>
 
 <script>
+// ── ITINERARY CITY HOOK ──────────────────────────────
+window.getItineraryCity = function() {
+  var now = new Date();
+  // Maritimes trip: Jun 27 - Jul 8, 2026
+  var start = new Date('2026-06-27');
+  var end = new Date('2026-07-09');
+  if (now < start || now > end) return null;
+  var day = Math.floor((now - start) / 86400000) + 1;
+  if (day <= 1) return 'portland';
+  if (day <= 4) return 'lunenburg';    // Nova Scotia
+  if (day <= 8) return 'fogoisland';   // Newfoundland / Fogo
+  if (day <= 10) return 'halifax';     // Return via NS
+  return 'portland'; // heading home
+};
+</script>
+
+<script>
 // ── FLOATING SEARCH (full-screen overlay, location-aware) ─────
 (function() {
   var fab = document.getElementById('search-fab');
@@ -3948,7 +4031,10 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
   };
 
   function getActiveCity() {
-    // Map active section/tab to nearest city
+    // Itinerary dates take priority over active tab
+    var ic = window.getItineraryCity && window.getItineraryCity();
+    if (ic && cities[ic]) return cities[ic];
+    // Fallback: use active section/tab
     var sec = (typeof lastActiveSection !== 'undefined') ? lastActiveSection : 'hero';
     if (sec === 'section-day1' || sec === 'hero') return cities.portland;
     if (sec === 'section-day2' || sec === 'section-day3') return cities.lunenburg;
