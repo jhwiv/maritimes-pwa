@@ -3045,7 +3045,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 <footer id="site-footer" role="contentinfo">
   <p class="footer-quote">May every ferry be on time, every iceberg majestic, and every mile a memory.</p>
   <p class="footer-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home</p>
-  <p class="footer-meta">Maritimes · Summer 2026 · v1.4 · Updated 27 March 2026</p>
+  <p class="footer-meta">Maritimes · Summer 2026 · v1.5 · Updated 27 March 2026</p>
   <div class="footer-actions">
     <a class="footer-btn" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
     <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
@@ -4012,24 +4012,37 @@ if ('serviceWorker' in navigator) {
   var chatHistory = [];
   var chatLat = null, chatLng = null;
   var chatGpsTimestamp = 0;
+  var chatGpsStatus = 'pending'; // 'pending' | 'granted' | 'denied' | 'unavailable'
+  var chatGpsResolve = null; // resolves the first-message await
   var GPS_CACHE_MS = 5 * 60 * 1000; // refresh GPS every 5 minutes
   function getActiveTabLabel() {
     var active = document.querySelector('.nav-chip.active');
     return active ? active.textContent.trim() : 'Overview';
   }
   var isSending = false;
+  var isFirstMessage = true;
 
   function getChatLocation() {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      chatGpsStatus = 'unavailable';
+      if (chatGpsResolve) { chatGpsResolve(); chatGpsResolve = null; }
+      return;
+    }
     // Skip if cached position is fresh enough
     if (chatLat && (Date.now() - chatGpsTimestamp < GPS_CACHE_MS)) return;
+    chatGpsStatus = 'pending';
     navigator.geolocation.getCurrentPosition(
       function(pos) {
         chatLat = pos.coords.latitude;
         chatLng = pos.coords.longitude;
         chatGpsTimestamp = Date.now();
+        chatGpsStatus = 'granted';
+        if (chatGpsResolve) { chatGpsResolve(); chatGpsResolve = null; }
       },
-      function() {},
+      function(err) {
+        chatGpsStatus = (err.code === 1) ? 'denied' : 'unavailable';
+        if (chatGpsResolve) { chatGpsResolve(); chatGpsResolve = null; }
+      },
       { timeout: 5000, maximumAge: 300000 }
     );
   }
@@ -4040,6 +4053,7 @@ if ('serviceWorker' in navigator) {
     // Reset conversation on every open
     chatMessages.innerHTML = '';
     chatHistory = [];
+    isFirstMessage = true;
     chatSuggestions.style.display = '';
     chatInput.value = '';
     chatPanel.classList.add('open');
@@ -4201,6 +4215,21 @@ if ('serviceWorker' in navigator) {
     chatHistory.push({ role: 'user', content: text });
     showTyping();
 
+    // On first message, wait briefly for GPS to resolve
+    if (isFirstMessage && chatGpsStatus === 'pending') {
+      isFirstMessage = false;
+      var gpsWait = new Promise(function(resolve) {
+        chatGpsResolve = resolve;
+        setTimeout(resolve, 2000); // max 2s wait
+      });
+      gpsWait.then(function() { doSend(text); });
+      return;
+    }
+    isFirstMessage = false;
+    doSend(text);
+  }
+
+  function doSend(text) {
     fetch(CHAT_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -4209,6 +4238,7 @@ if ('serviceWorker' in navigator) {
         activeTab: getActiveTabLabel(),
         latitude: chatLat,
         longitude: chatLng,
+        gpsStatus: chatGpsStatus,
         localTime: new Date().toISOString(),
         history: chatHistory.slice(-8)
       })

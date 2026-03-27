@@ -3,7 +3,7 @@
 **Site:** [maritimesgrandloop.com](https://maritimesgrandloop.com)
 **Repo:** [jhwiv/maritimes-pwa](https://github.com/jhwiv/maritimes-pwa)
 **Deploy:** Cloudflare Pages (auto-deploy from main)
-**Current:** v1.4
+**Current:** v1.5
 
 | Version | Date | Feature | Shared Feature ID |
 |---------|------|---------|-------------------|
@@ -21,3 +21,4 @@
 | v1.2 | 2026-03-25 | Live webcam buttons (9 destinations) | `WEBCAM_BTN` |
 | v1.3 | 2026-03-25 | Webcam iframe overlay for embeddable cams; remove broken Portland cam | `WEBCAM_IFRAME` |
 | v1.4 | 2026-03-27 | GPS & time awareness for chat concierge and local search | `GPS_TIME_AWARE` |
+| v1.5 | 2026-03-27 | GPS status tracking & first-message await for chat concierge | `GPS_STATUS_V2` |
