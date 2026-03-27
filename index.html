@@ -459,6 +459,108 @@ img{display:block;max-width:100%}
   border-color:rgba(61,107,142,.5);
 }
 .btn-secondary:active{transform:scale(.97);transition-duration:.05s}
+/* ── RESTAURANT MENU MODAL ──────────────────────── */
+.menu-modal-overlay{
+  position:fixed;inset:0;z-index:510;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+.menu-modal-overlay.visible{
+  opacity:1;pointer-events:auto;
+}
+.menu-modal{
+  background:var(--cream);
+  border-radius:var(--r12,12px);
+  max-width:520px;width:calc(100% - 32px);
+  max-height:85vh;
+  display:flex;flex-direction:column;
+  box-shadow:0 24px 80px rgba(0,0,0,.4);
+  transform:translateY(16px);
+  transition:transform .3s cubic-bezier(.16,1,.3,1);
+}
+.menu-modal-overlay.visible .menu-modal{
+  transform:translateY(0);
+}
+.menu-modal-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:20px 20px 12px;
+  border-bottom:1px solid var(--divider);
+  gap:12px;flex-shrink:0;
+}
+.menu-modal-title{
+  font-family:'Playfair Display',serif;
+  font-size:18px;font-weight:700;
+  color:var(--gold);line-height:1.3;
+}
+.menu-modal-subtitle{
+  font-family:'Crimson Pro',serif;
+  font-size:13px;color:var(--steel);
+  font-style:italic;margin-top:4px;
+}
+.menu-modal-close{
+  background:none;border:none;cursor:pointer;
+  font-size:24px;color:var(--steel);
+  padding:0 0 0 8px;line-height:1;
+  flex-shrink:0;
+}
+.menu-modal-close:hover{color:var(--navy)}
+.menu-modal-scroll{
+  overflow-y:auto;padding:4px 20px 20px;
+  -webkit-overflow-scrolling:touch;
+}
+.menu-section-label{
+  font-family:'DM Mono',monospace;
+  font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);
+  margin:16px 0 8px;
+  border-bottom:1px solid rgba(201,169,110,.15);
+  padding-bottom:4px;
+}
+.menu-section-label:first-child{margin-top:8px}
+.menu-item-row{
+  display:flex;justify-content:space-between;
+  align-items:baseline;gap:8px;
+  padding:3px 0;
+  font-family:'Crimson Pro',serif;font-size:13px;
+  color:var(--body);
+}
+.menu-item-name{flex:1;min-width:0}
+.menu-item-desc{
+  color:var(--steel);font-size:11px;
+}
+.menu-item-price{
+  white-space:nowrap;color:var(--steel);
+  font-size:12px;text-align:right;flex-shrink:0;
+}
+.menu-footer{
+  font-family:'Crimson Pro',serif;
+  font-size:11px;color:var(--steel);
+  margin-top:14px;text-align:center;
+  font-style:italic;
+  padding-top:10px;
+  border-top:1px solid var(--divider);
+}
+.btn-menu{
+  display:inline-flex;align-items:center;gap:var(--sp4);
+  background:var(--gold3);
+  color:var(--gold2);
+  border:1px solid rgba(201,169,110,.35);
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:7px 14px;border-radius:var(--r6);
+  min-height:36px;font-weight:500;
+  transition:all .2s;
+  cursor:pointer;
+}
+.btn-menu:hover{
+  background:rgba(201,169,110,.2);
+  border-color:var(--gold);
+  transform:translateY(-1px);
+}
+.btn-menu:active{transform:scale(.97);transition-duration:.05s}
 .btn-call{
   display:inline-flex;align-items:center;gap:var(--sp4);
   background:var(--green);color:#fff;
@@ -1951,7 +2053,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 
     <div class="extras-strip">
       <div class="extras-label">Dining Recommendations · Portland</div>
-      <p class="extras-text"><strong>Eventide Oyster Co.</strong> — acclaimed oyster bar with creative New England seafood; the brown-butter lobster roll is legendary. <strong>Scales</strong> — waterfront fine dining on the working wharf with outstanding lobster and local fish. <strong>Street &amp; Co.</strong> — intimate Old Port institution known for its perfectly grilled seafood. <strong>Duckfat</strong> — casual favourite for Belgian-style fries and craft panini. <strong>Highroller Lobster Co.</strong> — creative lobster rolls and laid-back harbour vibes.</p>
+      <p class="extras-text"><strong>Eventide Oyster Co.</strong> <button class="btn-menu" onclick="openMenuModal('eventide')">📋 Menu</button> — acclaimed oyster bar with creative New England seafood; the brown-butter lobster roll is legendary. <strong>Scales</strong> <button class="btn-menu" onclick="openMenuModal('scales')">📋 Menu</button> — waterfront fine dining on the working wharf with outstanding lobster and local fish. <strong>Street &amp; Co.</strong> — intimate Old Port institution known for its perfectly grilled seafood. <strong>Duckfat</strong> — casual favourite for Belgian-style fries and craft panini. <strong>Highroller Lobster Co.</strong> — creative lobster rolls and laid-back harbour vibes.</p>
     </div>
 
     <div class="lodging-card">
@@ -2046,7 +2148,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 
     <div class="extras-strip">
       <div class="extras-label">Dining Recommendations · Digby</div>
-      <p class="extras-text"><strong>Fundy Restaurant</strong> — the definitive Digby scallop experience; right on the waterfront with harbour views. <strong>The Crow's Nest</strong> — casual seafood spot overlooking the working harbour; great fish &amp; chips. <strong>Captain's Cabin</strong> — classic Maritime seafood including clam chowder, lobster rolls, and of course Digby scallops. <strong>Churchill's at Digby Pines</strong> — upscale dining in a historic resort setting.</p>
+      <p class="extras-text"><strong>Fundy Restaurant</strong> <button class="btn-menu" onclick="openMenuModal('fundy')">📋 Menu</button> — the definitive Digby scallop experience; right on the waterfront with harbour views. <strong>The Crow's Nest</strong> — casual seafood spot overlooking the working harbour; great fish &amp; chips. <strong>Captain's Cabin</strong> — classic Maritime seafood including clam chowder, lobster rolls, and of course Digby scallops. <strong>Churchill's at Digby Pines</strong> — upscale dining in a historic resort setting.</p>
     </div>
 
     <div class="lodging-card">
@@ -2120,7 +2222,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 
     <div class="extras-strip">
       <div class="extras-label">Dining Recommendations · Lunenburg</div>
-      <p class="extras-text"><strong>Salt Shaker Deli</strong> — beloved local gem with seafood-forward dishes and a cozy harbour-view patio. <strong>The Old Fish Factory</strong> — set in a converted fish processing plant on the waterfront; classic Maritime fare. <strong>Lincoln Street Food</strong> — relaxed bistro with creative dishes using local ingredients. <strong>Beach Pea Kitchen &amp; Bar</strong> ⭐ — farm-to-table dining with an emphasis on Nova Scotian produce and seafood. <em>Personally recommended — visited Fall 2025 and loved it.</em> <strong>The Knot Pub</strong> — classic British-style pub for a casual pint and comfort food.</p>
+      <p class="extras-text"><strong>Salt Shaker Deli</strong> <button class="btn-menu" onclick="openMenuModal('salt-shaker')">📋 Menu</button> — beloved local gem with seafood-forward dishes and a cozy harbour-view patio. <strong>The Old Fish Factory</strong> — set in a converted fish processing plant on the waterfront; classic Maritime fare. <strong>Lincoln Street Food</strong> — relaxed bistro with creative dishes using local ingredients. <strong>Beach Pea Kitchen &amp; Bar</strong> ⭐ <button class="btn-menu" onclick="openMenuModal('beach-pea')">📋 Menu</button> — farm-to-table dining with an emphasis on Nova Scotian produce and seafood. <em>Personally recommended — visited Fall 2025 and loved it.</em> <strong>The Knot Pub</strong> — classic British-style pub for a casual pint and comfort food.</p>
     </div>
 
     <div class="lodging-card">
@@ -2280,7 +2382,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 
     <div class="extras-strip">
       <div class="extras-label">Dining Recommendations</div>
-      <p class="extras-text"><strong>Deer Lake (lunch):</strong> <em>The Spud</em> — local favourite known for hearty portions and home-style cooking; a perfect road-trip refuel. <em>Deer Lake Motel Restaurant</em> — surprisingly good menu with the largest selection in town.<br><strong>Twillingate (dinner):</strong> <em>Doyle Sansome &amp; Sons Lobster Pool</em> — legendary local seafood with the best chowder in Twillingate. <em>Georgie's</em> — upscale option with excellent fish cakes and seafood pasta. <em>Pier 39</em> — fresh lobster and harbour views.</p>
+      <p class="extras-text"><strong>Deer Lake (lunch):</strong> <em>The Spud</em> — local favourite known for hearty portions and home-style cooking; a perfect road-trip refuel. <em>Deer Lake Motel Restaurant</em> — surprisingly good menu with the largest selection in town.<br><strong>Twillingate (dinner):</strong> <em>Doyle Sansome &amp; Sons Lobster Pool</em> <button class="btn-menu" onclick="openMenuModal('doyle-sansome')">📋 Menu</button> — legendary local seafood with the best chowder in Twillingate. <em>Georgie's</em> — upscale option with excellent fish cakes and seafood pasta. <em>Pier 39</em> — fresh lobster and harbour views.</p>
     </div>
 
     <div class="tip-block">
@@ -2377,7 +2479,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 
     <div class="tip-block">
       <div class="tip-orn">✦</div>
-      <div class="tip-txt">The Fogo Island Inn includes meals — breakfast, lunch, and dinner. Ask the community host about guided experiences, boat tours, and berry picking. Cell service is limited; embrace the disconnect.</div>
+      <div class="tip-txt">The Fogo Island Inn includes meals — breakfast, lunch, and dinner. <button class="btn-menu" onclick="openMenuModal('fogo-inn')">📋 Menu</button> Ask the community host about guided experiences, boat tours, and berry picking. Cell service is limited; embrace the disconnect.</div>
     </div>
 
     <div class="lodging-card">
@@ -2535,7 +2637,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 
     <div class="extras-strip">
       <div class="extras-label">Dining Recommendations · Pictou</div>
-      <p class="extras-text"><strong>Alladin Syrian Canadian Restaurant</strong> — the top-rated restaurant in Pictou; surprising and delicious Middle Eastern-Maritime fusion. <strong>Harbour House Ales &amp; Spirits</strong> — waterfront craft beer and pub fare with harbour views. <strong>Stone Soup Cafe</strong> — charming bistro with locally sourced comfort food. <strong>The Nook &amp; Cranny</strong> — cozy spot popular with locals for lunch and dinner.</p>
+      <p class="extras-text"><strong>Alladin Syrian Canadian Restaurant</strong> <button class="btn-menu" onclick="openMenuModal('alladin')">📋 Menu</button> — the top-rated restaurant in Pictou; surprising and delicious Middle Eastern-Maritime fusion. <strong>Harbour House Ales &amp; Spirits</strong> — waterfront craft beer and pub fare with harbour views. <strong>Stone Soup Cafe</strong> — charming bistro with locally sourced comfort food. <strong>The Nook &amp; Cranny</strong> — cozy spot popular with locals for lunch and dinner.</p>
     </div>
 
     <div class="lodging-card">
@@ -2618,7 +2720,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 
     <div class="extras-strip">
       <div class="extras-label">Dining Recommendations · Fredericton</div>
-      <p class="extras-text"><strong>11th Mile</strong> — widely regarded as the best restaurant in Fredericton; refined seasonal menu with New Brunswick ingredients. <strong>Wolastoq Wharf</strong> — lively waterfront spot on the Saint John River; excellent seafood and craft cocktails. <strong>Claudine's Eatery</strong> — the highest-rated brunch and lunch spot; creative comfort food. <strong>The Joyce</strong> — gastropub with standout pulled-pork poutine.</p>
+      <p class="extras-text"><strong>11th Mile</strong> <button class="btn-menu" onclick="openMenuModal('11th-mile')">📋 Menu</button> — widely regarded as the best restaurant in Fredericton; refined seasonal menu with New Brunswick ingredients. <strong>Wolastoq Wharf</strong> — lively waterfront spot on the Saint John River; excellent seafood and craft cocktails. <strong>Claudine's Eatery</strong> — the highest-rated brunch and lunch spot; creative comfort food. <strong>The Joyce</strong> — gastropub with standout pulled-pork poutine.</p>
     </div>
 
     <div class="lodging-card">
@@ -3206,7 +3308,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 <footer id="site-footer" role="contentinfo">
   <p class="footer-quote">May every ferry be on time, every iceberg majestic, and every mile a memory.</p>
   <p class="footer-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home</p>
-  <p class="footer-meta">Maritimes · Summer 2026 · v1.8 · Updated 27 March 2026</p>
+  <p class="footer-meta">Maritimes · Summer 2026 · v1.9 · Updated 27 March 2026</p>
   <div class="footer-actions">
     <a class="footer-btn" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
     <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
@@ -4773,6 +4875,20 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 
+<!-- ── RESTAURANT MENU MODAL ──────────────────────── -->
+<div class="menu-modal-overlay" id="menu-modal-overlay">
+  <div class="menu-modal" role="dialog" aria-modal="true">
+    <div class="menu-modal-header">
+      <div>
+        <div class="menu-modal-title" id="menu-modal-title"></div>
+        <div class="menu-modal-subtitle" id="menu-modal-subtitle"></div>
+      </div>
+      <button class="menu-modal-close" id="menu-modal-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="menu-modal-scroll" id="menu-modal-scroll"></div>
+  </div>
+</div>
+
 <!-- ── WEATHER EXPANDED MODAL ─────────────── -->
 <div class="wx-modal-overlay" id="wx-modal-overlay" role="dialog" aria-label="Expanded weather view" aria-modal="true">
   <div class="phone-mock">
@@ -5242,6 +5358,359 @@ if ('serviceWorker' in navigator) {
   };
   overlay.addEventListener('click',function(e){if(e.target===overlay)closeWxModal();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('open'))closeWxModal();});
+})();
+</script>
+
+<script>
+// ── Restaurant Menu Modal System ──
+(function(){
+  var overlay = document.getElementById('menu-modal-overlay');
+  var titleEl = document.getElementById('menu-modal-title');
+  var subtitleEl = document.getElementById('menu-modal-subtitle');
+  var scrollEl = document.getElementById('menu-modal-scroll');
+  var closeBtn = document.getElementById('menu-modal-close');
+
+  var menus = {
+    'eventide': {
+      title: 'Eventide Oyster Co.',
+      subtitle: 'James Beard Award winner \u00b7 86 Middle St, Portland',
+      footer: 'Prices in USD \u00b7 Reservations via eventideoysterco.com',
+      sections: [
+        { label: 'Raw Bar', items: [
+          ['Oysters on the Half Shell','Maine varieties: Winter Point, Pemaquid, Glidden Point & more','~$3 each'],
+          ['Littleneck Clams','fresh from Casco Bay',''],
+          ['Maine Crab Claws','',''],
+          ['Bluefin Tuna Crudo','ginger-scallion, tare, radish','$18'],
+          ['Salmon Crudo','','$19'],
+          ['Bluefin Tuna Tartare','gochujang, sesame, turmeric puff',''],
+          ['Halibut Ceviche','pique de pi\u00f1a, cilantro, lime','']
+        ]},
+        { label: 'Buns & Rolls', items: [
+          ['Brown Butter Lobster Roll \u2605','warm lobster meat, steamed bun, chives','$23'],
+          ['Fried Oyster Bun','tartar, pickled vegetables','$15'],
+          ['Fried Chicken Bun','gochujang, apricot, daikon','$13'],
+          ['Maine Crab Bun','yuzu kosho mayo, lime',''],
+          ['The Fish Sandwich','iceberg lettuce, tartar, pickles, tare','$17']
+        ]},
+        { label: 'Hot', items: [
+          ['New England Clam Chowder','potato, salt pork, saltines','$16'],
+          ['Maine Lobster Stew','coconut, green curry, maitake','$16'],
+          ['Battered Casco Bay Pollock','house tartar, lemon','$17'],
+          ['Scallop Waffle-Yaki','tempura, kabayaki, umami mayo','']
+        ]},
+        { label: 'Sweets', items: [
+          ['Ice Cream Sandwich','chocolate chip cookie, vanilla ice cream',''],
+          ['Whoopie Pie','',''],
+          ['Chocolate Coconut Brownie','','']
+        ]}
+      ]
+    },
+    'scales': {
+      title: 'Scales Restaurant',
+      subtitle: 'Maine Wharf \u00b7 Waterfront fine dining',
+      footer: 'Prices in USD \u00b7 scalesrestaurant.com',
+      sections: [
+        { label: 'Appetizers', items: [
+          ['Smoked Fish P\u00e2t\u00e9','house-smoked, served with toast','$14'],
+          ['Bluefin Tuna Crudo','','$19'],
+          ['Corn and Crab Chowder','','$13'],
+          ['Fried Whole Belly Clams','tartar sauce, smoked jalape\u00f1o aioli',''],
+          ['Fried Oysters','',''],
+          ['Tuna Tartare','',''],
+          ['Raw Oysters','fresh from Maine',''],
+          ['Crab Fritters','packed with real crab','']
+        ]},
+        { label: 'Mains', items: [
+          ['Seared Scallops','snap peas, hakurei turnips, spinach, mushroom cream, bacon','$35'],
+          ['Pan Roasted Halibut','hazelnuts, brown butter, lemon, peewee potatoes','$38'],
+          ['Lobster Roll','warm buttered, house mayo & chives, fries, coleslaw','$38'],
+          ['Baked Haddock','morel mushrooms, braised fingerling potatoes & leeks, fumet cream','$34'],
+          ['Branzino','expertly deboned tableside',''],
+          ['Seafood Stew','exceptional','$38']
+        ]},
+        { label: 'Desserts', items: [
+          ['Butterscotch Sundae','sweet, creamy perfection',''],
+          ['Baked Alaska','','']
+        ]}
+      ]
+    },
+    'fundy': {
+      title: 'Fundy Restaurant',
+      subtitle: 'Waterfront \u00b7 Digby scallop specialists',
+      footer: 'Prices in CAD \u00b7 Famous for Digby scallops',
+      sections: [
+        { label: 'Starters', items: [
+          ['Seafood Chowder','thick and loaded with scallops','$14'],
+          ['Scallops Wrapped in Bacon','3 famous Digby scallops on a scallop shell','$14'],
+          ['Spinach Salad','slivered almonds, goat cheese, warm mushroom, bacon, maple dressing','']
+        ]},
+        { label: 'Mains', items: [
+          ['Pan-Seared Digby Scallops','with mixed vegetables and roasted potatoes','$39'],
+          ['Scallops and Shrimp','accompanied by rice and vegetables','$28'],
+          ['Lobster Roll','full, with sourdough roll, chips or roasted potatoes',''],
+          ['Shrimp & Scallop Fettuccine','rich sauce, with garlic toast',''],
+          ['Panko Crusted Haddock','with fries and coleslaw',''],
+          ['Fish, Scallops and Chips','plated on scallop shell',''],
+          ['Lobster Tail Entr\u00e9e','with scallops and shrimp skewer, roasted potatoes',''],
+          ['Seafood Lasagna','big chunks of lobster','']
+        ]},
+        { label: 'Breakfast Highlights', items: [
+          ['Fundy\'s Traditional Digby Breakfast','scallops saut\u00e9ed in butter on a scallop shell, 2 eggs, hash browns, toast','$20'],
+          ['Scallop Omelette','fresh Digby scallops, hash browns, toast & jam','$18'],
+          ['Eggs Benedict','2 poached eggs & ham, hollandaise, hash browns','$18']
+        ]},
+        { label: 'Desserts', items: [
+          ['Apple Crumble','',''],
+          ['Homemade Biscuits with Local Blueberries','with whipped cream','']
+        ]}
+      ]
+    },
+    'beach-pea': {
+      title: 'Beach Pea Kitchen & Bar \u2b50',
+      subtitle: 'Farm-to-table \u00b7 128 Montague St, Lunenburg',
+      footer: 'Prices in CAD \u00b7 beachpeakitchen.com \u00b7 Reservations recommended',
+      sections: [
+        { label: 'Raw Bar', items: [
+          ['Oysters on the Half Shell','add Acadian Sturgeon Caviar $5','$4 each'],
+          ['Oysters Rockefeller','3 pieces','$15'],
+          ['Beach Pea Platter','8 oysters, 6 prawns, 1 snow crab cluster','$55']
+        ]},
+        { label: 'Starters', items: [
+          ['Burrata & Tomato','heirloom tomatoes, arugula, balsamic reduction, country baguette','$22'],
+          ['Caesar Salad','baby romaine, house smoked bacon, sourdough croutons, pecorino, lemon','$16'],
+          ['Calamari','chickpea crusted, flash fried, tzatziki, grilled cherry tomatoes, basil oil','$18'],
+          ['Salt Cod Fritters','Nova Scotia salt cod, Yukon Gold potato, Biscayne sauce, pickled garlic scapes','$16'],
+          ['Octopus','grilled sustainable Spanish octopus, salsa verde, Gaeta olives, roasted zucchini','$22'],
+          ['Tuna Tartare','yellowfin tuna, olive oil, lemon, jalape\u00f1os, saffron aioli, Acadian caviar','$22'],
+          ['Prawns','grilled, olive oil, garlic, parsley, lemon','$20'],
+          ['Mussels','steamed PEI mussels, pomodoro, harissa, lemon, grilled sourdough','$18']
+        ]},
+        { label: 'Pasta', items: [
+          ['Lobster Mafalde','Nova Scotia lobster, lemon, tarragon, Parmigiano, cream','$40'],
+          ['Pasta Sepia','seared scallops, black tiger shrimp, merguez sausage, calamari, pomodoro, cuttlefish reginelle','$36'],
+          ['Pasta Alla Norma','seared eggplant, capers, olives, basil, pomodoro, pecorino, campanelle','$26'],
+          ['Carbonara','house smoked bacon, farm fresh egg, Parmigiano, pecorino, linguini','$26'],
+          ['Shrimp Aglio e Olio','black tiger shrimp, garlic, olive oil, chili, Parmigiano, spaghettini','$26'],
+          ['Carloforte','bigeye tuna belly, capers, lemon, olive oil, pecorino, linguini','$32']
+        ]},
+        { label: 'Risotto', items: [
+          ['Scallop & Rabbit Risotto','Adams & Knickle scallops, braised rabbit, walnuts, dried cranberries, Parmigiano','$38'],
+          ['Wild Mushroom','lobster mushrooms, scallions, black truffle, arborio rice, Parmigiano','$34']
+        ]},
+        { label: 'Grill', items: [
+          ['Pork Chops','grilled, creamy polenta, caramelized apples & onions, braised cabbage','$36'],
+          ['Scallops','pan seared Adams & Knickle, red pepper & corn succotash, chanterelles, new potato','$40'],
+          ['Steak Frites','grilled 8 oz Atlantic hanger steak, green beans, mushrooms, salsa verde, fries','$36'],
+          ['Halibut','seared local halibut, toasted fregola, citrus bouillabaisse, rapini','$40']
+        ]},
+        { label: 'Desserts', items: [
+          ['Cheesecake','Basque style, peach ice cream, lavender honey, Chantilly','$14'],
+          ['Affogato','mascarpone ice cream, espresso, toasted pistachio','$12'],
+          ['Chocolate','dark chocolate cake, Valley cherry compote, Italian buttercream, vanilla bean ice cream','$14'],
+          ['Brie','baked brie, crabapple jam, toasted almonds, grilled bread, rosemary','$18']
+        ]}
+      ]
+    },
+    'salt-shaker': {
+      title: 'Salt Shaker Deli',
+      subtitle: 'Harbour-view patio \u00b7 124 Montague St, Lunenburg',
+      footer: 'Prices in CAD \u00b7 Seafood-forward comfort food',
+      sections: [
+        { label: 'Starters', items: [
+          ['Crab Dip','warm Nova Scotia crab, cream cheese, red peppers, parmesan, toasted pita','$18'],
+          ['Smoked Salmon Plate','dill cream cheese, capers, red onion, crostini, lemon','$20'],
+          ['Bacon Wrapped Scallops','deep sea scallops, cocktail sauce, lemon','$18'],
+          ['Korean Chicken Wings','gochujang, honey, sesame, green onion, chili, lime','$16'],
+          ['Calamari','dusted and fried, spicy marinara & basil oil','$14']
+        ]},
+        { label: 'Soups & Chowder', items: [
+          ['Seafood Chowder','scallops, mussels, shrimp, haddock & smoked haddock, cream, potatoes','$17 / cup $11'],
+          ['Mexican Chicken Tortilla Soup','chicken broth, shredded chicken, black beans, tortillas, cilantro','$14']
+        ]},
+        { label: 'Deli Specialties', items: [
+          ['Lobster Roll','Nova Scotia lobster, tarragon, mayo, celery, greens, homemade roll','$32'],
+          ['Fish Cakes','potato, salt cod & salt pork, tomato chow, Caesar salad','$24'],
+          ['Pad Thai','rice noodles, tamarind & pickled beet sauce, peanuts, sprouts','$20'],
+          ['Blue Cheese Burger','6 oz Atlantic beef, Danish blue cheese, caramelized onion, fries','$22'],
+          ['Our Famous Grilled Cheese','garlic butter, mozzarella, cheddar, bacon, focaccia, marinara','$16']
+        ]},
+        { label: 'Nightly Features', items: [
+          ['Scallop Linguini','seared Adams & Knickle scallops, smoked bacon, arugula, garlic, parmesan','$26'],
+          ['Atlantic Salmon','pan seared, lemon risotto, peas, pea shoots','$26'],
+          ['Lamb Shank','slow braised, scallion mashed potatoes, natural jus, broccoli','$26']
+        ]},
+        { label: 'Pizzas', items: [
+          ['Margherita','marinara, fresh tomato, mozzarella, bocconcini, basil','$17'],
+          ['Seafood','marinara, scallops, mussels, shrimp, capers, red onion','$24'],
+          ['Prosciutto & Pear','roasted garlic oil, pear, prosciutto, brie, arugula, balsamic','$22']
+        ]}
+      ]
+    },
+    'doyle-sansome': {
+      title: 'Doyle Sansome & Sons Lobster Pool',
+      subtitle: 'Legendary Twillingate seafood',
+      footer: 'Prices in CAD \u00b7 Cash & card \u00b7 Seasonal hours',
+      sections: [
+        { label: 'Chowders & Starters', items: [
+          ['Seafood Chowder','world-renowned fish chowder','~$14'],
+          ['Mussels','fresh local mussels',''],
+          ['Crab Spring Rolls','','']
+        ]},
+        { label: 'Mains', items: [
+          ['Boiled Lobster Dinner','fresh from the lobster pool, cooked in seawater','Market'],
+          ['Snow Crab Dinner','fresh local snow crab','Market'],
+          ['Fish & Chips','best on Notre Dame Bay','~$18'],
+          ['Pan-Fried Cod Tongues','a Newfoundland delicacy','~$16'],
+          ['Scallops','fresh local scallops',''],
+          ['Seafood Pasta','fettuccine with mussels and seafood, light cream sauce',''],
+          ['Squid Rings','','']
+        ]},
+        { label: 'Sides', items: [
+          ['Coleslaw','',''],
+          ['Fries','',''],
+          ['Hamburger Platter','for non-seafood eaters','']
+        ]}
+      ]
+    },
+    'fogo-inn': {
+      title: 'Fogo Island Inn Dining Room',
+      subtitle: 'All-inclusive \u00b7 Seasonal Newfoundland tasting menus',
+      footer: 'Dining included for inn guests \u00b7 Menus change daily & seasonally',
+      sections: [
+        { label: 'Breakfast (Sample)', items: [
+          ['Nova Scotia Smoked Eggs','fried egg, salmon, potato hash','Included'],
+          ['Turnip Hash','salt beef, crispy skate wing, pickles','Included'],
+          ['Pancakes','fresh berries, cr\u00e8me fra\u00eeche, maple syrup, whipped butter','Included'],
+          ['Granola & Yogurt','partridgeberry preserve','Included'],
+          ['Fresh Baked Bread','daily selection','Included']
+        ]},
+        { label: 'Tasting Menu (Sample)', items: [
+          ['Sour Cap Algae Consomm\u00e9','amuse-bouche',''],
+          ['Hand Crafted Charcuterie','pickles, smoked sauce, roasted beetroot',''],
+          ['Wild Rabbit','braised rabbit, carrot dumplings',''],
+          ['Trio of Soup','traditional seafood, foraged kelp, cream of lobster, prawn espuma',''],
+          ['Milk Poached Cured Cod','salted cod, morel, ferment, cod liver',''],
+          ['Fogo Island Lamb','roasted mutton, seasonal accompaniments',''],
+          ['Roasted Pumpkin Bread Pudding','partridgeberry ice cream, pumpkin seed praline',''],
+          ['New York Style Cheesecake','cranberry compote, candied pecans, rhubarb sorbet','']
+        ]},
+        { label: 'All-Inclusive Services', items: [
+          ['Breakfast','Dining Room','Included'],
+          ['Lunch','Dining Room','Included'],
+          ['Supper','Dining Room','Included'],
+          ['Day Break Basket','baked goods service','Included'],
+          ['Tea Room','hot tea & treats','Included'],
+          ['In-Between Menu','24-hour menu','Included'],
+          ['Packed Lunches','for excursions & hikes','Included']
+        ]}
+      ]
+    },
+    'alladin': {
+      title: 'Alladin Syrian Canadian Restaurant',
+      subtitle: 'Family-owned \u00b7 Middle Eastern-Maritime fusion',
+      footer: 'Prices in CAD \u00b7 Halal \u00b7 Top-rated in Pictou',
+      sections: [
+        { label: 'Starters', items: [
+          ['Hummus','classic chickpea dip with pita','~$8'],
+          ['Baba Ghanoush','smoky eggplant dip','~$8'],
+          ['Falafel','crispy chickpea fritters','~$8']
+        ]},
+        { label: 'Wraps & Sandwiches', items: [
+          ['Chicken Shawarma Wrap','marinated chicken, garlic sauce, pickles','~$14'],
+          ['Falafel Wrap','crispy falafel, tahini, vegetables','~$12'],
+          ['Shawarma Plate','with rice, salad, and garlic sauce','~$16']
+        ]},
+        { label: 'Mains', items: [
+          ['Shish Kabob','grilled meat skewers with rice and salad','~$18'],
+          ['Kebab Plate','seasoned ground meat, grilled','~$16'],
+          ['Fish and Chips','Maritime classic','~$14']
+        ]},
+        { label: 'Desserts', items: [
+          ['Baklava','layered phyllo, pistachios, honey syrup','~$5']
+        ]}
+      ]
+    },
+    '11th-mile': {
+      title: '11th Mile',
+      subtitle: 'Modern Canadian \u00b7 79 York St, Fredericton',
+      footer: 'Prices in CAD \u00b7 11thmile.ca \u00b7 Reservations recommended',
+      sections: [
+        { label: 'Bites', items: [
+          ['Togarashi-Spiced Popcorn','','$5'],
+          ['Scallion Pancake','','$11'],
+          ['House Pickles','','$5'],
+          ['Beef Tostada','','$5'],
+          ['Chicken Liver Toast','','$10'],
+          ['Pan Con Tomate','','$8']
+        ]},
+        { label: 'Plates', items: [
+          ['Heirloom and Cherry Tomatoes','house stracciatella, croutons','$17'],
+          ['Pork Belly Lettuce Wrap','house hot sauce, pickled cucumbers, crispy shallots','$16'],
+          ['Roasted Carrots','whipped tahini, mojo verde, crushed pepitas','$17'],
+          ['Shrimp and Sweet Corn','miso, furikake, scallions','$17'],
+          ['Seared Ahi Tuna','crispy rice cake, broccolini, nam jim jaew','$32'],
+          ['Cavatelli','garlic scape pesto, grana padano','$24'],
+          ['Chicken Paillard','warm potato salad, basil, capers','$27'],
+          ['Gnocchi','pork & fennel ragu, grana padano','$29'],
+          ['Flank Steak','asado marinade, ponzu vinaigrette, green and yellow beans','$30']
+        ]},
+        { label: 'Cocktails', items: [
+          ['Divine Intervention','vodka, chartreuse, egg white','$16'],
+          ['Summer Rain','gin, ginger, lime, Montenegro, celery','$16'],
+          ['Cardinal Sin','black rum, pineapple, hibiscus, campari, mezcal','$16'],
+          ['Mama Tried','Hendrick\'s gin, grapefruit, St. Germain','$16'],
+          ['Negroni','classic','$15'],
+          ['Penicillin','ginger, Famous Grouse, lemon, honey','$15'],
+          ['Manhattan','classic','$16']
+        ]}
+      ]
+    }
+  };
+
+  function buildMenuHTML(menu) {
+    var h = '';
+    for (var s = 0; s < menu.sections.length; s++) {
+      var sec = menu.sections[s];
+      h += '<div class="menu-section-label">' + sec.label + '</div>';
+      for (var i = 0; i < sec.items.length; i++) {
+        var item = sec.items[i];
+        h += '<div class="menu-item-row">';
+        h += '<div class="menu-item-name">' + item[0];
+        if (item[1]) h += ' <span class="menu-item-desc">\u2014 ' + item[1] + '</span>';
+        h += '</div>';
+        if (item[2]) h += '<div class="menu-item-price">' + item[2] + '</div>';
+        h += '</div>';
+      }
+    }
+    if (menu.footer) {
+      h += '<div class="menu-footer">' + menu.footer + '</div>';
+    }
+    return h;
+  }
+
+  window.openMenuModal = function(id) {
+    var menu = menus[id];
+    if (!menu) return;
+    titleEl.textContent = menu.title;
+    subtitleEl.textContent = menu.subtitle || '';
+    scrollEl.innerHTML = buildMenuHTML(menu);
+    overlay.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  };
+
+  function closeMenu() {
+    overlay.classList.remove('visible');
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeMenu();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('visible')) closeMenu();
+  });
 })();
 </script>
 
