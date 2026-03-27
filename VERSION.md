@@ -3,7 +3,7 @@
 **Site:** [maritimesgrandloop.com](https://maritimesgrandloop.com)
 **Repo:** [jhwiv/maritimes-pwa](https://github.com/jhwiv/maritimes-pwa)
 **Deploy:** Cloudflare Pages (auto-deploy from main)
-**Current:** v1.6
+**Current:** v1.9
 
 | Version | Date | Feature | Shared Feature ID |
 |---------|------|---------|-------------------|
@@ -23,3 +23,6 @@
 | v1.4 | 2026-03-27 | GPS & time awareness for chat concierge and local search | `GPS_TIME_AWARE` |
 | v1.5 | 2026-03-27 | GPS status tracking & first-message await for chat concierge | `GPS_STATUS_V2` |
 | v1.6 | 2026-03-27 | Full-screen local search overlay with grid buttons, map preview, POI cards, shared GPS cache, expanded TAG_MAP (57 entries), enhanced Overpass retry logic | `LOCAL_FULLSCREEN` `LOCAL_PRESETS` `SEARCH_CITY_POI` `GPS_CACHE_SHARED` |
+| v1.7 | 2026-03-27 | Cross-link Local Search & Chat Concierge | — |
+| v1.8 | 2026-03-27 | Restyle cross-link buttons for more prominent appearance | — |
+| v1.9 | 2026-03-27 | Restaurant menu pop-ups for 9 restaurants along the route (Eventide, Scales, Fundy, Beach Pea, Salt Shaker, Doyle Sansome, Fogo Island Inn, Alladin, 11th Mile) | `MENU_POPUP` |
