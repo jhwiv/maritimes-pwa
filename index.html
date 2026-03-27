@@ -3045,7 +3045,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 <footer id="site-footer" role="contentinfo">
   <p class="footer-quote">May every ferry be on time, every iceberg majestic, and every mile a memory.</p>
   <p class="footer-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home</p>
-  <p class="footer-meta">Maritimes · Summer 2026 · v1.5 · Updated 27 March 2026</p>
+  <p class="footer-meta">Maritimes · Summer 2026 · v1.6 · Updated 27 March 2026</p>
   <div class="footer-actions">
     <a class="footer-btn" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
     <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
@@ -4167,6 +4167,7 @@ if ('serviceWorker' in navigator) {
     div.className = 'chat-msg ' + role;
     if (role === 'assistant') {
       text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--gold2);text-decoration:underline">$1</a>');
       text = text.replace(/\n/g, '<br>');
       div.innerHTML = text;
     } else if (role === 'system') {
@@ -4273,7 +4274,7 @@ if ('serviceWorker' in navigator) {
               var token = chunk.response || (chunk.choices && chunk.choices[0] && chunk.choices[0].delta && chunk.choices[0].delta.content) || '';
               if (token) {
                 fullText += token;
-                var rendered = fullText.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                var rendered = fullText.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--gold2);text-decoration:underline">$1</a>').replace(/\n/g, '<br>');
                 msgDiv.innerHTML = rendered;
                 chatMessages.scrollTop = chatMessages.scrollHeight;
               }
