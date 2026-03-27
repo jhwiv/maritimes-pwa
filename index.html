@@ -1042,69 +1042,202 @@ section[id]{
   border-color:rgba(201,169,110,.6);
   color:var(--gold2);
 }
+/* ── FLOATING SEARCH (full-screen overlay) ──────────── */
 #search-card{
   display:none;
-  position:fixed;bottom:calc(86px + env(safe-area-inset-bottom,0px));
-  left:var(--sp16);right:var(--sp16);
-  max-width:400px;z-index:191;
-  background:var(--navy);
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  z-index:200;
+  background:linear-gradient(180deg,#111D2B 0%,#1B2838 100%);
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+#search-card.open{display:flex;flex-direction:column}
+
+/* Close button */
+.search-close{
+  position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:16px;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.7);font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:5;transition:all .15s;
+}
+.search-close:hover{background:rgba(255,255,255,.14);color:#fff}
+
+/* Inner container */
+.search-inner{
+  flex:1;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;
+  max-width:420px;width:100%;margin:0 auto;
+}
+
+/* Search bar */
+.search-bar{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.07);
   border:1px solid rgba(201,169,110,.2);
-  border-radius:var(--r12);
-  box-shadow:0 8px 40px rgba(0,0,0,.45);
-  padding:var(--sp16);
-  animation:slideUp .25s ease;
+  border-radius:28px;
+  padding:10px 16px;
+  margin-bottom:20px;
+  transition:border-color .2s;
 }
-#search-card.open{display:block}
-.search-input-row{
-  display:flex;gap:var(--sp8);margin-bottom:var(--sp12);
-}
+.search-bar:focus-within{border-color:var(--gold)}
+.search-bar svg{flex-shrink:0;color:rgba(201,169,110,.5)}
 #search-input{
-  flex:1;
-  font-family:'Crimson Pro',serif;font-size:15px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:var(--r6);
-  padding:10px 14px;
-  color:#fff;
-  outline:none;
+  flex:1;background:none;border:none;outline:none;
+  font-family:'Crimson Pro',serif;font-size:16px;
+  color:#fff;padding:0;
 }
-#search-input::placeholder{color:rgba(255,255,255,.35)}
-#search-input:focus{border-color:var(--gold);background:rgba(255,255,255,.1)}
-#search-go{
-  background:var(--gold);color:var(--navy2);
-  border:none;border-radius:var(--r6);
-  padding:10px 16px;cursor:pointer;
+#search-input::placeholder{color:rgba(255,255,255,.3)}
+.search-mic{background:none;border:none;cursor:pointer;padding:0;display:flex;color:var(--gold);opacity:.6}
+.search-mic:hover{opacity:1}
+
+/* Category grid — 3 columns */
+.search-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:16px;
+}
+.search-grid-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,169,110,.15);
+  border-radius:12px;
+  padding:12px 6px 10px;
+  cursor:pointer;
+  transition:all .18s;
+  color:rgba(201,169,110,.75);
+}
+.search-grid-btn:hover{
+  background:rgba(201,169,110,.1);
+  border-color:rgba(201,169,110,.35);
+  color:var(--gold);
+  transform:translateY(-1px);
+}
+.search-grid-btn:active{transform:scale(.96)}
+.search-grid-btn svg{
+  width:22px;height:22px;
+  stroke:currentColor;fill:none;
+  stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+}
+.search-grid-label{
   font-family:'DM Mono',monospace;font-size:10px;
-  font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:rgba(255,255,255,.65);
+}
+
+/* Map preview */
+.search-map-wrap{
+  border-radius:12px;overflow:hidden;
+  height:120px;position:relative;
+  margin-bottom:8px;
+  border:1px solid rgba(201,169,110,.12);
+}
+.search-map-wrap iframe{
+  width:100%;height:100%;border:none;
+  filter:invert(90%) hue-rotate(180deg) saturate(.7) brightness(.85);
+}
+.search-map-pin{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-100%);
+  font-size:24px;text-shadow:0 2px 6px rgba(0,0,0,.5);
+  pointer-events:none;
+}
+.search-map-label{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:rgba(255,255,255,.75);
+  background:rgba(17,29,43,.8);backdrop-filter:blur(6px);
+  padding:4px 12px;border-radius:10px;
   white-space:nowrap;
 }
-#search-go:hover{background:var(--gold2)}
-.search-presets{
-  display:flex;flex-wrap:wrap;gap:6px;
+
+/* Location status */
+.search-loc-status{
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:rgba(255,255,255,.35);
+  text-align:center;
+  margin:6px 0 14px;
+  letter-spacing:.04em;
+  display:flex;align-items:center;justify-content:center;gap:6px;
 }
-.search-preset{
+.search-loc-status .loc-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;
+}
+.search-loc-status.denied .loc-dot{background:#e8985a}
+
+/* Explore section */
+.search-explore-title{
+  font-family:'Playfair Display',serif;font-size:16px;
+  color:#fff;margin:0 0 10px;
+  font-weight:500;
+}
+.search-explore-scroll{
+  display:flex;gap:12px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  padding-bottom:10px;
+  scrollbar-width:none;
+}
+.search-explore-scroll::-webkit-scrollbar{display:none}
+.search-poi-card{
+  flex-shrink:0;width:110px;cursor:pointer;
+  transition:transform .15s;
+}
+.search-poi-card:hover{transform:translateY(-2px)}
+.search-poi-img{
+  width:110px;height:72px;border-radius:10px;
+  object-fit:cover;
+  border:1px solid rgba(201,169,110,.12);
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.04);
+}
+.search-poi-img img{
+  width:100%;height:100%;object-fit:cover;
+}
+.search-poi-rating{
+  position:absolute;top:6px;left:6px;
+  background:rgba(17,29,43,.85);backdrop-filter:blur(4px);
+  padding:2px 6px;border-radius:6px;
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:var(--gold);
+  display:flex;align-items:center;gap:3px;
+}
+.search-poi-name{
   font-family:'DM Mono',monospace;font-size:9px;
   letter-spacing:.04em;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;
-  padding:7px 12px;
   color:rgba(255,255,255,.6);
-  cursor:pointer;
-  transition:all .15s;
-  white-space:nowrap;
+  margin-top:6px;
+  text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.search-preset:hover{
-  background:rgba(201,169,110,.12);
-  border-color:rgba(201,169,110,.3);
-  color:var(--gold2);
+
+/* Bottom navigation */
+.search-bottom-nav{
+  display:flex;justify-content:space-around;align-items:center;
+  padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px));
+  border-top:1px solid rgba(201,169,110,.1);
+  background:#111D2B;
+  margin-top:auto;
+  flex-shrink:0;
 }
-.search-preset:active{transform:scale(.95)}
-.search-loc-status{
+/* Hide A2HS banner when search overlay is open */
+#search-card.open ~ #a2hs-banner,
+body:has(#search-card.open) #a2hs-banner{display:none!important}
+.search-nav-tab{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  background:none;border:none;cursor:pointer;
+  color:rgba(255,255,255,.35);
+  transition:color .15s;
+  padding:4px 16px;
+}
+.search-nav-tab.active{color:var(--gold)}
+.search-nav-tab:hover{color:rgba(201,169,110,.7)}
+.search-nav-tab svg{width:22px;height:22px}
+.search-nav-label{
   font-family:'DM Mono',monospace;font-size:8px;
-  color:rgba(255,255,255,.3);
-  margin-top:var(--sp8);
-  letter-spacing:.04em;
+  letter-spacing:.08em;text-transform:uppercase;
 }
 
 /* ── WEATHER CARDS ──────────────────────────────── */
@@ -3485,106 +3618,376 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
     <button id="chat-send">Send</button>
   </div>
 </div>
+<!-- SEARCH OVERLAY (full-screen app-style) -->
 <div id="search-card" role="dialog" aria-label="Search nearby places">
-  <div class="search-input-row">
-    <input id="search-input" type="text" placeholder="Search nearby…" autocomplete="off">
-    <button id="search-go">Go</button>
+  <button class="search-close" id="search-close" aria-label="Close search">✕</button>
+  <div class="search-inner">
+    <!-- Search bar -->
+    <div class="search-bar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search-input" type="text" placeholder="Search nearby…" autocomplete="off">
+      <button class="search-mic" id="search-mic" aria-label="Voice search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
+    </div>
+
+    <!-- Category grid -->
+    <div class="search-grid">
+      <button class="search-grid-btn" data-q="coffee shop">
+        <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        <span class="search-grid-label">Coffee</span>
+      </button>
+      <button class="search-grid-btn" data-q="restaurant">
+        <svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="22"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>
+        <span class="search-grid-label">Restaurant</span>
+      </button>
+      <button class="search-grid-btn" data-q="supermarket grocery">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="search-grid-label">Grocery</span>
+      </button>
+      <button class="search-grid-btn" data-q="pharmacy">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><line x1="12" y1="7" x2="12" y2="12"/><line x1="9.5" y1="9.5" x2="14.5" y2="9.5"/><rect x="4" y="12" width="16" height="8" rx="2"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>
+        <span class="search-grid-label">Pharmacy</span>
+      </button>
+      <button class="search-grid-btn" data-q="ATM">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="14" x2="6" y2="14.01"/><line x1="10" y1="14" x2="10" y2="14.01"/></svg>
+        <span class="search-grid-label">ATM</span>
+      </button>
+      <button class="search-grid-btn" data-q="gas station">
+        <svg viewBox="0 0 24 24"><path d="M3 22V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M3 22h12"/><path d="M15 10h2a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2v0a2 2 0 0 0 2-2V9l-3-3"/><rect x="5" y="8" width="8" height="5" rx="1"/></svg>
+        <span class="search-grid-label">Gas</span>
+      </button>
+      <button class="search-grid-btn" data-q="bar pub">
+        <svg viewBox="0 0 24 24"><path d="M8 22h8"/><path d="M12 11v11"/><path d="M19.5 2L9.3 12.7a1 1 0 0 0 .7 1.7h8.5a1 1 0 0 0 .7-1.7L9.5 2"/><circle cx="6" cy="5" r="3"/></svg>
+        <span class="search-grid-label">Bar</span>
+      </button>
+      <button class="search-grid-btn" data-q="liquor store wine beer">
+        <svg viewBox="0 0 24 24"><path d="M8 2h8l-1 7H9L8 2z"/><path d="M9 9v1a3 3 0 0 0 3 3v0a3 3 0 0 0 3-3V9"/><line x1="12" y1="13" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+        <span class="search-grid-label">Liquor</span>
+      </button>
+      <button class="search-grid-btn" data-q="public toilet restroom">
+        <svg viewBox="0 0 24 24"><path d="M5 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/><path d="M2.5 9h5l.5 7H2l.5-7z"/><line x1="5" y1="16" x2="5" y2="22"/><path d="M19 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/><path d="M16 9h6l-1.5 4h-3L16 9z"/><line x1="17" y1="13" x2="16.5" y2="22"/><line x1="21" y1="13" x2="21.5" y2="22"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
+        <span class="search-grid-label">WC</span>
+      </button>
+      <button class="search-grid-btn" data-q="hiking trail">
+        <svg viewBox="0 0 24 24"><path d="M13 4a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M7.5 22l3-7.5L14 17v5"/><path d="M9 8l-4 4 2 2"/><path d="M14 6l-1.5 4.5L17 13"/></svg>
+        <span class="search-grid-label">Hiking</span>
+      </button>
+    </div>
+
+    <!-- Map preview -->
+    <div class="search-map-wrap" id="search-map-wrap">
+      <iframe id="search-map-iframe" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src=""></iframe>
+      <span class="search-map-label" id="search-map-label">Maritimes</span>
+    </div>
+
+    <!-- Location status -->
+    <div class="search-loc-status" id="search-loc-status">
+      <span class="loc-dot"></span> Tap to allow location for nearby results
+    </div>
+
+    <!-- Explore section -->
+    <h3 class="search-explore-title" id="search-explore-title">Exploring Maritimes</h3>
+    <div class="search-explore-scroll" id="search-explore-scroll">
+      <!-- POI cards populated by JS -->
+    </div>
   </div>
-  <div class="search-presets">
-    <button class="search-preset" data-q="coffee shop">☕ Coffee</button>
-    <button class="search-preset" data-q="restaurant">🍽 Restaurant</button>
-    <button class="search-preset" data-q="supermarket grocery">🛒 Grocery</button>
-    <button class="search-preset" data-q="pharmacy">💊 Pharmacy</button>
-    <button class="search-preset" data-q="ATM">🏧 ATM</button>
-    <button class="search-preset" data-q="gas station">⛽ Gas</button>
-    <button class="search-preset" data-q="bar pub">🍺 Bar</button>
-    <button class="search-preset" data-q="liquor store wine beer">🍷 Liquor</button>
-    <button class="search-preset" data-q="public toilet restroom">🚻 WC</button>
-    <button class="search-preset" data-q="hiking trail">🥾 Hiking</button>
-  </div>
-  <div class="search-loc-status" id="search-loc-status">📍 Tap to allow location for nearby results</div>
+
+  <!-- Bottom nav -->
+  <nav class="search-bottom-nav">
+    <button class="search-nav-tab active" id="search-tab-explore">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+      <span class="search-nav-label">Explore</span>
+    </button>
+    <button class="search-nav-tab" id="search-tab-saved">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <span class="search-nav-label">Saved</span>
+    </button>
+    <button class="search-nav-tab" id="search-tab-profile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="search-nav-label">Profile</span>
+    </button>
+  </nav>
 </div>
 
 <script>
-// ── FLOATING SEARCH ────────────────────────────────────
+// ── SHARED GPS CACHE ─────────────────────────────────
+// Caches user position for up to 5 minutes; shared by chat & search.
+(function() {
+  var GPS_MAX_AGE = 300000; // 5 minutes
+  var GPS_TIMEOUT = 4000;   // 4 seconds
+  var cached = null;        // { lat, lng, ts }
+  var gpsStatus = 'pending'; // 'granted', 'denied', 'unavailable', 'pending'
+
+  function refresh(cb) {
+    if (cached && (Date.now() - cached.ts < GPS_MAX_AGE)) {
+      if (cb) cb(cached);
+      return;
+    }
+    if (!navigator.geolocation) {
+      gpsStatus = 'unavailable';
+      if (cb) cb(null);
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        cached = { lat: pos.coords.latitude, lng: pos.coords.longitude, ts: Date.now() };
+        gpsStatus = 'granted';
+        if (cb) cb(cached);
+      },
+      function(err) {
+        gpsStatus = (err && err.code === 1) ? 'denied' : 'unavailable';
+        if (cb) cb(cached); // return stale cache or null
+      },
+      { timeout: GPS_TIMEOUT, maximumAge: GPS_MAX_AGE }
+    );
+  }
+
+  window._gpsCache = {
+    refresh: refresh,
+    get: function() { return cached; },
+    status: function() { return gpsStatus; }
+  };
+})();
+</script>
+
+<script>
+// ── FLOATING SEARCH (full-screen overlay, location-aware) ─────
 (function() {
   var fab = document.getElementById('search-fab');
   var card = document.getElementById('search-card');
   var input = document.getElementById('search-input');
-  var goBtn = document.getElementById('search-go');
+  var closeBtn = document.getElementById('search-close');
   var status = document.getElementById('search-loc-status');
+  var mapIframe = document.getElementById('search-map-iframe');
+  var mapLabel = document.getElementById('search-map-label');
+  var exploreTitle = document.getElementById('search-explore-title');
+  var exploreScroll = document.getElementById('search-explore-scroll');
   if (!fab || !card) return;
 
   var userLat = null, userLng = null;
-  var hasRealGps = false;
-  var FALLBACK_LAT = 44.6488, FALLBACK_LNG = -63.5752;
+  var geoGranted = false;
 
-  // Toggle card
-  fab.addEventListener('click', function() {
-    var isOpen = card.classList.toggle('open');
-    fab.textContent = isOpen ? '✕' : '🔍';
-    if (isOpen) {
-      getLocation();
+  var cities = {
+    portland: {
+      name: 'Portland', lat: 43.6591, lng: -70.2568,
+      pois: [
+        { name: 'Portland Head Light', rating: '4.8', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Portland_Head_Light%2C_Cape_Elizabeth_ME.jpg/320px-Portland_Head_Light%2C_Cape_Elizabeth_ME.jpg', q: 'Portland Head Light' },
+        { name: 'Old Port District', rating: '4.7', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Wharf_Street%2C_Portland%2C_ME_IMG_1893.JPG/320px-Wharf_Street%2C_Portland%2C_ME_IMG_1893.JPG', q: 'Old Port Portland Maine' },
+        { name: 'Eastern Promenade', rating: '4.6', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Eastern_Promenade%2C_Portland%2C_Maine_-_20100830.jpg/320px-Eastern_Promenade%2C_Portland%2C_Maine_-_20100830.jpg', q: 'Eastern Promenade Portland' },
+        { name: 'Victoria Mansion', rating: '4.5', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Victoria_Mansion.JPG/320px-Victoria_Mansion.JPG', q: 'Victoria Mansion Portland' }
+      ]
+    },
+    halifax: {
+      name: 'Halifax', lat: 44.6488, lng: -63.5752,
+      pois: [
+        { name: 'Citadel Hill', rating: '4.7', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Citadel_hill_halifax.jpg/320px-Citadel_hill_halifax.jpg', q: 'Citadel Hill Halifax' },
+        { name: "Peggy's Cove", rating: '4.8', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Peggys-Cove-NS.jpg/320px-Peggys-Cove-NS.jpg', q: "Peggy's Cove Nova Scotia" },
+        { name: 'Halifax Waterfront', rating: '4.6', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HalifaxBoardwalk.JPG/320px-HalifaxBoardwalk.JPG', q: 'Halifax Waterfront Boardwalk' },
+        { name: 'Public Gardens', rating: '4.7', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Halifax_Public_Gardens_-_panoramio.jpg/320px-Halifax_Public_Gardens_-_panoramio.jpg', q: 'Halifax Public Gardens' }
+      ]
+    },
+    lunenburg: {
+      name: 'Lunenburg', lat: 44.3726, lng: -64.3101,
+      pois: [
+        { name: 'Old Town', rating: '4.9', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Lunenburg%2C_Nova_Scotia_%282%29.jpg/320px-Lunenburg%2C_Nova_Scotia_%282%29.jpg', q: 'Old Town Lunenburg' },
+        { name: 'Bluenose II', rating: '4.8', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Bluenose_II_Lunenburg.jpg/320px-Bluenose_II_Lunenburg.jpg', q: 'Bluenose II Lunenburg' },
+        { name: 'Fisheries Museum', rating: '4.6', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Fisheries_Museum_of_the_Atlantic.jpg/320px-Fisheries_Museum_of_the_Atlantic.jpg', q: 'Fisheries Museum Lunenburg' }
+      ]
+    },
+    stjohns: {
+      name: "St. John's", lat: 47.5615, lng: -52.7126,
+      pois: [
+        { name: 'Signal Hill', rating: '4.8', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Signal_Hill_St_Johns.jpg/320px-Signal_Hill_St_Johns.jpg', q: "Signal Hill St John's" },
+        { name: 'Jellybean Row', rating: '4.7', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Jellybean_row_close.jpg/320px-Jellybean_row_close.jpg', q: "Jellybean Row St John's" },
+        { name: 'Cape Spear', rating: '4.8', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Cape_Spear_Lighthouse_%282%29.jpg/320px-Cape_Spear_Lighthouse_%282%29.jpg', q: 'Cape Spear Newfoundland' },
+        { name: 'The Rooms', rating: '4.6', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/The-Rooms.jpg/320px-The-Rooms.jpg', q: "The Rooms St John's" }
+      ]
+    },
+    fogoisland: {
+      name: 'Fogo Island', lat: 49.7167, lng: -54.1833,
+      pois: [
+        { name: 'Fogo Island Inn', rating: '4.9', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Fogo_Island_Inn.jpg/320px-Fogo_Island_Inn.jpg', q: 'Fogo Island Inn' },
+        { name: 'Iceberg Alley', rating: '4.8', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Iceberg_in_the_Arctic_with_its_underside_exposed.jpg/320px-Iceberg_in_the_Arctic_with_its_underside_exposed.jpg', q: 'Icebergs Fogo Island' },
+        { name: 'Brimstone Head', rating: '4.7', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Brimstone_Head_2.jpg/320px-Brimstone_Head_2.jpg', q: 'Brimstone Head Fogo Island' }
+      ]
     }
-  });
+  };
 
-  // Close on outside click
-  document.addEventListener('click', function(e) {
-    if (card.classList.contains('open') && !e.target.closest('#search-card') && !e.target.closest('#search-fab')) {
-      card.classList.remove('open');
-      fab.textContent = '🔍';
-    }
-  });
-
-  // Get user location — always tries real GPS first
-  function getLocation() {
-    if (hasRealGps) return; // already have real GPS, no need to retry
-    if (!navigator.geolocation) {
-      status.textContent = '📍 Location not available — searching Halifax area';
-      userLat = FALLBACK_LAT; userLng = FALLBACK_LNG;
-      return;
-    }
-    status.textContent = '📍 Getting your location…';
-    navigator.geolocation.getCurrentPosition(
-      function(pos) {
-        userLat = pos.coords.latitude;
-        userLng = pos.coords.longitude;
-        hasRealGps = true;
-        status.textContent = '📍 Using your GPS location';
-      },
-      function() {
-        status.textContent = '📍 Location denied — searching Halifax area';
-        userLat = FALLBACK_LAT; userLng = FALLBACK_LNG;
-      },
-      { timeout: 5000, maximumAge: 300000 }
-    );
+  function getActiveCity() {
+    // Map active section/tab to nearest city
+    var sec = (typeof lastActiveSection !== 'undefined') ? lastActiveSection : 'hero';
+    if (sec === 'section-day1' || sec === 'hero') return cities.portland;
+    if (sec === 'section-day2' || sec === 'section-day3') return cities.lunenburg;
+    if (sec === 'section-day4' || sec === 'section-day5') return cities.stjohns;
+    if (sec === 'section-fogo') return cities.fogoisland;
+    if (sec === 'section-day9' || sec === 'section-day10' || sec === 'section-day11' || sec === 'section-day12') return cities.halifax;
+    return cities.halifax; // default fallback
   }
 
-  // Search function
-  function doSearch(query) {
-    if (!query.trim()) return;
-    var lat = userLat || FALLBACK_LAT;
-    var lng = userLng || FALLBACK_LNG;
-    var url = 'https://www.google.com/maps/search/' + encodeURIComponent(query)
-      + '/@' + lat + ',' + lng + ',15z';
-    openSearchIframe(url);
+  function syncCityUI() {
+    var city = getActiveCity();
+    var useGps = geoGranted && userLat && userLng;
+    var displayLat = useGps ? userLat : city.lat;
+    var displayLng = useGps ? userLng : city.lng;
+    input.placeholder = useGps ? 'Search nearby…' : 'Search ' + city.name + '…';
+    if (mapLabel) mapLabel.textContent = useGps ? 'Your Location' : city.name + ' Center';
+    if (exploreTitle) exploreTitle.textContent = useGps ? 'Near your location' : 'Exploring ' + city.name;
+
+    // Update map — center on real GPS when available
+    if (mapIframe) {
+      var mapSrc = 'https://www.openstreetmap.org/export/embed.html?bbox='
+        + (displayLng - 0.015) + '%2C' + (displayLat - 0.008) + '%2C'
+        + (displayLng + 0.015) + '%2C' + (displayLat + 0.008)
+        + '&layer=mapnik&marker=' + displayLat + '%2C' + displayLng;
+      if (mapIframe.getAttribute('src') !== mapSrc) mapIframe.setAttribute('src', mapSrc);
+    }
+
+    // Update POI cards
+    if (exploreScroll) {
+      exploreScroll.innerHTML = '';
+      city.pois.forEach(function(poi) {
+        var c = document.createElement('div');
+        c.className = 'search-poi-card';
+        c.innerHTML = '<div class="search-poi-img"><img src="' + poi.img + '" alt="' + poi.name + '" loading="lazy"><div class="search-poi-rating">' + poi.rating + ' ★</div></div><div class="search-poi-name">' + poi.name + '</div>';
+        var img = c.querySelector('img');
+        if (img) {
+          img.onerror = function() {
+            this.onerror = null;
+            this.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='72' viewBox='0 0 110 72'%3E%3Crect fill='%23111D2B' width='110' height='72' rx='10'/%3E%3Cpath d='M55 18c-5.5 0-10 4.5-10 10 0 7.5 10 18 10 18s10-10.5 10-18c0-5.5-4.5-10-10-10zm0 13.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z' fill='%23C9A96E'/%3E%3Ctext x='55' y='60' text-anchor='middle' fill='%23C9A96E' font-size='9' font-family='system-ui'>Explore%3C/text%3E%3C/svg%3E";
+            this.style.objectFit = 'contain';
+          };
+        }
+        c.addEventListener('click', function() {
+          openSearchIframe(null, city.lat, city.lng, poi.q);
+          closeSearch();
+        });
+        exploreScroll.appendChild(c);
+      });
+    }
+
+    if (!geoGranted && userLat) {
+      status.innerHTML = '<span class="loc-dot"></span> Location denied — searching ' + city.name + ' center';
+      status.className = 'search-loc-status denied';
+    }
+  }
+
+  function openSearch() {
+    card.classList.add('open');
+    fab.textContent = '✕';
+    document.body.style.overflow = 'hidden';
+    syncCityUI();
+    getLocation();
+    var cp = document.getElementById('chat-panel');
+    if (cp) { cp.style.display = 'none'; cp.classList.remove('open'); }
+    var a2hs = document.getElementById('a2hs-banner');
+    if (a2hs) a2hs.style.display = 'none';
+  }
+
+  function closeSearch() {
     card.classList.remove('open');
     fab.textContent = '🔍';
+    document.body.style.overflow = '';
+  }
+
+  fab.addEventListener('click', function() {
+    if (card.classList.contains('open')) closeSearch();
+    else openSearch();
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && card.classList.contains('open')) closeSearch();
+  });
+
+  function getLocation() {
+    if (geoGranted) return;
+    // Check shared GPS cache first
+    var cached = window._gpsCache.get();
+    if (cached) {
+      userLat = cached.lat; userLng = cached.lng;
+      geoGranted = true;
+      status.innerHTML = '<span class="loc-dot"></span> Near your location';
+      status.className = 'search-loc-status';
+      syncCityUI();
+      return;
+    }
+    if (!navigator.geolocation) {
+      var c = getActiveCity();
+      status.innerHTML = '<span class="loc-dot"></span> Location not available — searching ' + c.name + ' center';
+      status.className = 'search-loc-status denied';
+      userLat = c.lat; userLng = c.lng;
+      return;
+    }
+    status.innerHTML = '<span class="loc-dot"></span> Getting your location…';
+    status.className = 'search-loc-status';
+    window._gpsCache.refresh(function(pos) {
+      if (pos) {
+        userLat = pos.lat; userLng = pos.lng;
+        geoGranted = true;
+        status.innerHTML = '<span class="loc-dot"></span> Near your location';
+        status.className = 'search-loc-status';
+        syncCityUI();
+      } else {
+        var c = getActiveCity();
+        status.innerHTML = '<span class="loc-dot"></span> Location denied — searching ' + c.name + ' center';
+        status.className = 'search-loc-status denied';
+        userLat = c.lat; userLng = c.lng;
+      }
+    });
+  }
+
+  function doSearch(query) {
+    if (!query.trim()) return;
+    var city = getActiveCity();
+    var lat = geoGranted ? userLat : city.lat;
+    var lng = geoGranted ? userLng : city.lng;
+    openSearchIframe(null, lat, lng, query.trim());
+    closeSearch();
     input.value = '';
   }
 
-  // Go button
-  goBtn.addEventListener('click', function() { doSearch(input.value); });
   input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') doSearch(input.value);
   });
 
-  // Preset buttons
-  document.querySelectorAll('.search-preset').forEach(function(btn) {
+  // Grid buttons
+  document.querySelectorAll('.search-grid-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       doSearch(btn.dataset.q);
     });
   });
+
+  // Microphone (voice search)
+  var micBtn = document.getElementById('search-mic');
+  if (micBtn && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    micBtn.addEventListener('click', function() {
+      var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      var rec = new SR();
+      rec.lang = 'en-US';
+      rec.interimResults = false;
+      rec.maxAlternatives = 1;
+      rec.onresult = function(e) {
+        var t = e.results[0][0].transcript;
+        input.value = t;
+        doSearch(t);
+      };
+      rec.start();
+    });
+  } else if (micBtn) {
+    micBtn.style.display = 'none';
+  }
+
+  // Scroll-spy sync
+  var lastSyncedSection = '';
+  setInterval(function() {
+    var sec = (typeof lastActiveSection !== 'undefined') ? lastActiveSection : 'hero';
+    if (sec !== lastSyncedSection && card.classList.contains('open')) {
+      lastSyncedSection = sec;
+      syncCityUI();
+    }
+  }, 300);
 })();
 </script>
 
@@ -4010,11 +4413,7 @@ if ('serviceWorker' in navigator) {
   if (!chatFab || !chatPanel) return;
 
   var chatHistory = [];
-  var chatLat = null, chatLng = null;
-  var chatGpsTimestamp = 0;
-  var chatGpsStatus = 'pending'; // 'pending' | 'granted' | 'denied' | 'unavailable'
   var chatGpsResolve = null; // resolves the first-message await
-  var GPS_CACHE_MS = 5 * 60 * 1000; // refresh GPS every 5 minutes
   function getActiveTabLabel() {
     var active = document.querySelector('.nav-chip.active');
     return active ? active.textContent.trim() : 'Overview';
@@ -4023,28 +4422,14 @@ if ('serviceWorker' in navigator) {
   var isFirstMessage = true;
 
   function getChatLocation() {
-    if (!navigator.geolocation) {
-      chatGpsStatus = 'unavailable';
+    var st = window._gpsCache.status();
+    if (st === 'granted' || st === 'denied' || st === 'unavailable') {
       if (chatGpsResolve) { chatGpsResolve(); chatGpsResolve = null; }
       return;
     }
-    // Skip if cached position is fresh enough
-    if (chatLat && (Date.now() - chatGpsTimestamp < GPS_CACHE_MS)) return;
-    chatGpsStatus = 'pending';
-    navigator.geolocation.getCurrentPosition(
-      function(pos) {
-        chatLat = pos.coords.latitude;
-        chatLng = pos.coords.longitude;
-        chatGpsTimestamp = Date.now();
-        chatGpsStatus = 'granted';
-        if (chatGpsResolve) { chatGpsResolve(); chatGpsResolve = null; }
-      },
-      function(err) {
-        chatGpsStatus = (err.code === 1) ? 'denied' : 'unavailable';
-        if (chatGpsResolve) { chatGpsResolve(); chatGpsResolve = null; }
-      },
-      { timeout: 5000, maximumAge: 300000 }
-    );
+    window._gpsCache.refresh(function() {
+      if (chatGpsResolve) { chatGpsResolve(); chatGpsResolve = null; }
+    });
   }
 
   var chatOverlay = document.getElementById('chat-overlay');
@@ -4217,7 +4602,7 @@ if ('serviceWorker' in navigator) {
     showTyping();
 
     // On first message, wait briefly for GPS to resolve
-    if (isFirstMessage && chatGpsStatus === 'pending') {
+    if (isFirstMessage && window._gpsCache.status() === 'pending') {
       isFirstMessage = false;
       var gpsWait = new Promise(function(resolve) {
         chatGpsResolve = resolve;
@@ -4237,9 +4622,9 @@ if ('serviceWorker' in navigator) {
       body: JSON.stringify({
         message: text,
         activeTab: getActiveTabLabel(),
-        latitude: chatLat,
-        longitude: chatLng,
-        gpsStatus: chatGpsStatus,
+        latitude: (window._gpsCache.get() || {}).lat || null,
+        longitude: (window._gpsCache.get() || {}).lng || null,
+        gpsStatus: window._gpsCache.status(),
         localTime: new Date().toISOString(),
         history: chatHistory.slice(-8)
       })
@@ -4354,15 +4739,64 @@ if ('serviceWorker' in navigator) {
 
   var TAG_MAP = {
     'coffee shop': '["amenity"~"cafe"]',
+    'coffee': '["amenity"~"cafe"]',
+    'cafe': '["amenity"~"cafe"]',
     'restaurant': '["amenity"="restaurant"]',
-    'supermarket grocery': '["shop"~"supermarket|convenience"]',
+    'food': '["amenity"~"restaurant|fast_food|cafe"]',
+    'eat': '["amenity"~"restaurant|fast_food|cafe"]',
     'pharmacy': '["amenity"="pharmacy"]',
-    'ATM': '["amenity"="atm"]',
-    'gas station': '["amenity"="fuel"]',
+    'drug store': '["amenity"="pharmacy"]',
+    'atm': '["amenity"="atm"]',
+    'bank': '["amenity"~"bank|atm"]',
     'bar pub': '["amenity"~"bar|pub"]',
-    'liquor store wine beer': '["shop"~"alcohol|wine|beverages"]',
+    'bar': '["amenity"~"bar|pub"]',
+    'pub': '["amenity"~"bar|pub"]',
+    'beer': '["amenity"~"bar|pub|biergarten"]',
+    'wine': '["amenity"~"bar|wine_bar"]',
     'public toilet restroom': '["amenity"="toilets"]',
-    'hiking trail': '["route"="hiking"]'
+    'toilet': '["amenity"="toilets"]',
+    'wc': '["amenity"="toilets"]',
+    'bathroom': '["amenity"="toilets"]',
+    'supermarket grocery': '["shop"~"supermarket|convenience"]',
+    'grocery': '["shop"~"supermarket|convenience"]',
+    'supermarket': '["shop"="supermarket"]',
+    'shopping': '["shop"~"supermarket|department_store|mall|clothes"]',
+    'gas station': '["amenity"="fuel"]',
+    'gas': '["amenity"="fuel"]',
+    'petrol': '["amenity"="fuel"]',
+    'liquor store wine beer': '["shop"~"alcohol|wine|beverages"]',
+    'liquor': '["shop"~"alcohol|wine|beverages"]',
+    'hiking trail': '["route"="hiking"]',
+    'hiking': '["route"="hiking"]',
+    'hotel': '["tourism"~"hotel|hostel"]',
+    'museum': '["tourism"="museum"]',
+    'parking': '["amenity"="parking"]',
+    'hospital': '["amenity"~"hospital|clinic"]',
+    'doctor': '["amenity"~"doctors|clinic"]',
+    'police': '["amenity"="police"]',
+    'post office': '["amenity"="post_office"]',
+    'post': '["amenity"="post_office"]',
+    'taxi': '["amenity"="taxi"]',
+    'train': '["railway"="station"]',
+    'bus': '["highway"="bus_stop"]',
+    'church': '["amenity"="place_of_worship"]',
+    'park': '["leisure"="park"]',
+    'playground': '["leisure"="playground"]',
+    'pizza': '["cuisine"="pizza"]',
+    'sushi': '["cuisine"~"sushi|japanese"]',
+    'chinese': '["cuisine"="chinese"]',
+    'indian': '["cuisine"="indian"]',
+    'italian': '["cuisine"="italian"]',
+    'bakery': '["shop"="bakery"]',
+    'bread': '["shop"="bakery"]',
+    'ice cream': '["amenity"="ice_cream"]',
+    'gelato': '["amenity"="ice_cream"]',
+    'bookstore': '["shop"="books"]',
+    'books': '["shop"="books"]',
+    'souvenir': '["shop"~"gift|souvenir"]',
+    'gift': '["shop"~"gift|souvenir"]',
+    'chocolate': '["shop"~"chocolate|confectionery"]',
+    'wifi': '["internet_access"="wlan"]'
   };
 
   function getOverpassQuery(query, lat, lng) {
@@ -4387,42 +4821,79 @@ if ('serviceWorker' in navigator) {
     });
   }
 
-  window.openSearchIframe = function(url) {
-    overlay.style.display = '';
+  window.openSearchIframe = function(url, lat, lng, query) {
+    // Make overlay visible BEFORE initializing map
+    overlay.style.display = 'flex';
     overlay.classList.add('open');
     closeBtn.classList.add('open');
     document.body.style.overflow = 'hidden';
     statusEl.style.display = '';
+    statusEl.style.pointerEvents = 'none';
     statusEl.textContent = 'Searching…';
 
-    var lat, lng, query;
-    var m = url.match(/@([\d.-]+),([\d.-]+)/);
-    if (m) { lat = parseFloat(m[1]); lng = parseFloat(m[2]); }
-    else { lat = 44.6488; lng = -63.5752; }
-    var qm = url.match(/search\/([^/@]+)/);
-    query = qm ? decodeURIComponent(qm[1]) : 'place';
-
-    if (!searchMap) {
-      searchMap = L.map(mapDiv, { zoomControl: true }).setView([lat, lng], 15);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OSM &amp; CartoDB', maxZoom: 19
-      }).addTo(searchMap);
-    } else {
-      searchMap.setView([lat, lng], 15);
+    // Parse lat/lng from the URL if not passed directly
+    if (!lat || !lng) {
+      if (url) {
+        var m = url.match(/@([\d.-]+),([\d.-]+)/);
+        if (m) { lat = parseFloat(m[1]); lng = parseFloat(m[2]); }
+      }
+      if (!lat || !lng) { lat = 44.6488; lng = -63.5752; }
     }
-    markers.forEach(function(m) { searchMap.removeLayer(m); });
-    markers = [];
+    if (!query) {
+      if (url) {
+        var qm = url.match(/search\/([^/@]+)/);
+        query = qm ? decodeURIComponent(qm[1]) : 'place';
+      } else {
+        query = 'place';
+      }
+    }
 
+    // Destroy previous map and create fresh (avoids stale-container rendering issues)
+    if (searchMap) {
+      searchMap.remove();
+      searchMap = null;
+    }
+    markers = [];
+    searchMap = L.map(mapDiv, { zoomControl: true }).setView([lat, lng], 15);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OSM &amp; CartoDB',
+      maxZoom: 19
+    }).addTo(searchMap);
+
+    // Add user location marker
     var um = L.marker([lat, lng], { icon: userIcon() }).addTo(searchMap);
     um.bindPopup('<div style="font-family:\'DM Mono\',monospace;font-size:11px;color:#333">Your location</div>');
     markers.push(um);
 
+    // Query Overpass with retry on rate-limit
     var oq = getOverpassQuery(query, lat, lng);
-    fetch('https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(oq))
-      .then(function(r) { return r.json(); })
+    function queryOverpass(attempt) {
+      return fetch('https://overpass-api.de/api/interpreter', {
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body:'data='+encodeURIComponent(oq)
+      }).then(function(r) {
+        if (r.status === 429 || r.status === 504 || r.status === 503) throw new Error('rate-limited');
+        if (!r.ok) throw new Error('HTTP '+r.status);
+        return r.text();
+      }).then(function(text) {
+        if (text.charAt(0) !== '{') throw new Error('not-json');
+        return JSON.parse(text);
+      }).catch(function(err) {
+        if (attempt < 3) {
+          var delay = attempt * 1500 + 500;
+          statusEl.textContent = 'Searching… (retry ' + attempt + ')';
+          return new Promise(function(resolve) {
+            setTimeout(function() { resolve(queryOverpass(attempt + 1)); }, delay);
+          });
+        }
+        throw err;
+      });
+    }
+    queryOverpass(1)
       .then(function(data) {
         statusEl.style.display = 'none';
-        if (!data.elements || data.elements.length === 0) {
+        if (!data || !data.elements || data.elements.length === 0) {
           statusEl.textContent = 'No results nearby';
           statusEl.style.display = '';
           return;
@@ -4448,11 +4919,18 @@ if ('serviceWorker' in navigator) {
         });
         searchMap.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
       })
-      .catch(function() {
-        statusEl.textContent = 'Search unavailable';
+      .catch(function(err) {
+        // Final fallback: show error with option to try Google Maps
+        console.error('Overpass search failed:', err);
+        statusEl.innerHTML = 'Search unavailable<br><a href="https://www.google.com/maps/search/' + encodeURIComponent(query) + '/@' + lat + ',' + lng + ',15z" target="_blank" style="color:#C9A96E;font-size:11px;text-decoration:underline;margin-top:8px;display:inline-block">Try Google Maps →</a>';
         statusEl.style.display = '';
+        statusEl.style.pointerEvents = 'auto';
       });
-    setTimeout(function() { searchMap.invalidateSize(); }, 100);
+
+    // Leaflet needs multiple invalidateSize calls after container becomes visible
+    setTimeout(function() { if(searchMap) searchMap.invalidateSize(); }, 100);
+    setTimeout(function() { if(searchMap) searchMap.invalidateSize(); }, 300);
+    setTimeout(function() { if(searchMap) searchMap.invalidateSize(); }, 600);
   };
 
   window.closeSearchMap = function() {
