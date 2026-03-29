@@ -3826,8 +3826,17 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
     if (todayDay) {
       var dayName = DAY_NAMES[new Date().getDay()];
       hatEl.textContent   = dayName;
-      titleEl.textContent = 'Itinerary Map Locations';
-      subEl.textContent   = 'Today\u2019s stops plotted in order. \u2605 marks where you stayed last night.';
+      titleEl.textContent = 'Today\u2019s Itinerary Stops';
+      subEl.textContent   = 'Main stops and your hotel \u2014 color-coded below.';
+
+      // Rebuild legend for today's 2 categories
+      var todayColor = dayColors[todayDay] || '#6BA3D6';
+      var legendEl = document.getElementById('map-legend');
+      if (legendEl) {
+        legendEl.innerHTML = ''
+          + '<div class="map-legend-item"><span class="map-legend-swatch" style="background:#0D1929;border:2px solid #C9A96E;width:12px;height:12px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;color:#C9A96E">\u2605</span>Hotel</div>'
+          + '<div class="map-legend-item"><span class="map-legend-swatch" style="background:' + todayColor + '"></span>Today\u2019s Stops</div>';
+      }
 
       var hotel = OVERNIGHT_HOTEL[todayStr];
       if (hotel) {
