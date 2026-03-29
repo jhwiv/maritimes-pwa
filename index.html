@@ -1458,6 +1458,12 @@ body:has(#search-card.open) #a2hs-banner{display:none!important}
   padding:var(--sp48) var(--sp16) var(--sp32);
   max-width:900px;margin:0 auto;
 }
+.map-section-hat{
+  font-family:'DM Mono',monospace;
+  font-size:11px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:var(--gold);margin-bottom:4px;
+}
 .map-section-title{
   font-family:'Playfair Display',serif;
   font-size:clamp(22px,4vw,32px);font-weight:700;
@@ -1535,6 +1541,7 @@ body.map-fullscreen #main-content{position:fixed;inset:0;z-index:9000;overflow:h
 body.map-fullscreen #main-content > #page-wrap > section:not(#section-map),
 body.map-fullscreen #main-content > #page-wrap > span{display:none!important}
 body.map-fullscreen #section-map{padding:0;max-width:none;height:100vh;display:flex;flex-direction:column}
+body.map-fullscreen .map-section-hat,
 body.map-fullscreen .map-section-title,
 body.map-fullscreen .map-section-sub{display:none}
 body.map-fullscreen .map-filters{position:absolute;top:12px;left:12px;right:54px;z-index:9010;margin:0;flex-wrap:wrap}
@@ -3271,8 +3278,9 @@ body.map-fullscreen #map-back-btn{display:flex}
 </section>
 
 <section id="section-map" aria-label="Route Map">
-  <h2 class="map-section-title">Route Map</h2>
-  <p class="map-section-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home · 12 days, ~2,800 miles</p>
+  <div class="map-section-hat" id="map-hat"></div>
+  <h2 class="map-section-title" id="map-title">Route Map</h2>
+  <p class="map-section-sub" id="map-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home · 12 days, ~2,800 miles</p>
 
   <div class="map-filters" id="map-filters">
     <button class="map-filter-chip active" data-day="all">All Days</button>
@@ -3308,7 +3316,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 <footer id="site-footer" role="contentinfo">
   <p class="footer-quote">May every ferry be on time, every iceberg majestic, and every mile a memory.</p>
   <p class="footer-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home</p>
-  <p class="footer-meta">Maritimes · Summer 2026 · v4.0 · Updated 27 March 2026</p>
+  <p class="footer-meta">Maritimes · Summer 2026 · v4.5 · Updated 29 March 2026</p>
   <div class="footer-actions">
     <a class="footer-btn" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
     <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
@@ -3766,6 +3774,116 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
         }
       } else {
         map.fitBounds(group.getBounds().pad(0.08));
+      }
+    });
+  });
+
+  // ── Time-aware heading + overnight hotel marker ──
+  var DATE_TO_DAY = {
+    '2026-06-27': '1',
+    '2026-06-28': '2',
+    '2026-06-29': '3',
+    '2026-06-30': '4',
+    '2026-07-01': '5',
+    '2026-07-02': '6-8',
+    '2026-07-03': '6-8',
+    '2026-07-04': '6-8',
+    '2026-07-05': '9',
+    '2026-07-06': '10',
+    '2026-07-07': '11',
+    '2026-07-08': '12'
+  };
+
+  // Hotel where you stayed the night before each trip day
+  var OVERNIGHT_HOTEL = {
+    '2026-06-28': { name: 'Courtyard Marriott, Portland',  lat: 43.6591, lng: -70.2568 },
+    '2026-06-29': { name: 'Fundy Complex, Digby',           lat: 44.6217, lng: -65.7585 },
+    '2026-06-30': { name: 'Smugglers Cove Inn, Lunenburg',  lat: 44.3764, lng: -64.3118 },
+    '2026-07-01': { name: 'Overnight Ferry',                lat: 47.5719, lng: -59.1354 },
+    '2026-07-02': { name: 'Anchor Inn, Twillingate',        lat: 49.3458, lng: -54.7727 },
+    '2026-07-03': { name: 'Fogo Island Inn',                lat: 49.7483, lng: -54.1729 },
+    '2026-07-04': { name: 'Fogo Island Inn',                lat: 49.7483, lng: -54.1729 },
+    '2026-07-05': { name: 'Fogo Island Inn',                lat: 49.7483, lng: -54.1729 },
+    '2026-07-06': { name: 'Overnight Ferry',                lat: 46.2170, lng: -60.2488 },
+    '2026-07-07': { name: 'Scotsman Inn, Pictou',           lat: 45.6768, lng: -62.7086 },
+    '2026-07-08': { name: 'Delta Marriott, Fredericton',    lat: 45.9636, lng: -66.6431 }
+  };
+
+  var DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  var todayStr = new Date().getFullYear() + '-'
+    + String(new Date().getMonth() + 1).padStart(2, '0') + '-'
+    + String(new Date().getDate()).padStart(2, '0');
+  var todayDay = DATE_TO_DAY[todayStr];
+  var overnightMarker = null;
+
+  function updateMapHeading() {
+    var hatEl   = document.getElementById('map-hat');
+    var titleEl = document.getElementById('map-title');
+    var subEl   = document.getElementById('map-sub');
+    if (!hatEl || !titleEl) return;
+
+    if (todayDay) {
+      var dayName = DAY_NAMES[new Date().getDay()];
+      hatEl.textContent   = dayName;
+      titleEl.textContent = 'Itinerary Map Locations';
+      subEl.textContent   = 'Today\u2019s stops plotted in order. \u2605 marks where you stayed last night.';
+
+      var hotel = OVERNIGHT_HOTEL[todayStr];
+      if (hotel) {
+        overnightMarker = L.circleMarker([hotel.lat, hotel.lng], {
+          radius: 10,
+          fillColor: '#0D1929',
+          fillOpacity: 1,
+          color: '#C9A96E',
+          weight: 2.5
+        });
+        var starIcon = L.marker([hotel.lat, hotel.lng], {
+          icon: L.divIcon({
+            className: '',
+            html: '<div style="'
+              + 'width:24px;height:24px;'
+              + 'display:flex;align-items:center;justify-content:center;'
+              + 'font-size:14px;line-height:1;color:#C9A96E;'
+              + 'text-shadow:0 1px 3px rgba(0,0,0,.6);'
+              + '">\u2605</div>',
+            iconSize: [24, 24],
+            iconAnchor: [12, 12],
+            popupAnchor: [0, -14]
+          }),
+          zIndexOffset: -100
+        });
+        starIcon.bindPopup(
+          '<div class="pop-day">\u2605 Last Night</div>'
+          + '<div class="pop-name">' + hotel.name + '</div>'
+          + '<div class="pop-detail">Where you stayed the night before</div>'
+        );
+        overnightMarker._dayTag = todayDay;
+        starIcon._dayTag = todayDay;
+        overnightMarker.addTo(map);
+        starIcon.addTo(map);
+        // store for filter logic
+        window._overnightLayers = [overnightMarker, starIcon];
+      }
+    }
+  }
+  updateMapHeading();
+
+  // Auto-filter to today if within trip dates
+  if (todayDay) {
+    var todayBtn = document.querySelector('.map-filter-chip[data-day="' + todayDay + '"]');
+    if (todayBtn) todayBtn.click();
+  }
+
+  // Patch filter clicks to include/exclude overnight marker
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var day = btn.dataset.day;
+      if (window._overnightLayers) {
+        window._overnightLayers.forEach(function(l) {
+          if (day === 'all' || l._dayTag === day) { l.addTo(map); }
+          else { map.removeLayer(l); }
+        });
       }
     });
   });
