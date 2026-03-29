@@ -3316,7 +3316,7 @@ body.map-fullscreen #map-back-btn{display:flex}
 <footer id="site-footer" role="contentinfo">
   <p class="footer-quote">May every ferry be on time, every iceberg majestic, and every mile a memory.</p>
   <p class="footer-sub">Portland → Nova Scotia → Newfoundland → Fogo Island → Home</p>
-  <p class="footer-meta">Maritimes · Summer 2026 · v4.5 · Updated 29 March 2026</p>
+  <p class="footer-meta">Maritimes · Summer 2026 · v4.6 · Updated 29 March 2026</p>
   <div class="footer-actions">
     <a class="footer-btn" href="https://www.marineatlantic.ca" target="_blank" rel="noopener">⛴ Marine Atlantic</a>
     <a class="footer-btn" href="https://fogoislandinn.ca" target="_blank" rel="noopener">⭐ Fogo Island Inn</a>
@@ -3831,39 +3831,33 @@ if (footerTopBtn) footerTopBtn.addEventListener('click', scrollToTop);
 
       var hotel = OVERNIGHT_HOTEL[todayStr];
       if (hotel) {
-        overnightMarker = L.circleMarker([hotel.lat, hotel.lng], {
-          radius: 10,
-          fillColor: '#0D1929',
-          fillOpacity: 1,
-          color: '#C9A96E',
-          weight: 2.5
-        });
-        var starIcon = L.marker([hotel.lat, hotel.lng], {
+        // Offset slightly so star doesn't hide behind overlapping stop markers
+        var starIcon = L.marker([hotel.lat + 0.008, hotel.lng - 0.008], {
           icon: L.divIcon({
             className: '',
             html: '<div style="'
-              + 'width:24px;height:24px;'
+              + 'width:32px;height:32px;border-radius:50%;'
+              + 'background:#0D1929;'
+              + 'border:2.5px solid #C9A96E;'
+              + 'box-shadow:0 2px 10px rgba(0,0,0,.5);'
               + 'display:flex;align-items:center;justify-content:center;'
-              + 'font-size:14px;line-height:1;color:#C9A96E;'
-              + 'text-shadow:0 1px 3px rgba(0,0,0,.6);'
+              + 'font-size:16px;line-height:1;color:#C9A96E;'
               + '">\u2605</div>',
-            iconSize: [24, 24],
-            iconAnchor: [12, 12],
-            popupAnchor: [0, -14]
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+            popupAnchor: [0, -20]
           }),
-          zIndexOffset: -100
+          zIndexOffset: 500
         });
         starIcon.bindPopup(
           '<div class="pop-day">\u2605 Last Night</div>'
           + '<div class="pop-name">' + hotel.name + '</div>'
           + '<div class="pop-detail">Where you stayed the night before</div>'
         );
-        overnightMarker._dayTag = todayDay;
         starIcon._dayTag = todayDay;
-        overnightMarker.addTo(map);
         starIcon.addTo(map);
         // store for filter logic
-        window._overnightLayers = [overnightMarker, starIcon];
+        window._overnightLayers = [starIcon];
       }
     }
   }

@@ -3,11 +3,11 @@
 **Site:** [maritimesgrandloop.com](https://maritimesgrandloop.com)
 **Repo:** [jhwiv/maritimes-pwa](https://github.com/jhwiv/maritimes-pwa)
 **Deploy:** Cloudflare Pages (auto-deploy from main)
-**Current:** v4.5
+**Current:** v4.6
 
 | Version | Date | Feature | Shared Feature ID |
 |---------|------|---------|-------------------|
-| v4.5 | 2026-03-29 | Dynamic map heading: day-of-week hat + "Itinerary Map Locations" title during trip; gold star marker for previous night's hotel | `MAP_DYN_HEADING` |
+| v4.6 | 2026-03-29 | Dynamic map heading + overnight star with offset visibility fix | `MAP_DYN_HEADING` |
 | v0.1 | 2026-03-23 | Weather cards + Alterra branding | — |
 | v0.2 | 2026-03-23 | Live weather data from Open-Meteo | — |
 | v0.3 | 2026-03-24 | Interactive route map (Leaflet.js) | — |
